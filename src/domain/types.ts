@@ -120,6 +120,7 @@ export type KpiId =
   | 'energy-class' // energy passport class, encoded as number (see ENERGY_CLASS_SCALE)
   | 'renewable-share' // %
   | 'water' // l/person/day
+  | 'stormwater-retention' // % of annual rainfall retained / infiltrated on site
   | 'green-area' // %
   | 'biotope-factor' // 0..1
   | 'daylight' // % of floor area with DF ≥ 2%
@@ -351,7 +352,9 @@ export interface DesignParams {
 export interface DesignResults {
   /** kgCO₂e/m² (A1–A3). */
   embodiedCarbon: number;
-  /** kWh/m²a final energy. */
+  /**
+   * kWh/m²a — annual heating need Qh,nd (same basis as KPI 'operational-energy' and the energy-passport class).
+   */
   operationalEnergy: number;
   energyClass: EnergyClass;
   /** Cost delta vs baseline option in %. */
@@ -437,6 +440,10 @@ export interface AiFinding {
   detail: string;
   /** Citation, e.g. „ПДР Савски амфитеатар, чл. 12“ or a document id. */
   reference: string;
+  /** Optional link to the document the finding is about. */
+  documentId?: string;
+  /** Optional link to a library entry (regulation / firm guideline). */
+  regulationId?: string;
 }
 
 export interface BoardSession {
@@ -551,6 +558,8 @@ export interface Material {
   bioBased: boolean;
   /** Optional note, e.g. „са FSC сертификатом“. */
   note?: string;
+  /** Fictional supplier / plant, e.g. „Бетон-Кеј д.о.о., погон Сурчин“. */
+  supplier?: string;
 }
 
 export type BuildingLayer = 'konstrukcija' | 'fasada' | 'krov' | 'unutrasnjost' | 'instalacije' | 'spoljno';
@@ -565,6 +574,8 @@ export interface ProjectMaterial {
   quantity: number;
   /** Designed for disassembly. */
   demountable: boolean;
+  /** Material is reused (reclaimed on site or from another building) rather than newly produced. */
+  reused?: boolean;
   note?: string;
 }
 
@@ -702,8 +713,28 @@ export interface CertificationCriterion {
   label: string;
   ownerId: string;
   status: CriterionStatus;
+  /** Predicted points (DGNB: criterion points 0..100; LEED/BREEAM: credits; EDGE/Passivhaus: measure value). */
   points?: number;
+  /** Max points of the criterion in the same unit as `points`. */
+  maxPoints?: number;
   evidenceDocumentId?: string;
+}
+
+/* ------------------------------------------------------------------------------------------------
+ * Attention items („Захтева пажњу“ on the portfolio and project overview)
+ * ---------------------------------------------------------------------------------------------- */
+
+/** Scripted alert shown in „Захтева пажњу“. Tells the same story as KPIs, decisions and risks. */
+export interface AttentionItem {
+  id: string;
+  projectId: string;
+  severity: FindingSeverity;
+  /** One-line headline, e.g. „Уграђени угљеник 12% изнад циља након промене фасаде“. */
+  title: string;
+  detail?: string;
+  /** Project tab slug the item links to (see `PROJECT_TABS` in navigation.ts), e.g. 'ciljevi'. */
+  tab?: string;
+  date: IsoDate;
 }
 
 /* ------------------------------------------------------------------------------------------------
