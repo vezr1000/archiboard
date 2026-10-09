@@ -207,6 +207,20 @@ export const materialsForProject = (
     return material ? [{ ...pm, material, gwpTotalKg: material.gwpA1A3 * pm.quantity }] : [];
   });
 
+/** Where an EPD library material is used: one entry per project (passport rows + summed quantity / carbon). */
+export const usageForMaterial = (
+  materialId: string,
+): Array<{ project: Project; rows: ProjectMaterial[]; quantity: number; gwpTotalKg: number }> => {
+  const material = getMaterial(materialId);
+  if (!material) return [];
+  return projects.flatMap((project) => {
+    const rows = projectMaterials.filter((r) => r.projectId === project.id && r.materialId === materialId);
+    if (rows.length === 0) return [];
+    const quantity = rows.reduce((s, r) => s + r.quantity, 0);
+    return [{ project, rows, quantity, gwpTotalKg: quantity * material.gwpA1A3 }];
+  });
+};
+
 /* ---------- Stakeholders, risks, certification, activity ---------- */
 
 export const stakeholdersForProject = (projectId: string): Stakeholder[] => forProject(stakeholders, projectId);

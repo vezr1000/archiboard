@@ -121,6 +121,7 @@ export const MODULES: Array<{ id: string; label: string; group: 'Портфол�
   ...PROJECT_TABS.map((t) => ({ id: t.moduleId, label: `Пројекат — ${t.label}`, group: 'Пројекат' as const })),
   { id: 'ai-lokacijski-uslovi', label: 'АИ издвајање услова из локацијских услова', group: 'Пројекат' },
   { id: 'varijante-kalkulator', label: 'Калкулатор „шта ако?“ (угљеник и енергија)', group: 'Пројекат' },
+  { id: 'materijali-zamene', label: 'Предлози замене материјала (АИ)', group: 'Пројекат' },
   { id: 'odbor', label: 'Одбор — састанци', group: 'Фирма' },
   { id: 'odbor-revizija', label: 'Одбор — ревизија капије', group: 'Фирма' },
   { id: 'smernice', label: 'Смернице и прописи', group: 'Фирма' },

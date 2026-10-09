@@ -39,6 +39,7 @@ Dark mode: tokens switch automatically (system, or forced by `<html data-theme>`
 | `Segmented` | `<Segmented ariaLabel="Ниво" options={[{ value: 'min', label: 'Минимум', icon? }]} value={v} onChange={setV} size? fullWidth? />` |
 | `Stat` | `<Stat label="Тренутно" value={358} unit="kgCO₂e/m²" delta={11.9} direction="lower-better" deltaLabel="у односу на циљ" aside={<Sparkline …/>} size="sm\|md\|lg" hint="…" />` (delta in % by default; `deltaUnit=""` for absolute) |
 | `ProgressBar` | `<ProgressBar label="Г2 спремност" valueLabel="9 / 11" value={9} max={11} target={10} tone="accent" size="xs\|sm\|md" />` |
+| `RangeBar` | `<RangeBar value={205} min={180} max={310} direction="lower-better" ariaLabel="GWP у оквиру категорије" />` — thin track with a marker showing where a value sits between the min and max of its comparison group (tone from position; renders nothing when min = max) |
 | `Callout` | `<Callout tone="warn" title="…" action={<Button size="sm">…</Button>}>текст</Callout>` |
 | `Sheet` | `<Sheet open={o} onClose={close} title="…" subtitle? footer={<Button>…</Button>} width="sm\|md\|lg">…</Sheet>` — bottom sheet on mobile, right drawer ≥768px, Esc/backdrop close, focus trap |
 | `Modal` | `<Modal open={o} onClose={close} title="…" footer={…} size="sm\|md\|lg">…</Modal>` |

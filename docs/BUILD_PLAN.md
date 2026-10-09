@@ -11,7 +11,7 @@ Sequential, one agent at a time. The orchestrator verifies each step (build, cop
 | 4 | Локација и услови + AI extraction moment | Sonnet | ✅ |
 | 5 | Циљеви и KPI + Сертификација | Sonnet | ✅ |
 | 6 | ★ Варијанте + what-if carbon model | Opus | ✅ |
-| 7 | Материјали (project passport + global EPD library) | Sonnet | ☐ |
+| 7 | Материјали (project passport + global EPD library) | Sonnet | ✅ |
 | 8 | Документација + Одлуке + Ризици | Sonnet | ☐ |
 | 9 | Заинтересоване стране + Тим (project + global) | Sonnet | ☐ |
 | 10 | ★ Одбор: sessions + gate review flow | Opus | ☐ |
@@ -160,9 +160,19 @@ New generic pieces: `components/charts/DivergingBars`, `GroupedBars`; `component
 Verified at 375 light/dark and 1280 light for Савски кеј (idle, larch, Г2 preset, propose flow, save sheet, „Како рачунамо“, sticky bar viewport), 375 light for Стара пивара, Блок 42, Парк, ОШ, Вртић: no horizontal overflow, no console errors.
 Notes for later steps: step 8 (Одлуке) should list `userDecisions` (proposed, `isUserCreated`, `sessionId` set, `optionId` → user option); step 10 can show user proposals on the Г2 agenda. Calculator state is per project (component keyed by project id).
 
+### Step 7 — Материјали и циркуларност + EPD библиотека ✅ (2026-10-09)
+Built `/projekti/:id/materijali` and `/materijali` (`src/features/materials/`); all 6 projects have passports (park handled generically: per m² of site area, no calculator link).
+- **Passport tab**: indicator tiles (embodied carbon A1–A3 = Σ GWP × quantity, per m² БРГП / site area, vs target and „KPI пројекта“; reused / recycled / bio-based / local < 300 km / demountable). **Shares are weighted by estimated mass** (demo kg-per-unit table `MASS_KG_PER_UNIT` in `materialsLogic.ts`), stated under the tiles; kept passport-only (retained existing elements are not in the passport, so Стара пивара shows less „reused“ than its 48 % KPI). „Жаришта угљеника“ (`BarChart` by layer + top-8 materials; tap = filter + scroll to passport; selected bar clay, others neutral). ★ „Предлози замене“ placed **before** the passport (more visible than the long list). Passport `DataList` grouped by layer (table ≥768px, cards below; EPD source line hidden on phones), search + chips (layer, reuse potential, local / demountable / reused), filter chip from chart. `MaterialSheet` (shared) used from table, swap cards and library.
+- **Swaps** (`analyseSwaps`): scripted rule list (`SWAP_RULES`: CEM I/II→CEM III/A, alu panels→fibre-cement (alt. recycled alu), no-EPD curtain wall→EPD system, reused steel (≤ 50 %, only rows ≥ 150 t), LC3 (≤ 30 %), windows→PVC, wood fibre→cellulose, new→reclaimed brick, paving→permeable) evaluated on passport quantities × EPD GWP, only positive savings kept, ranked, rules competing for the same source material dropped, top 4. Card: savings t CO₂e + per m², project before→after vs target, cost/practicality note, „Пренеси у калкулатор“ (link to `varijante`; hidden for the park). Combined effect in a callout (Савски кеј 358 → 326, still 6 above target 320). Starts (ThinkingDots ~1,3 s) when the card scrolls into view, „Анализирај поново“, `AiBadge`, compact `FeedbackWidget` `materijali-zamene` (registered in `MODULES`). Note: EPS → wood fibre from the brief is NOT suggested — with the firm's no-biogenic-credit convention wood fibre has higher GWP (85 vs 52 per m³), so the computed saving is negative.
+- **Material sheet**: EPD data, supplier, origin + km, recycled %, library note, biogenic callout (orientation estimate of stored kgCO₂ per unit), usage in this project (rows) or across projects with links (library mode), „Алтернативе“ = up to 3 lower-GWP materials of the same functional group (`ALTERNATIVE_GROUPS`, curated; same declared unit) with Δ GWP per unit and Δ total in the project; alternatives are tappable.
+- **Library**: Callout (EPD / EN 15804, demo data), search, sort (категорија [grouped] / GWP ↑↓ / назив / удаљеност), chips category / reuse / origin (Србија · Регион · ЕУ · Остали свет — derived from `originCity`, `originRegion`) / bio-based; filters collapse behind „Филтери“ on phones. Table: GWP + `RangeBar` (position within same category AND unit; hidden when alone), EPD + supplier, origin + km, recycled, reuse badge (+ био), „N пројеката“ (computed via new `usageForMaterial`). Row → `MaterialSheet`.
+- New generic: `components/ui/RangeBar` (+ showcase + COMPONENTS.md); helper `usageForMaterial` in `data/index.ts`; `scripts/shot.mjs` honours `SHOT_WAIT` (ms, default 500) so delayed UI can be captured. No seed/type/store changes.
+Verified at 375 light/dark + 1280 light (Савски кеј, library), 375 light (Стара пивара, Парк): no horizontal overflow, no console errors.
+
 ## QA backlog (for step 13 — collected by the orchestrator)
 - Code-split routes (`React.lazy`) — main chunk > 500 kB.
 - Вртић: KPI says energy class A+ but Qh,nd 14 with assumed max 65 ⇒ A; align seed (class A, or Qh,nd ≤ 9) and drop the one-class anchor shift in carbonModel.
 - Percent spacing is inconsistent („12 %“ in data copy vs „12%“ from formatPct) — pick one (Serbian norm: „12 %“) and apply everywhere.
 - Mobile Варијанте: consider a "Резултати" jump link at the top of the calculator (results are below all controls on mobile).
 - Interactive QA of all scripted flows on a real phone width (AI extraction, calculator save/propose, gate review).
+- Mobile Материјали tab is ~11k px tall: collapse passport layer groups by default on mobile (show totals per layer, expand on tap).

@@ -46,7 +46,7 @@ for (const p of paths) {
   const dims = JSON.parse(result.value);
   const h = Math.min(dims.h, 12000);
   await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: mobile ? 2 : 1, mobile });
-  await sleep(500);
+  await sleep(Number(process.env.SHOT_WAIT ?? 500));
   const seg = mobile ? 1100 : 1400;
   const base = (p.replace(/[^a-z0-9]+/gi, '_') || 'root') + `_${w}_${scheme}`;
   const files = [];

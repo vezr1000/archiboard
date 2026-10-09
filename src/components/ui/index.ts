@@ -20,6 +20,7 @@ export { Modal } from './Modal';
 export { PageHeader } from './PageHeader';
 export { PhasePill } from './PhasePill';
 export { ProgressBar } from './ProgressBar';
+export { RangeBar } from './RangeBar';
 export { SearchInput } from './SearchInput';
 export { SectionHeader } from './SectionHeader';
 export { Segmented } from './Segmented';

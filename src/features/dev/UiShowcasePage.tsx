@@ -41,6 +41,7 @@ import {
   PageHeader,
   PhasePill,
   ProgressBar,
+  RangeBar,
   SearchInput,
   SectionHeader,
   Segmented,
@@ -274,6 +275,10 @@ export function UiShowcasePage() {
               <ProgressBar label="Угљенични буџет" valueLabel="358 / 320" value={358} max={450} target={320} tone="warn" />
               <ProgressBar value={0.7} tone="clay" size="md" ariaLabel="Фаза" />
               <ProgressBar value={0.3} tone="good" size="xs" ariaLabel="Мало" />
+              <div>
+                <p className="mb-1.5 text-sm text-muted">Положај у групи (RangeBar)</p>
+                <RangeBar value={205} min={180} max={310} ariaLabel="GWP у оквиру категорије" />
+              </div>
             </div>
           </Card>
           <Card title="Чињенице" subtitle="KeyValue">
