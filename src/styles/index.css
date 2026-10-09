@@ -175,6 +175,7 @@
   --animate-slide-left: slide-left 240ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
   --animate-pulse-dot: pulse-dot 1.2s ease-in-out infinite;
   --animate-shimmer: shimmer 1.4s linear infinite;
+  --animate-pop: pop 380ms cubic-bezier(0.2, 0.8, 0.2, 1.2) both;
 
   @keyframes fade-in {
     from { opacity: 0; }
@@ -191,6 +192,11 @@
   @keyframes pulse-dot {
     0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
     40% { opacity: 1; transform: translateY(-2px); }
+  }
+  @keyframes pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.12); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
   }
   @keyframes shimmer {
     from { background-position: 200% 0; }

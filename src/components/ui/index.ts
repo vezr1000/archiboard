@@ -1,4 +1,5 @@
 /** UI primitives barrel: `import { Card, Badge, Button } from '@/components/ui';` — see docs/COMPONENTS.md. */
+export { AnimatedNumber } from './AnimatedNumber';
 export { Avatar, AvatarStack } from './Avatar';
 export type { AvatarPerson } from './Avatar';
 export { Badge, Pill } from './Badge';
@@ -8,6 +9,7 @@ export { Card } from './Card';
 export { DataList } from './DataList';
 export type { DataColumn } from './DataList';
 export { EmptyState } from './EmptyState';
+export { EnergyClassBadge } from './EnergyClassBadge';
 export { FilterChips } from './FilterChips';
 export type { FilterChipOption } from './FilterChips';
 export { HealthBadge } from './HealthBadge';

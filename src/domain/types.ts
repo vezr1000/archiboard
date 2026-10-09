@@ -326,10 +326,16 @@ export interface Regulation {
  * Design options (Варијанте) and what-if parameters
  * ---------------------------------------------------------------------------------------------- */
 
-export type StructureSystem = 'ab-skelet' | 'clt-ab-jezgro' | 'celik' | 'hibrid' | 'zidani' | 'postojeca';
+export type StructureSystem = 'ab-skelet' | 'clt-ab-jezgro' | 'celik' | 'hibrid' | 'zidani' | 'postojeca' | 'drvo';
 export type FacadeType = 'etics' | 'ventilisana' | 'zid-zavesa' | 'drvena' | 'opeka';
 export type HeatingSystem = 'daljinsko' | 'toplotna-pumpa' | 'gas' | 'biomasa' | 'hibrid-tp-daljinsko';
 export type ConcreteMix = 'cem-i' | 'cem-ii' | 'cem-iii' | 'niskoklinkerski';
+/** Cladding of a ventilated facade (`facade: 'ventilisana'`). 'aris' = larch boards (combustible, class D). */
+export type Cladding = 'aluminijum' | 'fiber-cement' | 'aris' | 'opeka' | 'keramika';
+/** Window glazing. */
+export type WindowGlazing = 'dvostruko' | 'trostruko';
+/** Solar shading of the glazed facades (affects summer overheating). */
+export type ShadingType = 'bez' | 'unutrasnja' | 'spoljna';
 
 /** Inputs of the what-if model (step 6 builds `src/lib/carbonModel.ts` around this). */
 export interface DesignParams {
@@ -347,6 +353,19 @@ export interface DesignParams {
   concreteMix: ConcreteMix;
   /** Green roof share of roof area, 0..100 %. */
   greenRoofPct?: number;
+  /** Ventilated-facade cladding (step 6). Default 'aluminijum' for `ventilisana`; ignored for other facades. */
+  cladding?: Cladding;
+  /** Window glazing (step 6). Default 'trostruko'. */
+  windows?: WindowGlazing;
+  /**
+   * Concrete mix in cores, transfer slabs and above-ground RC elements (step 6). `concreteMix` then refers to
+   * foundations and basements. Default = `concreteMix`.
+   */
+  coreConcreteMix?: ConcreteMix;
+  /** Solar shading (step 6). Default 'unutrasnja'. */
+  shading?: ShadingType;
+  /** Mechanical ventilation with heat recovery (рекуперација) (step 6). Default false. */
+  mvhr?: boolean;
 }
 
 export interface DesignResults {
@@ -364,6 +383,14 @@ export interface DesignResults {
   /** % of floor area with DF ≥ 2 %. */
   daylightPct: number;
   durationMonths: number;
+  /** Optional extras saved from the what-if calculator (step 6). Whole-life carbon A1–C4 excl. B6, kgCO₂e/m². */
+  wholeLifeCarbon?: number;
+  /** Primary energy, kWh/m²a. */
+  primaryEnergy?: number;
+  /** Renewable share of final energy, %. */
+  renewableSharePct?: number;
+  /** Summer overheating hours per year. */
+  overheatingHours?: number;
 }
 
 export type OptionStatus = 'proposed' | 'selected' | 'rejected';

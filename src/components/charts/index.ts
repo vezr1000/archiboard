@@ -2,6 +2,10 @@
 export { BarChart } from './BarChart';
 export type { BarDatum } from './BarChart';
 export { BenchmarkScale } from './BenchmarkScale';
+export { DivergingBars } from './DivergingBars';
+export type { DivergingDatum } from './DivergingBars';
+export { GroupedBars } from './GroupedBars';
+export type { GroupedBarsGroup, GroupedBarsSeries } from './GroupedBars';
 export type { BenchmarkMark } from './BenchmarkScale';
 export { HeatMap5x5 } from './HeatMap5x5';
 export type { HeatItem } from './HeatMap5x5';

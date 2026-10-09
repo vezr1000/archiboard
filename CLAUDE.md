@@ -54,6 +54,7 @@ Reuse primitives from `components/` — don't re-implement cards/badges/charts i
 npm run build          # tsc + vite build, must pass
 npm run check:copy     # fails on Russian-only Cyrillic letters in src/
 npm run check:data     # referential integrity + invariants of seed data
+npm run check:model    # what-if model: every seed option reproduced + flagship storyline (358/329/340/333)
 ```
 Seed data (`src/data/`) is read-only for feature steps: read it through helpers in `src/data/index.ts` and
 `src/store/selectors.ts`; if you need a new helper, add it there. `DEMO_TODAY` (`src/lib/dates.ts`) is „today“.

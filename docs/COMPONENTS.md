@@ -53,6 +53,8 @@ Dark mode: tokens switch automatically (system, or forced by `<html data-theme>`
 | `Select` | `<Select label="Фасада" value={f} onChange={setF} options={[{ value, label }]} size="sm\|md" />` (native) |
 | `Toggle` | `<Toggle label="…" description? checked={b} onChange={setB} />` |
 | `Tooltip` | `<Tooltip content="Индекс заузетости = …" underline>ИЗ</Tooltip>` (native title) |
+| `EnergyClassBadge` | `<EnergyClassBadge value="B" size="sm\|md\|lg" animate />` — passport class letter on its tone colour; `animate` pops on change |
+| `AnimatedNumber` | `<AnimatedNumber value={358} decimals={0} format? duration? />` — count-up tween (instant with reduced motion) |
 | `Skeleton` | `<Skeleton className="h-24 w-full" />` · `<Skeleton lines={3} />` |
 
 ## Charts — `import { … } from '@/components/charts'`
@@ -72,6 +74,8 @@ All are SVG, responsive (fill their container width), theme-aware, with an acces
 | `QuadrantGrid` | `<QuadrantGrid title="…" xLabel="Интерес" yLabel="Утицај" quadrants={STAKEHOLDER_QUADRANTS} items={[{ id, label, x: 1–5, y: 1–5, tone? }]} selectedId? onItemClick? labelMode="numbered\|inline" />` (numbered = dots + legend list, default) |
 | `LineBand` | `<LineBand title="…" unit="kgCO₂e/m²" target={320} band={{ from: 250, to: 320, label? }} reference={{ value: 350, label: 'Мерило: Циљ фирме' }} points={[{ label: 'ИДР', value: 305 }, { label: 'ПЗИ', value: 334, projected: true }]} height={180} />` |
 | `BenchmarkScale` | `<BenchmarkScale title="Угљеник" direction="lower-better" current={358} target={320} currentTone="bad" highlightId="firm" format={fmt} marks={[{ id: 'firm', label: 'Циљ фирме', value: 350 }, { id: 'best', label: 'Најбоља пракса', value: 250 }]} />` — compact benchmark ladder (пропис / EU таксономија / циљ фирме / најбоља пракса), better side always on the right, current value as marker, labels laid out in lanes |
+| `DivergingBars` | `<DivergingBars title="…" unit="kgCO₂e/m²" data={[{ id, label, value, sublabel? }]} total={{ label: 'Укупно', value }} positiveTone="bad" negativeTone="good" />` — contributions around zero (labels above bars, phone-safe) |
+| `GroupedBars` | `<GroupedBars title="…" series={[{ id, label, color? }]} groups={[{ id, label, unit?, values: number[], target?, direction?, format? }]} />` — small multiples, one thin bar per series, each group on its own scale |
 | `Legend` | `<Legend items={[{ label: 'Циљ', color: 'var(--ink)', shape: 'square\|line\|dashed\|dot' }]} />` |
 
 Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`, `scaleLinear`, `useMounted`, `truncate`.
@@ -111,4 +115,5 @@ Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`
 | Cert scores | `@/lib/cert`: `certScoreMax(scheme)` (LEED 110, else 100), `formatCertScore`, `thresholdsInScoreUnits(scheme, thresholds)` (for `RingScore`), `achievedLevel`, `certTone`, `categoryBreakdown(cat)` (achieved / pending / atRisk / remaining), `trackerScore(tracker, 'achieved'\|'targeted'\|'atRisk')`, `nextThreshold`, `thresholdOf`, `formatCertGap` („1 п.п.“ / „2 бод.“), `categoryUnit` |
 | Shared project pieces | `@/features/projects/ProjectCard` (portfolio card), `ProjectCover` (generative illustration from `illustration` + `coverHue`), `miniKpisFor(project)`; `@/features/portfolio/AttentionList` („Захтева пажњу“ rows; `showProject={false}` inside a project) |
 | Gate helpers | `gateReadiness(projectId, gate)` → `{ required, approved, inReview, missing }` (missing = draft), `nextSessionForProject(projectId)` from `@/data` |
+| What-if model | `@/lib/carbonModel` (pure, step 6): `setupProjectModel(input)` → `{ ctx, anchorParams, selected, calibration }` (null for the park), `evaluate(params, ctx, cal)` → `ModelResult`, `optionCalibration(model, option)`, `contributions(ctx, cal, from, to)`, `toDesignResults(r)`, `COEFFICIENT_TABLE`, `PARAM_LABELS`; in features use `useProjectModel(project)` from `@/features/options/useProjectModel` |
 | KPI logic | `@/lib/kpi`: `kpiStatus(direction, current, target, tolerancePct=10)` → pass/warn/fail, `gapPct`, `deltaTone`, `clamp` |

@@ -6,6 +6,9 @@ import type { DesignOption } from '@/domain/types';
  * project's current KPIs (358 kgCO₂e/m², Qh,nd 27 kWh/m²a, class B, DGNB 66 %).
  * `certPoints` uses the project's scheme unit (DGNB %, EDGE energy savings %, LEED points).
  * `operationalEnergy` = Qh,nd (kWh/m²a).
+ * Optional params (`cladding`, `windows`, `coreConcreteMix`, `shading`) were added in step 6 for the what-if model
+ * (`src/lib/carbonModel.ts`); when omitted the model uses its defaults. Option Б states `coreConcreteMix: 'cem-ii'`
+ * because only the basements use CEM III/A (material passport) — switching the cores is the −7 kgCO₂e/m² lever of dec-sk-09.
  */
 export const designOptions: DesignOption[] = [
   /* ================================ Савски кеј — блок Ц ================================ */
@@ -60,6 +63,9 @@ export const designOptions: DesignOption[] = [
       reusedPct: 12,
       concreteMix: 'cem-iii',
       greenRoofPct: 55,
+      cladding: 'aluminijum',
+      windows: 'trostruko',
+      coreConcreteMix: 'cem-ii',
     },
     results: {
       embodiedCarbon: 358,
@@ -93,6 +99,8 @@ export const designOptions: DesignOption[] = [
       reusedPct: 18,
       concreteMix: 'cem-iii',
       greenRoofPct: 30,
+      cladding: 'aluminijum',
+      windows: 'trostruko',
     },
     results: {
       embodiedCarbon: 372,
@@ -127,6 +135,7 @@ export const designOptions: DesignOption[] = [
       reusedPct: 0,
       concreteMix: 'cem-ii',
       greenRoofPct: 0,
+      windows: 'dvostruko',
     },
     results: {
       embodiedCarbon: 62,
@@ -159,6 +168,8 @@ export const designOptions: DesignOption[] = [
       reusedPct: 0,
       concreteMix: 'cem-ii',
       greenRoofPct: 0,
+      windows: 'trostruko',
+      mvhr: true,
     },
     results: {
       embodiedCarbon: 98,

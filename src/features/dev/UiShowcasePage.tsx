@@ -8,6 +8,8 @@ import { Download, FileText, Plus, Search, Settings2, Sparkles } from 'lucide-re
 import { AiBadge, StreamingText, ThinkingDots, useScriptedRun } from '@/components/ai';
 import {
   BarChart,
+  DivergingBars,
+  GroupedBars,
   HeatMap5x5,
   LineBand,
   PhaseTimeline,
@@ -21,6 +23,7 @@ import {
 } from '@/components/charts';
 import { FeedbackWidget } from '@/components/feedback/FeedbackWidget';
 import {
+  AnimatedNumber,
   Avatar,
   AvatarStack,
   Badge,
@@ -29,6 +32,7 @@ import {
   Card,
   DataList,
   EmptyState,
+  EnergyClassBadge,
   FilterChips,
   HealthBadge,
   IconButton,
@@ -570,6 +574,33 @@ export function UiShowcasePage() {
         <div className={`${grid2} mt-4`}>
           <Card title="HeatMap5x5" subtitle={cell ? `Изабрано: В${cell.probability} × У${cell.impact}` : 'Кликните поље'}>
             <HeatMap5x5 title="Матрица ризика" items={RISKS} selected={cell} onCellClick={(c) => setCell({ probability: c.probability, impact: c.impact })} />
+          </Card>
+          <Card title="DivergingBars" subtitle="Допринос измена (корак 6)">
+            <DivergingBars
+              title="Допринос измена"
+              unit="kgCO₂e/m²"
+              data={[
+                { id: 'c', label: 'Фасадна облога', value: -18, sublabel: 'Алуминијум → фибер-цемент' },
+                { id: 'k', label: 'Бетон — језгра', value: -6.8 },
+                { id: 'p', label: 'PV снага', value: 4.2 },
+              ]}
+              total={{ label: 'Укупно', value: -20.6 }}
+            />
+          </Card>
+          <Card title="GroupedBars + EnergyClassBadge + AnimatedNumber" subtitle="Корак 6">
+            <GroupedBars
+              title="Поређење"
+              series={[{ id: 'a', label: 'А' }, { id: 'b', label: 'Б' }]}
+              groups={[{ id: 'ec', label: 'Уграђени угљеник', unit: 'kgCO₂e/m²', values: [432, 358], target: 320, direction: 'lower-better' }]}
+            />
+            <div className="mt-4 flex items-center gap-2">
+              <EnergyClassBadge value="A+" size="sm" />
+              <EnergyClassBadge value="B" />
+              <EnergyClassBadge value="E" size="lg" animate />
+              <span className="font-display text-2xl text-ink">
+                <AnimatedNumber value={358} />
+              </span>
+            </div>
           </Card>
           <Card title="WindRose" subtitle="Кошава (ИЈИ/ЈИ) истакнута">
             <WindRose title="Ружа ветрова — Београд" data={WIND} highlight={['ESE', 'SE']} />

@@ -6,6 +6,9 @@
  *   PHASE_LABELS.pgd.short  // „ПГД“
  */
 import type {
+  Cladding,
+  ShadingType,
+  WindowGlazing,
   ActivityKind,
   BuildingLayer,
   CertificationScheme,
@@ -227,6 +230,7 @@ export const STRUCTURE_LABELS: Record<StructureSystem, string> = {
   hibrid: 'Хибридна (дрво–бетон)',
   zidani: 'Зидани систем',
   postojeca: 'Постојећа конструкција',
+  drvo: 'Дрвени скелет',
 };
 
 export const FACADE_LABELS: Record<FacadeType, string> = {
@@ -243,6 +247,25 @@ export const HEATING_LABELS: Record<HeatingSystem, string> = {
   gas: 'Гасни котао',
   biomasa: 'Биомаса',
   'hibrid-tp-daljinsko': 'Топлотна пумпа + даљинско',
+};
+
+export const CLADDING_LABELS: Record<Cladding, string> = {
+  aluminijum: 'Алуминијумски панели',
+  'fiber-cement': 'Фибер-цементне плоче',
+  aris: 'Облога од ариша',
+  opeka: 'Фасадна опека',
+  keramika: 'Керамичке плоче',
+};
+
+export const WINDOWS_LABELS: Record<WindowGlazing, string> = {
+  dvostruko: 'Двоструко застакљење',
+  trostruko: 'Троструко застакљење',
+};
+
+export const SHADING_LABELS: Record<ShadingType, string> = {
+  bez: 'Без засене',
+  unutrasnja: 'Унутрашња',
+  spoljna: 'Спољна покретна',
 };
 
 export const CONCRETE_MIX_LABELS: Record<ConcreteMix, string> = {
