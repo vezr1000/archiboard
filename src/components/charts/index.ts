@@ -24,4 +24,6 @@ export type { RingThreshold } from './RingScore';
 export { Sparkline } from './Sparkline';
 export { StackedBar } from './StackedBar';
 export type { StackSegment } from './StackedBar';
+export { StepLine } from './StepLine';
+export type { StepPoint, StepTick } from './StepLine';
 export { WindRose } from './WindRose';

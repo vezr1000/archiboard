@@ -36,4 +36,5 @@ export { RouteTabs, Tabs } from './Tabs';
 export type { RouteTabItem, TabItem } from './Tabs';
 export { Toggle } from './Toggle';
 export { Tooltip } from './Tooltip';
+export { useMediaQuery } from './useMediaQuery';
 export { SERIES_COLORS, seriesColor, TONE_CLASSES, toneVar } from './tone';

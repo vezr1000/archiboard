@@ -12,7 +12,7 @@ Sequential, one agent at a time. The orchestrator verifies each step (build, cop
 | 5 | Циљеви и KPI + Сертификација | Sonnet | ✅ |
 | 6 | ★ Варијанте + what-if carbon model | Opus | ✅ |
 | 7 | Материјали (project passport + global EPD library) | Sonnet | ✅ |
-| 8 | Документација + Одлуке + Ризици | Sonnet | ☐ |
+| 8 | Документација + Одлуке + Ризици | Sonnet | ✅ |
 | 9 | Заинтересоване стране + Тим (project + global) | Sonnet | ☐ |
 | 10 | ★ Одбор: sessions + gate review flow | Opus | ☐ |
 | 11 | ★ Смернице + Питај АрхиБорд | Sonnet | ☐ |
@@ -168,6 +168,15 @@ Built `/projekti/:id/materijali` and `/materijali` (`src/features/materials/`); 
 - **Library**: Callout (EPD / EN 15804, demo data), search, sort (категорија [grouped] / GWP ↑↓ / назив / удаљеност), chips category / reuse / origin (Србија · Регион · ЕУ · Остали свет — derived from `originCity`, `originRegion`) / bio-based; filters collapse behind „Филтери“ on phones. Table: GWP + `RangeBar` (position within same category AND unit; hidden when alone), EPD + supplier, origin + km, recycled, reuse badge (+ био), „N пројеката“ (computed via new `usageForMaterial`). Row → `MaterialSheet`.
 - New generic: `components/ui/RangeBar` (+ showcase + COMPONENTS.md); helper `usageForMaterial` in `data/index.ts`; `scripts/shot.mjs` honours `SHOT_WAIT` (ms, default 500) so delayed UI can be captured. No seed/type/store changes.
 Verified at 375 light/dark + 1280 light (Савски кеј, library), 375 light (Стара пивара, Парк): no horizontal overflow, no console errors.
+
+### Step 8 — Документација + Одлуке + Ризици ✅ (2026-10-09)
+Built three project tabs (`src/features/documents|decisions|risks/`); all 6 projects work.
+- **Документација**: `GateReadinessCard` (Segmented over gates that have required documents, default = next gate; „За Г2 недостају 2 од 12 докумената“ with Serbian agreement `недостаје/недостају`, StackedBar approved / review / draft via `gateReadiness`, missing list → opens the document, „Прикажи у регистру“ sets the gate filter below); `DocumentRegister` (SearchInput, FilterChips status / gate / type / discipline — behind a „Филтери“ button on phones —, sort Select, table ≥768px / cards, first 8 on phones + „Прикажи још“); `DocumentSheet` (fake SVG first-page preview by type, metadata, version-history timeline, reverse-lookup links: certification criteria, sessions, AI findings with `AiBadge`). Deep link `?doc=<id>` (react-router search params inside the hash route) opens the sheet, highlights + scrolls to the row, is cleared on close; the certification tab links already use it.
+- **Одлуке**: decision log = seed + `userDecisions` (user ones dashed, „нова · предлог“, deletable from card and sheet via new store action `removeUserDecision`); Segmented timeline (grouped by month, impact chips Δ угљеник / енергија / цена, first 6 + „Прикажи још“) / list (DataList); `DecisionSheet` in DDR format (контекст, опције, одлука, образложење, `DivergingBars` утицај, услови with owner / due / done / overdue vs DEMO_TODAY, седница link `/odbor/:id` or deciders, linked option). Emphasis is generic (`decisionEmphasis`): carbon ≥ +5 % = red „rise“ (dec-sk-06), proposed with carbon ≤ −3 % = blue „fix“ (dec-sk-09). `CumulativeImpactCard`: `StepLine` of the **compounded** carbon Δ of the decisions (Π(1+Δ)−1; labelled „утицај одлука“, not absolute — decision Δs are relative to the state before each decision and do not sum to the KPI path 312→329→358); proposals dashed. Deep link `?decision=<id>`.
+- **Ризици**: `HeatMap5x5` (tap a cell to filter, closed risks excluded) + 4 zone legend (низак 1–7 / средњи 8–14 / висок 15–19 / критичан 20–25 — tones follow `riskScoreTone`, critical is a solid badge) and zone counts, category and status chips, sort Select (резултат / статус / категорија), register with score badge, owner Avatar, expandable mitigation („Прикажи више“), first 5 on phones + „Прикажи још“; `RiskSheet` (P / I scales, mitigation, owner).
+- New generic: `components/charts/StepLine`, `components/ui/useMediaQuery`; `linksForDocument` in `data/index.ts`; store `removeUserDecision`. No seed/type changes.
+Verified: build, check:copy, check:data, check:model pass; shots at 375 light/dark + 1280 light for Савски кеј (3 tabs, deep links `?doc=doc-sk-lca`, `?decision=dec-sk-06`) and 375 light for Парк and Блок 42: no horizontal overflow, no console errors.
+Notes: Decision type has no „superseded by“ field and risks have no decision/document ids, so those links are not shown (add fields later if wanted). Risk-detail links to decisions/documents skipped for the same reason.
 
 ## QA backlog (for step 13 — collected by the orchestrator)
 - Code-split routes (`React.lazy`) — main chunk > 500 kB.

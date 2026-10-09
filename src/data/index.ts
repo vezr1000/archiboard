@@ -8,6 +8,7 @@
  */
 import type {
   ActivityItem,
+  AiFinding,
   AttentionItem,
   BoardSession,
   CertificationCategory,
@@ -190,6 +191,24 @@ export const gateReadiness = (
     missing: required.filter((d) => d.status === 'draft'),
   };
 };
+
+/**
+ * Reverse lookup: where a document is referenced — certification criteria citing it as evidence, board sessions that
+ * require it and AI findings about it.
+ */
+export const linksForDocument = (
+  documentId: string,
+): {
+  criteria: CertificationCriterion[];
+  sessions: BoardSession[];
+  findings: Array<{ session: BoardSession; finding: AiFinding }>;
+} => ({
+  criteria: certificationCriteria.filter((c) => c.evidenceDocumentId === documentId),
+  sessions: boardSessions.filter((s) => s.requiredDocumentIds.includes(documentId)).sort((a, b) => a.date.localeCompare(b.date)),
+  findings: boardSessions.flatMap((session) =>
+    session.aiFindings.filter((f) => f.documentId === documentId).map((finding) => ({ session, finding })),
+  ),
+});
 
 /** The project's next scheduled board session (soonest), if any. */
 export const nextSessionForProject = (projectId: string): BoardSession | undefined =>

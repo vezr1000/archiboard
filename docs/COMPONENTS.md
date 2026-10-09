@@ -56,6 +56,7 @@ Dark mode: tokens switch automatically (system, or forced by `<html data-theme>`
 | `Tooltip` | `<Tooltip content="Индекс заузетости = …" underline>ИЗ</Tooltip>` (native title) |
 | `EnergyClassBadge` | `<EnergyClassBadge value="B" size="sm\|md\|lg" animate />` — passport class letter on its tone colour; `animate` pops on change |
 | `AnimatedNumber` | `<AnimatedNumber value={358} decimals={0} format? duration? />` — count-up tween (instant with reduced motion) |
+| `useMediaQuery` | `const isPhone = useMediaQuery('(max-width: 767px)')` — subscribes to a CSS media query (used to cut long mobile lists with „Прикажи још“) |
 | `Skeleton` | `<Skeleton className="h-24 w-full" />` · `<Skeleton lines={3} />` |
 
 ## Charts — `import { … } from '@/components/charts'`
@@ -77,6 +78,7 @@ All are SVG, responsive (fill their container width), theme-aware, with an acces
 | `BenchmarkScale` | `<BenchmarkScale title="Угљеник" direction="lower-better" current={358} target={320} currentTone="bad" highlightId="firm" format={fmt} marks={[{ id: 'firm', label: 'Циљ фирме', value: 350 }, { id: 'best', label: 'Најбоља пракса', value: 250 }]} />` — compact benchmark ladder (пропис / EU таксономија / циљ фирме / најбоља пракса), better side always on the right, current value as marker, labels laid out in lanes |
 | `DivergingBars` | `<DivergingBars title="…" unit="kgCO₂e/m²" data={[{ id, label, value, sublabel? }]} total={{ label: 'Укупно', value }} positiveTone="bad" negativeTone="good" />` — contributions around zero (labels above bars, phone-safe) |
 | `GroupedBars` | `<GroupedBars title="…" series={[{ id, label, color? }]} groups={[{ id, label, unit?, values: number[], target?, direction?, format? }]} />` — small multiples, one thin bar per series, each group on its own scale |
+| `StepLine` | `<StepLine title="…" points={[{ x: timestamp, y: -28, label: 'Одлука 1', tone: 'good', projected?, highlight? }]} xEnd? xTicks={[{ x, label }]} format={(v) => formatPct(v, { signed: true, decimals: 0 })} startValue={0} />` — step line (value jumps at discrete moments), dashed = proposed/projected, highlight prints the value |
 | `Legend` | `<Legend items={[{ label: 'Циљ', color: 'var(--ink)', shape: 'square\|line\|dashed\|dot' }]} />` |
 
 Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`, `scaleLinear`, `useMounted`, `truncate`.
@@ -109,6 +111,7 @@ Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`
 | Seed + lookups | `import { projects, getProject, getPerson, getPeople, teamForProject, kpisForProject, siteForProject, requirementsForProject, optionsForProject, decisionsForProject, sessionsForProject, getSession, documentsForProject, materialsForProject, stakeholdersForProject, risksForProject, certificationForProject, criteriaForProject, activityForProject, regulationsForProject, FIRM, APP } from '@/data'` |
 | Labels | `import { PHASE_LABELS, GATE_LABELS, HEALTH_LABELS, HEALTH_TONE, … } from '@/domain/labels'` — every enum has `*_LABELS` (+ `*_TONE` for statuses) |
 | Store | `useAppStore((s) => s.userOptions)`, `s.addUserOption(o)`, `s.addUserDecision(d)`, `s.setGateReview(id, state)`, `s.acceptRequirements([...])`, `s.setFeedback(moduleId, rating, note?)`, `s.resetDemo()` |
+| Store extras | `s.removeUserDecision(id)` (delete a user-created decision/proposal) |
 | Merged hooks | `useProjectOptions(id)`, `useProjectDecisions(id)`, `useProjectRequirements(id)`, `useModuleFeedback(moduleId)` from `@/store` (seed + user items) |
 | Theme | `useThemeStore((s) => s.theme)`, `setTheme('system'\|'light'\|'dark')`, `useResolvedTheme()` |
 | Format | `formatNumber(n, dec?)`, `formatSigned`, `formatCompact`, `formatUnit(n, unit, dec?)`, `formatArea(m2, 'm2'\|'ha'\|'auto')`, `formatCarbon(v, 'per-m2'\|'total'\|'tonnes')`, `formatEur(n, compact?)`, `formatPct(v, { ratio?, signed?, decimals? })`, `formatDate(iso, 'long'\|'short'\|'day-month'\|'numeric'\|'month'\|'weekday')`, `formatRelative(iso)` |
@@ -116,5 +119,6 @@ Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`
 | Cert scores | `@/lib/cert`: `certScoreMax(scheme)` (LEED 110, else 100), `formatCertScore`, `thresholdsInScoreUnits(scheme, thresholds)` (for `RingScore`), `achievedLevel`, `certTone`, `categoryBreakdown(cat)` (achieved / pending / atRisk / remaining), `trackerScore(tracker, 'achieved'\|'targeted'\|'atRisk')`, `nextThreshold`, `thresholdOf`, `formatCertGap` („1 п.п.“ / „2 бод.“), `categoryUnit` |
 | Shared project pieces | `@/features/projects/ProjectCard` (portfolio card), `ProjectCover` (generative illustration from `illustration` + `coverHue`), `miniKpisFor(project)`; `@/features/portfolio/AttentionList` („Захтева пажњу“ rows; `showProject={false}` inside a project) |
 | Gate helpers | `gateReadiness(projectId, gate)` → `{ required, approved, inReview, missing }` (missing = draft), `nextSessionForProject(projectId)` from `@/data` |
+| Document links | `linksForDocument(documentId)` from `@/data` → `{ criteria, sessions, findings }` (certification criteria citing it as evidence, board sessions requiring it, AI findings about it). Deep links: `/projekti/:id/dokumenta?doc=<id>`, `/projekti/:id/odluke?decision=<id>` |
 | What-if model | `@/lib/carbonModel` (pure, step 6): `setupProjectModel(input)` → `{ ctx, anchorParams, selected, calibration }` (null for the park), `evaluate(params, ctx, cal)` → `ModelResult`, `optionCalibration(model, option)`, `contributions(ctx, cal, from, to)`, `toDesignResults(r)`, `COEFFICIENT_TABLE`, `PARAM_LABELS`; in features use `useProjectModel(project)` from `@/features/options/useProjectModel` |
 | KPI logic | `@/lib/kpi`: `kpiStatus(direction, current, target, tolerancePct=10)` → pass/warn/fail, `gapPct`, `deltaTone`, `clamp` |

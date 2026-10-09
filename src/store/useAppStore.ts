@@ -35,6 +35,7 @@ export interface AppState {
   removeUserOption: (id: string) => void;
   addUserDecision: (decision: Decision) => void;
   updateUserDecision: (id: string, patch: Partial<Decision>) => void;
+  removeUserDecision: (id: string) => void;
   setGateReview: (sessionId: string, state: unknown) => void;
   clearGateReview: (sessionId: string) => void;
   acceptRequirements: (items: Requirement[]) => void;
@@ -97,6 +98,8 @@ export const useAppStore = create<AppState>()(
         set((s) => ({ userDecisions: [...s.userDecisions, { ...decision, isUserCreated: true }] })),
       updateUserDecision: (id, patch) =>
         set((s) => ({ userDecisions: s.userDecisions.map((d) => (d.id === id ? { ...d, ...patch } : d)) })),
+
+      removeUserDecision: (id) => set((s) => ({ userDecisions: s.userDecisions.filter((d) => d.id !== id) })),
 
       setGateReview: (sessionId, state) => set((s) => ({ gateReviews: { ...s.gateReviews, [sessionId]: state } })),
       clearGateReview: (sessionId) =>
