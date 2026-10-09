@@ -39,14 +39,14 @@ export function Segmented<V extends string>({ options, value, onChange, ariaLabe
             aria-checked={active}
             onClick={() => onChange(o.value)}
             className={cn(
-              'inline-flex min-w-0 items-center justify-center gap-1.5 rounded-[10px] px-2.5 font-medium transition-colors sm:px-3',
-              size === 'sm' ? 'h-8 text-xs' : 'h-9 text-[0.8125rem] sm:text-sm',
+              'inline-flex min-w-0 items-center justify-center gap-1.5 rounded-[10px] px-1.5 font-medium transition-colors sm:px-3',
+              size === 'sm' ? 'min-h-8 py-0.5 text-xs' : 'min-h-9 py-1 text-[0.8125rem] sm:text-sm',
               fullWidth && 'flex-1',
               active ? 'bg-surface text-ink shadow-soft' : 'text-muted hover:text-ink',
             )}
           >
             {o.icon && <o.icon className="size-4 shrink-0" aria-hidden />}
-            <span className="truncate">{o.label}</span>
+            <span className="min-w-0 text-center leading-tight">{o.label}</span>
           </button>
         );
       })}

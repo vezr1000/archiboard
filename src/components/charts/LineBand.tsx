@@ -19,6 +19,8 @@ export interface LineBandProps {
   target?: number;
   /** Acceptable range shaded in green (e.g. between firm target and best practice). */
   band?: { from: number; to: number; label?: string };
+  /** Second dotted comparison line (e.g. the benchmark of the selected ambition level). */
+  reference?: { value: number; label: string };
   /** Only used to label the band legend („мање је боље“). */
   direction?: KpiDirection;
   unit?: string;
@@ -36,7 +38,7 @@ export interface LineBandProps {
  * <LineBand title="Уграђени угљеник по фазама" unit="kgCO₂e/m²" target={320} band={{ from: 250, to: 320, label: 'Циљни опсег' }}
  *   points={[{ label: 'ИДР', value: 305 }, { label: 'ПГД', value: 358 }, { label: 'ПЗИ', value: 340, projected: true }]} />
  */
-export function LineBand({ points, target, band, unit, format = (v) => formatNumber(v), height = 180, title, showLegend = true, className }: LineBandProps) {
+export function LineBand({ points, target, band, reference, unit, format = (v) => formatNumber(v), height = 180, title, showLegend = true, className }: LineBandProps) {
   const titleId = useId();
   const W = 340;
   const H = 170;
@@ -44,7 +46,7 @@ export function LineBand({ points, target, band, unit, format = (v) => formatNum
   const right = 12;
   const top = 12;
   const bottom = 24;
-  const vals = [...points.map((p) => p.value), ...(target !== undefined ? [target] : []), ...(band ? [band.from, band.to] : [])];
+  const vals = [...points.map((p) => p.value), ...(target !== undefined ? [target] : []), ...(band ? [band.from, band.to] : []), ...(reference ? [reference.value] : [])];
   const [d0, d1] = niceDomain(vals, 0.12);
   const y = scaleLinear(d0, d1, H - bottom, top);
   const x = (i: number) => (points.length <= 1 ? left + (W - left - right) / 2 : left + (i * (W - left - right)) / (points.length - 1));
@@ -75,6 +77,9 @@ export function LineBand({ points, target, band, unit, format = (v) => formatNum
         {target !== undefined && (
           <line x1={left} x2={W - right} y1={y(target)} y2={y(target)} stroke="var(--ink)" strokeWidth="1.5" strokeDasharray="5 4" />
         )}
+        {reference && (
+          <line x1={left} x2={W - right} y1={y(reference.value)} y2={y(reference.value)} stroke="var(--clay)" strokeWidth="1.5" strokeDasharray="1.5 3.5" strokeLinecap="round" />
+        )}
         {points.slice(1).map((p, i) => (
           <line
             key={`seg-${i}`}
@@ -102,13 +107,14 @@ export function LineBand({ points, target, band, unit, format = (v) => formatNum
           </g>
         ))}
       </svg>
-      {showLegend && (target !== undefined || band) && (
+      {showLegend && (target !== undefined || band || reference) && (
         <Legend
           className="mt-1.5"
           items={[
             { label: 'Вредност', color: 'var(--accent)', shape: 'line' },
             ...(target !== undefined ? [{ label: 'Циљ', color: 'var(--ink)', shape: 'dashed' as const }] : []),
             ...(band ? [{ label: band.label ?? 'Прихватљив опсег', color: 'var(--good-soft)' }] : []),
+            ...(reference ? [{ label: reference.label, color: 'var(--clay)', shape: 'dashed' as const }] : []),
           ]}
         />
       )}

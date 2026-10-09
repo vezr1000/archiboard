@@ -1,6 +1,8 @@
 /** SVG charts barrel: `import { BarChart, RingScore } from '@/components/charts';` — see docs/COMPONENTS.md. */
 export { BarChart } from './BarChart';
 export type { BarDatum } from './BarChart';
+export { BenchmarkScale } from './BenchmarkScale';
+export type { BenchmarkMark } from './BenchmarkScale';
 export { HeatMap5x5 } from './HeatMap5x5';
 export type { HeatItem } from './HeatMap5x5';
 export { Legend } from './Legend';

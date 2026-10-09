@@ -46,7 +46,7 @@ Dark mode: tokens switch automatically (system, or forced by `<html data-theme>`
 | `Avatar` | `<Avatar person={getPerson(id)!} size="xs\|sm\|md\|lg" />` (initials, colour from id) |
 | `AvatarStack` | `<AvatarStack people={teamForProject(id)} max={3} />` |
 | `KeyValue` | `<KeyValue items={[{ label: 'Парцела', value: p.parcel, hint? }]} columns={1\|2} />` |
-| `DataList` | `<DataList rows={docs} rowKey={(d) => d.id} caption="Документа" columns={[{ id, header, cell: (d) => …, align?, width?, hideOnMobile?, mobileLabel? }]} onRowClick? selectedKey? mobileAside={(d) => <Badge/>} primaryColumn? emptyText? />` — table ≥768px, cards below |
+| `DataList` | `<DataList rows={docs} rowKey={(d) => d.id} caption="Документа" columns={[{ id, header, cell: (d) => …, align?, width?, hideOnMobile?, mobileLabel? }]} onRowClick? selectedKey? mobileAside={(d) => <Badge/>} primaryColumn? emptyText? groupBy={(d) => d.categoryId} groupHeader={(key, rows) => …} />` (rows must be sorted so groups are contiguous) — table ≥768px, cards below |
 | `SearchInput` | `<SearchInput value={q} onChange={setQ} placeholder="Претражи прописе…" />` |
 | `FilterChips` | single: `<FilterChips ariaLabel="Статус" options={[{ value, label, count? }]} value={v \| null} onChange={setV} />` · multi: add `multiple` with `value: string[]` · `wrap` to wrap instead of scroll |
 | `Slider` | `<Slider label="Изолација" unit="cm" value={cm} min={10} max={30} step={1} onChange={setCm} format? hint? minLabel? maxLabel? />` |
@@ -70,7 +70,8 @@ All are SVG, responsive (fill their container width), theme-aware, with an acces
 | `HeatMap5x5` | `<HeatMap5x5 title="Матрица ризика" items={risks.map(r => ({ id: r.id, probability: r.probability, impact: r.impact, label: r.title }))} selected={cell} onCellClick={(c) => …} />` |
 | `WindRose` | `<WindRose title="Ружа ветрова" data={site.climate.windRose} highlight={['ESE', 'SE']} size={260} />` |
 | `QuadrantGrid` | `<QuadrantGrid title="…" xLabel="Интерес" yLabel="Утицај" quadrants={STAKEHOLDER_QUADRANTS} items={[{ id, label, x: 1–5, y: 1–5, tone? }]} selectedId? onItemClick? labelMode="numbered\|inline" />` (numbered = dots + legend list, default) |
-| `LineBand` | `<LineBand title="…" unit="kgCO₂e/m²" target={320} band={{ from: 250, to: 320, label? }} points={[{ label: 'ИДР', value: 305 }, { label: 'ПЗИ', value: 334, projected: true }]} height={180} />` |
+| `LineBand` | `<LineBand title="…" unit="kgCO₂e/m²" target={320} band={{ from: 250, to: 320, label? }} reference={{ value: 350, label: 'Мерило: Циљ фирме' }} points={[{ label: 'ИДР', value: 305 }, { label: 'ПЗИ', value: 334, projected: true }]} height={180} />` |
+| `BenchmarkScale` | `<BenchmarkScale title="Угљеник" direction="lower-better" current={358} target={320} currentTone="bad" highlightId="firm" format={fmt} marks={[{ id: 'firm', label: 'Циљ фирме', value: 350 }, { id: 'best', label: 'Најбоља пракса', value: 250 }]} />` — compact benchmark ladder (пропис / EU таксономија / циљ фирме / најбоља пракса), better side always on the right, current value as marker, labels laid out in lanes |
 | `Legend` | `<Legend items={[{ label: 'Циљ', color: 'var(--ink)', shape: 'square\|line\|dashed\|dot' }]} />` |
 
 Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`, `scaleLinear`, `useMounted`, `truncate`.
@@ -107,7 +108,7 @@ Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`
 | Theme | `useThemeStore((s) => s.theme)`, `setTheme('system'\|'light'\|'dark')`, `useResolvedTheme()` |
 | Format | `formatNumber(n, dec?)`, `formatSigned`, `formatCompact`, `formatUnit(n, unit, dec?)`, `formatArea(m2, 'm2'\|'ha'\|'auto')`, `formatCarbon(v, 'per-m2'\|'total'\|'tonnes')`, `formatEur(n, compact?)`, `formatPct(v, { ratio?, signed?, decimals? })`, `formatDate(iso, 'long'\|'short'\|'day-month'\|'numeric'\|'month'\|'weekday')`, `formatRelative(iso)` |
 | Dates | `@/lib/dates`: `DEMO_TODAY` (fixed demo „today“ = 2026-10-09), `daysFromToday`, `addDays`, `isWithinNextDays`, `parseIsoDate` |
-| Cert scores | `@/lib/cert`: `certScoreMax(scheme)` (LEED 110, else 100), `formatCertScore`, `thresholdsInScoreUnits(scheme, thresholds)` (for `RingScore`), `achievedLevel`, `certTone` |
+| Cert scores | `@/lib/cert`: `certScoreMax(scheme)` (LEED 110, else 100), `formatCertScore`, `thresholdsInScoreUnits(scheme, thresholds)` (for `RingScore`), `achievedLevel`, `certTone`, `categoryBreakdown(cat)` (achieved / pending / atRisk / remaining), `trackerScore(tracker, 'achieved'\|'targeted'\|'atRisk')`, `nextThreshold`, `thresholdOf`, `formatCertGap` („1 п.п.“ / „2 бод.“), `categoryUnit` |
 | Shared project pieces | `@/features/projects/ProjectCard` (portfolio card), `ProjectCover` (generative illustration from `illustration` + `coverHue`), `miniKpisFor(project)`; `@/features/portfolio/AttentionList` („Захтева пажњу“ rows; `showProject={false}` inside a project) |
 | Gate helpers | `gateReadiness(projectId, gate)` → `{ required, approved, inReview, missing }` (missing = draft), `nextSessionForProject(projectId)` from `@/data` |
 | KPI logic | `@/lib/kpi`: `kpiStatus(direction, current, target, tolerancePct=10)` → pass/warn/fail, `gapPct`, `deltaTone`, `clamp` |

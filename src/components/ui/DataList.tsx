@@ -28,6 +28,10 @@ export interface DataListProps<T> {
   /** Highlighted row key. */
   selectedKey?: string;
   emptyText?: ReactNode;
+  /** Group rows (must already be sorted so that groups are contiguous). A header is rendered before each group. */
+  groupBy?: (row: T) => string;
+  /** Header content of a group (default: the group key). */
+  groupHeader?: (key: string, rows: T[]) => ReactNode;
   /** Accessible table caption (visually hidden). */
   caption?: string;
   className?: string;
@@ -52,12 +56,22 @@ export function DataList<T>({
   onRowClick,
   selectedKey,
   emptyText = 'Нема ставки.',
+  groupBy,
+  groupHeader,
   caption,
   className,
 }: DataListProps<T>) {
   if (rows.length === 0) return <EmptyState compact title={emptyText} className={className} />;
   const primary = columns.find((c) => c.id === primaryColumn) ?? columns[0];
   const rest = columns.filter((c) => c !== primary && !c.hideOnMobile);
+  const groups: Array<{ key: string; rows: T[] }> = [];
+  for (const row of rows) {
+    const key = groupBy ? groupBy(row) : '';
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) last.rows.push(row);
+    else groups.push({ key, rows: [row] });
+  }
+  const headerOf = (g: { key: string; rows: T[] }) => (groupHeader ? groupHeader(g.key, g.rows) : g.key);
   const alignCls = (a?: 'left' | 'right' | 'center') => (a === 'right' ? 'text-right' : a === 'center' ? 'text-center' : 'text-left');
 
   return (
@@ -81,7 +95,15 @@ export function DataList<T>({
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => {
+            {groups.map((g) => [
+              groupBy && (
+                <tr key={`g-${g.key}`} className="border-b border-line bg-surface-2/50">
+                  <th colSpan={columns.length} scope="colgroup" className="px-4 py-2 text-left text-xs font-semibold text-ink">
+                    {headerOf(g)}
+                  </th>
+                </tr>
+              ),
+              ...g.rows.map((row) => {
               const key = rowKey(row);
               return (
                 <tr
@@ -113,14 +135,21 @@ export function DataList<T>({
                   ))}
                 </tr>
               );
-            })}
+              }),
+            ])}
           </tbody>
         </table>
       </div>
 
       {/* Mobile cards */}
       <ul className="flex flex-col gap-2 md:hidden" aria-label={caption}>
-        {rows.map((row) => {
+        {groups.map((g) => [
+          groupBy && (
+            <li key={`g-${g.key}`} className="mt-2 px-1 text-xs font-semibold text-ink first:mt-0">
+              {headerOf(g)}
+            </li>
+          ),
+          ...g.rows.map((row) => {
           const key = rowKey(row);
           const body = (
             <>
@@ -166,7 +195,8 @@ export function DataList<T>({
               )}
             </li>
           );
-        })}
+          }),
+        ])}
       </ul>
     </div>
   );
