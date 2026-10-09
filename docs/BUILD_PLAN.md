@@ -8,7 +8,7 @@ Sequential, one agent at a time. The orchestrator verifies each step (build, cop
 | 1 | Foundation: scaffold, tokens, fonts, app shell, routing, UI + chart primitives, domain types, store, feedback widget, placeholder pages | Opus | ✅ |
 | 2 | Seed data: 6 projects, people, regulations, materials, documents, decisions, risks, stakeholders, sessions | Opus | ✅ |
 | 3 | Портфолио (home) + Пројекти list + project cockpit shell + Преглед tab | Sonnet | ✅ |
-| 4 | Локација и услови + AI extraction moment | Sonnet | ☐ |
+| 4 | Локација и услови + AI extraction moment | Sonnet | ✅ |
 | 5 | Циљеви и KPI + Сертификација | Sonnet | ☐ |
 | 6 | ★ Варијанте + what-if carbon model | Opus | ☐ |
 | 7 | Материјали (project passport + global EPD library) | Sonnet | ☐ |
@@ -123,3 +123,15 @@ Notes for later steps:
 - Tailwind v4 note: `cn` does not merge conflicting classes; to override a component's own margin use the important suffix
   (`mb-3!`) as in `ProjectLayout`.
 - Pre-existing, not from step 3: React duplicate-key warning for `p-jelena-markovic` comes from `/#/_ui` (AvatarStack fed `[...people, ...people]`).
+
+### Step 4 — Локација и услови + АИ извлачење услова ✅ (2026-10-09)
+Built `/projekti/:id/lokacija` (`src/features/site/`), mobile one column, ≥1024px 3-col grid; works for all 6 projects:
+- `SiteCard` + `SiteMap` (abstract SVG: river by city — Сава/Дунав/Нишава —, parcel, building footprint ∝ индекс заузетости, north arrow, scale hint; 4 layouts: quay / riverside / distant / park strip), key-values, utilities, context note.
+- `ClimateCard`: HDD/CDD, зрачење, прорачунске температуре, UHI, `WindRose` + generated sentence (dominant direction + max speed; „кошава“ only if the seed note says so and dominant is ЈИ-ish) + air quality.
+- `HazardsCard`: flood / seismic / soil / groundwater rows with tone chip + generic implication (rules in `siteLogic.ts`).
+- `UrbanParamsCard`: `DataList` (table ≥768px, cards below), comparator, utilisation `ProgressBar` with limit marker, status: <5 % margin = „на граници“, beyond = „прекорачено“ (max) / „испод минимума“ (min).
+- `RequirementsCard` (`id="uslovi"`): seed + accepted (`useProjectRequirements`), stacked status bar with counts, multi-select chips by source and status, AI-accepted items first with „ново · АИ“, notes clamp on mobile with „Прикажи више“, first 8 shown + „Прикажи све“.
+- `AiExtractionCard` (★): shown for **all 6 projects** (park uses its „водни услови“ document, vrtic an „информација о локацији“, since no ЛУ exists yet). Flow = `useScriptedRun` (thinking ~4,8 s, 5 progressive status lines) → file chip → conditions stream in (650 ms each) → per-item „Прихвати“ / „Прихвати све нове“ → `acceptRequirements` (id `req-ai-<project>-<key>`, source `lokacijski-uslovi`, status `unchecked`, `aiExtracted`). Items matching a seed requirement (`matchesId`) show „већ у листи“ and are not acceptable. „Покрени поново“ / „Затвори резултат“; accepted state comes from the store, so `resetDemo()` makes them acceptable again. Scripts: `extractionScripts.ts` (flagship 8 conditions: 5 existing, 3 new — паркинг/ЕВ, бука, ватрогасни приступ; the „висина венца“ example was dropped because it is already covered by req-sk-03; others 7 each, mix of existing/new; ROP numbers fictional, flagship matches `doc-sk-lu`). Disclaimer line always visible.
+- `FeedbackWidget` got a non-breaking `compact` prop; second widget `ai-lokacijski-uslovi` inside the AI card; registered in `MODULES` (navigation.ts).
+No store, seed or type changes. Verified at 375 light/dark, 1280 light (idle + after run + after „Прихвати све“), all 6 projects: no horizontal overflow.
+Notes: Stat's label truncates — climate tiles use their own small tile markup. Seed `status` of accepted items is always „непроверено“.

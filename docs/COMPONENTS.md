@@ -89,7 +89,7 @@ Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`
 
 | Item | Usage |
 |---|---|
-| `FeedbackWidget` | `import { FeedbackWidget } from '@/components/feedback/FeedbackWidget'` — `<FeedbackWidget moduleId="projekat-varijante" />` at the bottom of every routed page (ids in `MODULES`) |
+| `FeedbackWidget` | `import { FeedbackWidget } from '@/components/feedback/FeedbackWidget'` — `<FeedbackWidget moduleId="projekat-varijante" />` at the bottom of every routed page (ids in `MODULES`); `compact` + `question` for an embedded poll under an AI demo (e.g. `ai-lokacijski-uslovi`) |
 | `ModulePlaceholder` | `@/components/layout/ModulePlaceholder` — temporary „Модул у изради — корак N“ box; delete when the module is built |
 | `navigation.ts` | `@/components/layout/navigation` — `paths.project(id, 'varijante')`, `paths.session(id)` …, `PROJECT_TABS`, `MODULES` (moduleId → label), `NAV_*` |
 | `ThemeToggle` | `<ThemeToggle />` (labelled) / `<ThemeToggle compact />` (icons) |

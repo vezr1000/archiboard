@@ -18,6 +18,8 @@ export interface FeedbackWidgetProps {
   moduleId: string;
   /** Override the question. */
   question?: string;
+  /** Smaller variant to embed inside a card (e.g. under an AI demo). */
+  compact?: boolean;
   className?: string;
 }
 
@@ -26,7 +28,7 @@ export interface FeedbackWidgetProps {
  * Saves to the store with the presenter's current session label; answers can be changed.
  * @example <FeedbackWidget moduleId="projekat-varijante" />
  */
-export function FeedbackWidget({ moduleId, question = 'Да ли бисте користили ову функцију?', className }: FeedbackWidgetProps) {
+export function FeedbackWidget({ moduleId, question = 'Да ли бисте користили ову функцију?', compact, className }: FeedbackWidgetProps) {
   const entry = useModuleFeedback(moduleId);
   const setFeedback = useAppStore((s) => s.setFeedback);
   const setFeedbackNote = useAppStore((s) => s.setFeedbackNote);
@@ -49,14 +51,18 @@ export function FeedbackWidget({ moduleId, question = 'Да ли бисте ко
   return (
     <aside
       aria-label="Повратна информација"
-      className={cn('mt-10 rounded-2xl border border-dashed border-line-strong bg-surface/60 p-4 md:p-5', className)}
+      className={cn(
+        'rounded-2xl border border-dashed border-line-strong bg-surface/60',
+        compact ? 'mt-4 p-3' : 'mt-10 p-4 md:p-5',
+        className,
+      )}
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex min-w-0 items-start gap-2.5">
           <MessageSquareHeart className="mt-0.5 size-5 shrink-0 text-clay" aria-hidden />
           <div className="min-w-0">
             <p className="text-sm font-medium text-ink">{entry ? 'Хвала на одговору!' : question}</p>
-            <p className="text-xs text-muted">
+            <p className={cn('text-xs text-muted', compact && 'hidden')}>
               {entry ? 'Можете да промените одговор или додате напомену.' : 'Демо анкета — одговор остаје на овом уређају.'}
               {sessionLabel && <span> · Сесија: {sessionLabel}</span>}
             </p>
