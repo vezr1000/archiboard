@@ -7,7 +7,7 @@ Sequential, one agent at a time. The orchestrator verifies each step (build, cop
 |---|---|---|---|
 | 1 | Foundation: scaffold, tokens, fonts, app shell, routing, UI + chart primitives, domain types, store, feedback widget, placeholder pages | Opus | ✅ |
 | 2 | Seed data: 6 projects, people, regulations, materials, documents, decisions, risks, stakeholders, sessions | Opus | ✅ |
-| 3 | Портфолио (home) + Пројекти list + project cockpit shell + Преглед tab | Sonnet | ☐ |
+| 3 | Портфолио (home) + Пројекти list + project cockpit shell + Преглед tab | Sonnet | ✅ |
 | 4 | Локација и услови + AI extraction moment | Sonnet | ☐ |
 | 5 | Циљеви и KPI + Сертификација | Sonnet | ☐ |
 | 6 | ★ Варијанте + what-if carbon model | Opus | ☐ |
@@ -94,3 +94,32 @@ Notes for later steps:
 - Seed modules must keep `@/` imports type-only (`import type`), otherwise `check:data` cannot load them.
 - Activity dates are ISO timestamps (`2026-10-08T16:40:00`); everything else is `YYYY-MM-DD`.
 
+### Step 3 — Портфолио, Пројекти, cockpit shell, Преглед ✅ (2026-10-09)
+Built:
+- `/` `PortfolioPage`: greeting + DEMO_TODAY, 5-stat KPI strip (active projects with health split; total GFA **excluding the
+  park**, which is noted separately in ha; GFA-weighted embodied carbon 325 vs firm target 350 = −7 %; 50 % on track;
+  3 gates in 30 days), „Захтева пажњу“ (top 4, expandable to 8, each row links to its project tab), next 3 board sessions
+  (→ `/odbor/:id`), 6 `ProjectCard`s (generative `ProjectCover`, chips, 3 mini ProgressBars with target marker, compact
+  PhaseTimeline, next gate relative), „Угљенични буџет“ BarChart (park omitted — per m² of site, not GFA; bars navigate to ciljevi).
+  Stats live in `features/portfolio/portfolioStats.ts`.
+- `/projekti` `ProjectsPage`: SearchInput + multi-select FilterChips (град, фаза, здравље, шема) + sort Select
+  (назив / фаза / здравље / следећа капија; default next gate), DataList (table ≥768px, cards below), empty state with
+  „Очисти филтере“; filters collapse behind a „Филтери“ button on phones.
+- `ProjectLayout`: breadcrumb, eyebrow city · typology, name, address, chips, compact key-facts row (БРГП or site area for
+  the park, спратност, инвеститор, водећи архитекта + Avatar; missing facts are skipped), route tabs unchanged.
+- `OverviewTab` (+ `OverviewCards.tsx`): project „Захтева пажњу“ (if any), PhaseTimeline with gate dates from sessions, KPI tiles
+  (first 6 KPIs: value, % vs target coloured by direction, sparkline over phases; energy class shown as letter), certification
+  RingScore with thresholds + reached level, next-gate card (document readiness StackedBar, missing docs, open conditions with
+  overdue flagged → session / decision / dokumenta links), latest 3 decisions (seed + user-saved), top 3 open risks by p×i, activity feed.
+  Mobile: one column; ≥1024px: 3-col grid. Checked for all 6 projects (no horizontal overflow at 375 and 1280).
+- New helpers: `lib/cert.ts`; in `data/index.ts`: `gateReadiness`, `nextSessionForProject`. No new ui primitives.
+
+Notes for later steps:
+- Document „readiness“ convention: ready = approved or in review; **missing = draft** (matches „недостају 2 од 12“); the card
+  shows approved / in review / draft as a StackedBar. Step 10 should use `gateReadiness` for consistency.
+- Certification scores are on different scales: LEED /110, others /100; tracker thresholds are stored as % of max, convert via
+  `thresholdsInScoreUnits`. Cert bars/rings never go red on their own (`certTone`: good if ≥ target else warn).
+- „Отворени услови“ on the overview = all open conditions of sessions + decisions of the project, soonest first.
+- Tailwind v4 note: `cn` does not merge conflicting classes; to override a component's own margin use the important suffix
+  (`mb-3!`) as in `ProjectLayout`.
+- Pre-existing, not from step 3: React duplicate-key warning for `p-jelena-markovic` comes from `/#/_ui` (AvatarStack fed `[...people, ...people]`).

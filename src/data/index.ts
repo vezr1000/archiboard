@@ -174,6 +174,27 @@ export const documentsForProject = (projectId: string): ProjectDocument[] => for
 export const documentsForGate = (projectId: string, gate: GateId): ProjectDocument[] =>
   forProject(documents, projectId).filter((d) => d.requiredForGates.includes(gate));
 
+/**
+ * Readiness of the documents required for a gate. „Ready“ = approved or already in review; drafts are „missing“
+ * (this is how „недостају 2 од 12“ is counted everywhere).
+ */
+export const gateReadiness = (
+  projectId: string,
+  gate: GateId,
+): { required: ProjectDocument[]; approved: ProjectDocument[]; inReview: ProjectDocument[]; missing: ProjectDocument[] } => {
+  const required = documentsForGate(projectId, gate).filter((d) => d.status !== 'superseded');
+  return {
+    required,
+    approved: required.filter((d) => d.status === 'approved'),
+    inReview: required.filter((d) => d.status === 'review'),
+    missing: required.filter((d) => d.status === 'draft'),
+  };
+};
+
+/** The project's next scheduled board session (soonest), if any. */
+export const nextSessionForProject = (projectId: string): BoardSession | undefined =>
+  upcomingSessions().find((s) => s.projectId === projectId);
+
 /* ---------- Materials ---------- */
 
 export const getMaterial = (id: string | undefined): Material | undefined => byId(materials, id);

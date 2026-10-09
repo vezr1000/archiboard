@@ -57,4 +57,7 @@ npm run check:data     # referential integrity + invariants of seed data
 ```
 Seed data (`src/data/`) is read-only for feature steps: read it through helpers in `src/data/index.ts` and
 `src/store/selectors.ts`; if you need a new helper, add it there. `DEMO_TODAY` (`src/lib/dates.ts`) is „today“.
-Do not start long-running dev servers; the orchestrator does browser verification. Do not commit or push.
+Do not start long-running dev servers; a dev server normally runs on http://localhost:5173 (check with
+`curl -s localhost:5173 >/dev/null && echo up`). Visually verify your pages with
+`node scripts/shot.mjs /tmp/claude-503/shots 375 light /projekti/savski-kej/pregled` (also 1280 and dark), then Read
+the JPEG segments. Fix what looks wrong before reporting. Do not commit or push.

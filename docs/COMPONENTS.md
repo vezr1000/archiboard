@@ -107,4 +107,7 @@ Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`
 | Theme | `useThemeStore((s) => s.theme)`, `setTheme('system'\|'light'\|'dark')`, `useResolvedTheme()` |
 | Format | `formatNumber(n, dec?)`, `formatSigned`, `formatCompact`, `formatUnit(n, unit, dec?)`, `formatArea(m2, 'm2'\|'ha'\|'auto')`, `formatCarbon(v, 'per-m2'\|'total'\|'tonnes')`, `formatEur(n, compact?)`, `formatPct(v, { ratio?, signed?, decimals? })`, `formatDate(iso, 'long'\|'short'\|'day-month'\|'numeric'\|'month'\|'weekday')`, `formatRelative(iso)` |
 | Dates | `@/lib/dates`: `DEMO_TODAY` (fixed demo „today“ = 2026-10-09), `daysFromToday`, `addDays`, `isWithinNextDays`, `parseIsoDate` |
+| Cert scores | `@/lib/cert`: `certScoreMax(scheme)` (LEED 110, else 100), `formatCertScore`, `thresholdsInScoreUnits(scheme, thresholds)` (for `RingScore`), `achievedLevel`, `certTone` |
+| Shared project pieces | `@/features/projects/ProjectCard` (portfolio card), `ProjectCover` (generative illustration from `illustration` + `coverHue`), `miniKpisFor(project)`; `@/features/portfolio/AttentionList` („Захтева пажњу“ rows; `showProject={false}` inside a project) |
+| Gate helpers | `gateReadiness(projectId, gate)` → `{ required, approved, inReview, missing }` (missing = draft), `nextSessionForProject(projectId)` from `@/data` |
 | KPI logic | `@/lib/kpi`: `kpiStatus(direction, current, target, tolerancePct=10)` → pass/warn/fail, `gapPct`, `deltaTone`, `clamp` |
