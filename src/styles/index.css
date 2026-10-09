@@ -1,0 +1,279 @@
+/*
+ * АрхиБорд design tokens + base styles.
+ *
+ * Colours are raw CSS variables on :root (light) and overridden for dark. They are exposed to Tailwind via
+ * `@theme inline`, so utilities like `bg-paper`, `text-ink`, `border-line`, `bg-accent-soft`, `text-good`,
+ * `fill-accent`, `stroke-line` all switch with the theme automatically. Features must use ONLY these tokens.
+ *
+ * Theme selection: follows the OS by default; `<html data-theme="light|dark">` forces a theme
+ * (set by useThemeStore and by the inline script in index.html).
+ */
+@import 'tailwindcss';
+@import '@fontsource-variable/inter/wght.css';
+@import '@fontsource-variable/source-serif-4/opsz.css';
+
+/* `dark:` variant = forced dark OR (system dark and not forced light). Rarely needed — tokens already switch. */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme='light']), :root:not([data-theme='light']) *) {
+      @slot;
+    }
+  }
+}
+
+/* ---------- Light (default) ---------- */
+:root {
+  color-scheme: light;
+  --paper: #f6f4ef; /* page background */
+  --surface: #ffffff; /* cards */
+  --surface-2: #efece4; /* subtle fills, inputs, table headers */
+  --ink: #1e2420; /* primary text */
+  --muted: #62675f; /* secondary text (AA on paper and surface-2) */
+  --line: #e2ded4; /* hairline borders */
+  --line-strong: #cfcabd; /* stronger borders, chart axes */
+
+  --accent: #2f5d46; /* moss — primary brand / interactive */
+  --accent-ink: #ffffff; /* text on solid accent */
+  --accent-soft: #dce7df;
+  --clay: #9a5530; /* secondary, earthy highlight */
+  --clay-soft: #f4e5da;
+
+  --good: #36703f;
+  --good-soft: #e2eee4;
+  --warn: #8f6114;
+  --warn-soft: #f5ead3;
+  --bad: #a63e35;
+  --bad-soft: #f6e1dd;
+  --info: #3a6585;
+  --info-soft: #e0eaf1;
+
+  /* Categorical series for charts (in order). */
+  --chart-1: #2f5d46;
+  --chart-2: #b0703f;
+  --chart-3: #3a6585;
+  --chart-4: #8e8a3c;
+  --chart-5: #7a5c86;
+
+  --shadow-color: 30 36 32;
+  --overlay: rgb(20 24 21 / 0.42);
+}
+
+/* ---------- Dark ---------- */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #111412;
+  --surface: #181c19;
+  --surface-2: #212622;
+  --ink: #eceae3;
+  --muted: #9da39b;
+  --line: #2e3430;
+  --line-strong: #414843;
+
+  --accent: #86bc9b;
+  --accent-ink: #10251a;
+  --accent-soft: #23352b;
+  --clay: #d69872;
+  --clay-soft: #3a2a20;
+
+  --good: #7cc08e;
+  --good-soft: #1f3325;
+  --warn: #e0b058;
+  --warn-soft: #3a2f1a;
+  --bad: #e8857a;
+  --bad-soft: #3d2220;
+  --info: #84b3d4;
+  --info-soft: #1d2d3a;
+
+  --chart-1: #86bc9b;
+  --chart-2: #d69872;
+  --chart-3: #84b3d4;
+  --chart-4: #c9c27a;
+  --chart-5: #b79ac4;
+
+  --shadow-color: 0 0 0;
+  --overlay: rgb(0 0 0 / 0.6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: #111412;
+    --surface: #181c19;
+    --surface-2: #212622;
+    --ink: #eceae3;
+    --muted: #9da39b;
+    --line: #2e3430;
+    --line-strong: #414843;
+
+    --accent: #86bc9b;
+    --accent-ink: #10251a;
+    --accent-soft: #23352b;
+    --clay: #d69872;
+    --clay-soft: #3a2a20;
+
+    --good: #7cc08e;
+    --good-soft: #1f3325;
+    --warn: #e0b058;
+    --warn-soft: #3a2f1a;
+    --bad: #e8857a;
+    --bad-soft: #3d2220;
+    --info: #84b3d4;
+    --info-soft: #1d2d3a;
+
+    --chart-1: #86bc9b;
+    --chart-2: #d69872;
+    --chart-3: #84b3d4;
+    --chart-4: #c9c27a;
+    --chart-5: #b79ac4;
+
+    --shadow-color: 0 0 0;
+    --overlay: rgb(0 0 0 / 0.6);
+  }
+}
+
+/* ---------- Tailwind theme bridge ---------- */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-clay: var(--clay);
+  --color-clay-soft: var(--clay-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-overlay: var(--overlay);
+
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Source Serif 4 Variable', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-display: 'Source Serif 4 Variable', ui-serif, Georgia, 'Times New Roman', serif;
+
+  --shadow-soft: 0 1px 2px rgb(var(--shadow-color) / 0.05), 0 4px 16px -6px rgb(var(--shadow-color) / 0.1);
+  --shadow-pop: 0 2px 6px rgb(var(--shadow-color) / 0.08), 0 16px 40px -12px rgb(var(--shadow-color) / 0.25);
+
+  --animate-fade-in: fade-in 180ms ease-out both;
+  --animate-slide-up: slide-up 240ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-slide-left: slide-left 240ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pulse-dot: pulse-dot 1.2s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.4s linear infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { transform: translateY(24px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes slide-left {
+    from { transform: translateX(32px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes pulse-dot {
+    0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+    40% { opacity: 1; transform: translateY(-2px); }
+  }
+  @keyframes shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+  }
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* `locl` (Serbian local glyph forms, e.g. б, г, д, п, т in italic/serif) is applied via lang="sr-Cyrl-RS". */
+    font-feature-settings: 'locl' 1, 'kern' 1;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  button, [role='button'], a { -webkit-tap-highlight-color: transparent; }
+  button:not(:disabled), [role='button'] { cursor: pointer; }
+
+  input[type='range'] { accent-color: var(--accent); }
+}
+
+/* ---------- Utilities ---------- */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'locl' 1;
+}
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+@utility px-safe {
+  padding-left: max(env(safe-area-inset-left), 0px);
+  padding-right: max(env(safe-area-inset-right), 0px);
+}
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

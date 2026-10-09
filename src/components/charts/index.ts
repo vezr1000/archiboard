@@ -1,0 +1,21 @@
+/** SVG charts barrel: `import { BarChart, RingScore } from '@/components/charts';` — see docs/COMPONENTS.md. */
+export { BarChart } from './BarChart';
+export type { BarDatum } from './BarChart';
+export { HeatMap5x5 } from './HeatMap5x5';
+export type { HeatItem } from './HeatMap5x5';
+export { Legend } from './Legend';
+export type { LegendItem } from './Legend';
+export { LineBand } from './LineBand';
+export type { LinePoint } from './LineBand';
+export { PhaseTimeline } from './PhaseTimeline';
+export type { GateState } from './PhaseTimeline';
+export { QuadrantGrid, STAKEHOLDER_QUADRANTS } from './QuadrantGrid';
+export type { QuadrantItem } from './QuadrantGrid';
+export { RadarChart } from './RadarChart';
+export type { RadarAxis, RadarSeries } from './RadarChart';
+export { RingScore } from './RingScore';
+export type { RingThreshold } from './RingScore';
+export { Sparkline } from './Sparkline';
+export { StackedBar } from './StackedBar';
+export type { StackSegment } from './StackedBar';
+export { WindRose } from './WindRose';
