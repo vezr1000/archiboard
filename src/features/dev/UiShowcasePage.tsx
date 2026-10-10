@@ -4,7 +4,7 @@
  * Keep it in sync when adding primitives (and update docs/COMPONENTS.md).
  */
 import { useState, type ReactNode } from 'react';
-import { Download, FileText, Plus, Search, Settings2, Sparkles } from 'lucide-react';
+import { Check, Download, FileText, Plus, Search, Settings2, Sparkles, X } from 'lucide-react';
 import { AiBadge, StreamingText, ThinkingDots, useScriptedRun } from '@/components/ai';
 import {
   BarChart,
@@ -46,6 +46,7 @@ import {
   SearchInput,
   SectionHeader,
   Segmented,
+  ChoiceGroup,
   Select,
   Sheet,
   Skeleton,
@@ -133,6 +134,7 @@ export function UiShowcasePage() {
   const project = getProject('savski-kej');
   const [tab, setTab] = useState<'a' | 'b' | 'c'>('a');
   const [seg, setSeg] = useState<'min' | 'dobra' | 'top'>('dobra');
+  const [choice, setChoice] = useState<'ok' | 'no' | undefined>(undefined);
   const [q, setQ] = useState('');
   const [chip, setChip] = useState<string | null>('open');
   const [chips, setChips] = useState<string[]>(['beton']);
@@ -330,6 +332,17 @@ export function UiShowcasePage() {
               ]}
               value={seg}
               onChange={setSeg}
+            />
+          </div>
+          <div className="mt-4 max-w-sm">
+            <ChoiceGroup
+              ariaLabel="Преглед документа"
+              value={choice}
+              onChange={setChoice}
+              options={[
+                { value: 'ok', label: 'Прихваћено', icon: Check, tone: 'good' },
+                { value: 'no', label: 'Недостаје', icon: X, tone: 'bad' },
+              ]}
             />
           </div>
           <div className="mt-4">

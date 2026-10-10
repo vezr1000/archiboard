@@ -7,8 +7,17 @@
  *   const fb = useModuleFeedback('varijante');            // current session's answer or undefined
  */
 import { useMemo } from 'react';
-import { decisionsForProject, optionsForProject, requirementsForProject, stakeholdersForProject } from '@/data';
-import type { Decision, DesignOption, FeedbackEntry, Requirement, Stakeholder } from '@/domain/types';
+import { decisionsForProject, getSession, optionsForProject, requirementsForProject, stakeholdersForProject } from '@/data';
+import type {
+  BoardSession,
+  Decision,
+  DesignOption,
+  FeedbackEntry,
+  GateReviewState,
+  Requirement,
+  SessionOutcome,
+  Stakeholder,
+} from '@/domain/types';
 import { useAppStore } from './useAppStore';
 
 export function useProjectOptions(projectId: string): DesignOption[] {
@@ -63,4 +72,41 @@ export function useProjectStakeholders(projectId: string): Stakeholder[] {
       }),
     [projectId, notes],
   );
+}
+
+/* ---------- Gate reviews (step 10) ---------- */
+
+/** Stored gate review of a session (undefined until the first change is saved). */
+export function useGateReview(sessionId: string | undefined): GateReviewState | undefined {
+  return useAppStore((s) => (sessionId ? s.gateReviews[sessionId] : undefined));
+}
+
+/**
+ * - `held`: past session with a seed outcome;
+ * - `completed`: scheduled session closed in this demo („Заврши седницу“) — outcome comes from the review;
+ * - `in-progress`: a review has been started but not closed;
+ * - `scheduled`: nothing started yet.
+ */
+export type SessionStatus = 'scheduled' | 'in-progress' | 'completed' | 'held';
+
+export interface SessionOutcomeInfo {
+  /** Effective outcome: seed outcome, or the demo review's outcome once closed, else „scheduled“. */
+  outcome: SessionOutcome;
+  status: SessionStatus;
+  review?: GateReviewState;
+}
+
+/** Pure variant for lists (pass the store's `gateReviews[session.id]`). */
+export function sessionOutcomeOf(session: BoardSession | undefined, review: GateReviewState | undefined): SessionOutcomeInfo {
+  if (!session) return { outcome: 'scheduled', status: 'scheduled' };
+  if (session.outcome !== 'scheduled') return { outcome: session.outcome, status: 'held' };
+  if (review?.outcome) return { outcome: review.outcome, status: 'completed', review };
+  if (review) return { outcome: 'scheduled', status: 'in-progress', review };
+  return { outcome: 'scheduled', status: 'scheduled' };
+}
+
+/** Effective outcome of a board session (seed + gate review in this demo). Used by Одбор, project overview and Одлуке. */
+export function useSessionOutcome(sessionId: string | undefined): SessionOutcomeInfo {
+  const review = useGateReview(sessionId);
+  return useMemo(() => sessionOutcomeOf(getSession(sessionId), review), [sessionId, review]);
 }

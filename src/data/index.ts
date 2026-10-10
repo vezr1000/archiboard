@@ -105,6 +105,8 @@ export const allocationsForProject = (projectId: string): Array<{ person: Person
 /** Total allocation % of a person across projects. */
 export const totalAllocation = (person: Person): number => person.allocations.reduce((s, a) => s + a.pct, 0);
 export const boardMembers = (): Person[] => people.filter((p) => p.boardMember);
+/** Chair of the design board (the board member whose role names the chair — Јелена Марковић). */
+export const boardChair = (): Person | undefined => people.find((p) => p.boardMember && /председни/i.test(p.role));
 
 /* ---------- KPIs ---------- */
 
@@ -166,6 +168,27 @@ export const openConditionsForProject = (
       d.conditions.filter((c) => !c.done).map((c) => ({ ...c, source: { kind: 'decision' as const, id: d.id } })),
     ),
   ].sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+
+/** Seed decisions proposed for a board session (e.g. `dec-sk-09` for `ses-sk-g2`). */
+export const proposalsForSession = (sessionId: string): Decision[] =>
+  decisions.filter((d) => d.sessionId === sessionId && d.status === 'proposed');
+
+/**
+ * Open conditions of the project's earlier, already held sessions — carried over into a gate review
+ * (e.g. Г1 → Г2), soonest due first, each with the session it comes from.
+ */
+export const carriedConditionsForSession = (sessionId: string): Array<{ condition: Condition; session: BoardSession }> => {
+  const target = getSession(sessionId);
+  if (!target) return [];
+  return boardSessions
+    .filter((s) => s.projectId === target.projectId && s.outcome !== 'scheduled' && s.date < target.date)
+    .flatMap((session) => session.conditions.filter((c) => !c.done).map((condition) => ({ condition, session })))
+    .sort((a, b) => a.condition.dueDate.localeCompare(b.condition.dueDate));
+};
+
+/** The session a seed condition belongs to (by condition id). */
+export const sessionOfCondition = (conditionId: string): BoardSession | undefined =>
+  boardSessions.find((s) => s.conditions.some((c) => c.id === conditionId));
 
 /* ---------- Documents ---------- */
 

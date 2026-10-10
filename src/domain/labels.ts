@@ -24,6 +24,7 @@ import type {
   EngagementKind,
   FacadeType,
   FeedbackRating,
+  FindingDisposition,
   FindingSeverity,
   GateId,
   Health,
@@ -38,6 +39,7 @@ import type {
   RequirementSource,
   RequirementStatus,
   ReusePotential,
+  ReviewConditionSource,
   RiskCategory,
   RiskStatus,
   SessionOutcome,
@@ -310,6 +312,31 @@ export const FINDING_SEVERITY_LABELS: Record<FindingSeverity, string> = {
   critical: 'Критично',
 };
 export const FINDING_SEVERITY_TONE: Record<FindingSeverity, Tone> = { info: 'info', warning: 'warn', critical: 'bad' };
+
+/** Gate review (step 10): what the board did with an AI finding. */
+export const FINDING_DISPOSITION_LABELS: Record<FindingDisposition, string> = {
+  condition: 'Претвори у услов',
+  accepted: 'Прихваћено',
+  'not-relevant': 'Није релевантно',
+};
+/** Past-tense labels for the minutes. */
+export const FINDING_DISPOSITION_DONE_LABELS: Record<FindingDisposition, string> = {
+  condition: 'претворено у услов',
+  accepted: 'прихваћено',
+  'not-relevant': 'није релевантно',
+};
+export const FINDING_DISPOSITION_TONE: Record<FindingDisposition, Tone> = {
+  condition: 'clay',
+  accepted: 'good',
+  'not-relevant': 'neutral',
+};
+
+export const REVIEW_CONDITION_SOURCE_LABELS: Record<ReviewConditionSource, string> = {
+  carried: 'пренето',
+  finding: 'из АИ налаза',
+  kpi: 'предложена мера',
+  manual: 'ново',
+};
 
 /* ---------- Documents ---------- */
 

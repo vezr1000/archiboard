@@ -9,13 +9,18 @@
  */
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import type { Decision, DesignOption, EngagementLogEntry, FeedbackEntry, FeedbackRating, Requirement } from '@/domain/types';
+import type {
+  Decision,
+  DesignOption,
+  EngagementLogEntry,
+  FeedbackEntry,
+  FeedbackRating,
+  GateReviewState,
+  Requirement,
+} from '@/domain/types';
 
-/**
- * Gate review progress per board session id.
- * TODO(step 10): replace `unknown` with a concrete `GateReviewState` type (step, votes, conditions, outcome).
- */
-export type GateReviewRecord = Record<string, unknown>;
+/** Gate review progress / result per board session id (step 10). */
+export type GateReviewRecord = Record<string, GateReviewState>;
 
 export interface AppState {
   /** Options saved from the what-if calculator. */
@@ -38,7 +43,8 @@ export interface AppState {
   addUserDecision: (decision: Decision) => void;
   updateUserDecision: (id: string, patch: Partial<Decision>) => void;
   removeUserDecision: (id: string) => void;
-  setGateReview: (sessionId: string, state: unknown) => void;
+  setGateReview: (sessionId: string, state: GateReviewState) => void;
+  /** Remove a session's review (and nothing else — remove its decision with `removeUserDecision`). */
   clearGateReview: (sessionId: string) => void;
   acceptRequirements: (items: Requirement[]) => void;
   /** Append a note to a stakeholder's engagement log. */
@@ -90,6 +96,19 @@ const safeStorage = createJSONStorage(() => ({
     }
   },
 }));
+
+/** Keeps only well-formed gate reviews (v1 stored `unknown` placeholders); all other slices are kept as they are. */
+function sanitizeGateReviews(value: unknown): GateReviewRecord {
+  if (!value || typeof value !== 'object') return {};
+  const out: GateReviewRecord = {};
+  for (const [id, r] of Object.entries(value as Record<string, unknown>)) {
+    const g = r as Partial<GateReviewState> | null;
+    if (g && typeof g === 'object' && typeof g.step === 'number' && Array.isArray(g.presentIds) && Array.isArray(g.conditions)) {
+      out[id] = g as GateReviewState;
+    }
+  }
+  return out;
+}
 
 export const useAppStore = create<AppState>()(
   persist(
@@ -166,8 +185,14 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'archiboard-v1',
-      version: 1,
+      // v2 (step 10): `gateReviews` values became `GateReviewState`. Everything else is unchanged.
+      version: 2,
       storage: safeStorage,
+      migrate: (persisted, version) => {
+        const state = (persisted ?? {}) as Record<string, unknown>;
+        if (version < 2) state.gateReviews = sanitizeGateReviews(state.gateReviews);
+        return state as unknown as AppState;
+      },
       partialize: (s) => ({
         userOptions: s.userOptions,
         userDecisions: s.userDecisions,

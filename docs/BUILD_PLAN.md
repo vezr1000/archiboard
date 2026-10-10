@@ -14,7 +14,7 @@ Sequential, one agent at a time. The orchestrator verifies each step (build, cop
 | 7 | Материјали (project passport + global EPD library) | Sonnet | ✅ |
 | 8 | Документација + Одлуке + Ризици | Sonnet | ✅ |
 | 9 | Заинтересоване стране + Тим (project + global) | Sonnet | ✅ |
-| 10 | ★ Одбор: sessions + gate review flow | Opus | ☐ |
+| 10 | ★ Одбор: sessions + gate review flow | Opus | ✅ |
 | 11 | ★ Смернице + Питај АрхиБорд | Sonnet | ☐ |
 | 12 | Повратне информације page + export; GitHub Pages workflow; README | Haiku | ☐ |
 | 13 | Polish & QA pass (mobile, dark mode, copy review) | Sonnet + orchestrator | ☐ |
@@ -188,10 +188,69 @@ Built `/projekti/:id/akteri` (`src/features/stakeholders/`), `/projekti/:id/tim`
 Verified: build, check:copy, check:data, check:model pass; shots at 375 light/dark + 1280 light for Савски кеј (akteri, tim) and /tim, 375 light for Парк (akteri, tim): no horizontal overflow, no console errors; note flow (add → „ново“, „данас“) tested in the browser.
 Notes: shot.mjs in zsh needs width/scheme as separate args (an unquoted `$a` does not word-split) and orphan headless Chromes can make runs silently fail (`pkill -f chrome-shot`). Seed has no dated obligations, so „Следеће обавезе“ lists only next actions.
 
+### Step 10 — ★ Одбор: седнице + ревизија капије ✅ (2026-10-10)
+Built `/odbor` and `/odbor/:sessionId` (`src/features/board/`); data-driven for all 14 sessions (crafted for `ses-sk-g2`).
+- **`/odbor`** `BoardPage`: header (board AvatarStack, chair), 4 stats (approval rate 88 % = 7/8 held, 1,5 conditions per gate, overdue
+  open conditions across projects vs DEMO_TODAY = 1, sessions in 30 days) — completed demo reviews count as held; upcoming cards (gate,
+  project, weekday + relative, „ускоро“ ≤ 14 days, location, readiness bar from `gateReadiness` „10 од 12 спремно“, AI findings by
+  severity, status заказано / у току · корак n/6 / outcome, CTA „Започни ревизију“ / „Настави“ / „Записник“; first 3 on phones +
+  „Прикажи још“); `BoardCalendar` (6 weeks from the current Monday, 7-col grid, session days tappable, list below); „Услови ван рока“
+  card; held sessions list (outcome, open/overdue conditions, → записник).
+- **`/odbor/:id`**: held session → `MinutesDocument` from seed (`minutesFromSeed`; KPI snapshot = history value at the phase the gate
+  closes, e.g. Г1 → ИДР); scheduled → `ReviewStepper`; closed in the demo → success callout + minutes generated from the review.
+  „Ресетуј ревизију“ (Modal confirm) clears the review and removes its decision. Unknown id → EmptyState.
+- **Stepper**: desktop (≥1024) sticky vertical step list with per-step status („кворум 4/4 · ред 0/7“, „прегледано 12/12“,
+  „констатовано 5/5“, „одлучено 8/8“ …, ✓ when complete); below 1024 a sticky progress header under the top bar (Корак n/6 + title +
+  6 segments, tap → Sheet with the step list) and a fixed Назад / Даље bar above the bottom nav (safe-area aware, spacer so it never
+  covers content). Free navigation between steps; every change persists (`useReview` → store).
+  1. Припрема — project facts, members with присуство toggles and quorum badge (simple majority: ≥ 3 of 4, ≥ 2 of 3), agenda checklist
+     (+ user proposals from Варијанте with sessionId, linked).
+  2. Документација — `requiredDocumentIds` with register status (draft = недостаје, highlighted, sorted first), deep link
+     `dokumenta?doc=`, per-doc „Прихваћено за ревизију“ / „Недостаје“, bulk „Прихвати спремна“ / „Означи недостајућа“.
+  3. KPI провера — all project KPIs vs gate threshold = project target, `kpiStatus(…, 5)` (pass / warn ≤ 5 % / fail); flagship: 7 pass,
+     5 fail (A1–A3 358/320, A1–C4, прегревање, биотоп, ОИЕ). Deviations need „Констатуј“. Proposals for the session (seed
+     `proposalsForSession` + user `userDecisions`) attach to the KPI they affect; **dec-sk-09 estimates come from the calibrated
+     what-if model** (`MEASURE_SCENARIOS` in `reviewLogic.ts`): 358 → ≈ 340 (фибер-цемент) → ≈ 333 (+ CEM III/A у језгрима), „и даље
+     4 % изнад прага“; other proposals use current × (1 + Δ). „Укључи као услов“, link `odluke?decision=`.
+  4. ★ АИ пре-ревизија — `useScriptedRun` (4,6 s, 5 status lines incl. „Проверавам 12 докумената…“, „…услове са Г1…“, „…EU
+     таксономију…“), findings stream in (520 ms) grouped критично / упозорење / инфо, reference + document / regulation links (`/smernice`),
+     disposition `ChoiceGroup` (Претвори у услов → pre-filled condition: owner = document owner if on the team else lead, due +14 days
+     for critical / +30, text „<наслов>: …“; Прихваћено; Није релевантно). `aiRun` persisted (no replay on revisit, „Покрени поново“).
+     Disclaimer + compact feedback `odbor-ai-prerevizija` (registered in `MODULES`).
+  5. Услови — carried open conditions of earlier held gates (`carriedConditionsForSession`: cond-sk-g1-01 overdue flagged, cond-sk-g1-05),
+     finding / measure / manual conditions; editable text, owner Select (team + board), date input, remove (removing a finding
+     condition clears that finding's disposition), add.
+  6. Одлука — present members vote (Одобрено / Уз услове / Враћено на дораду) + comment; outcome = majority of present votes, tie →
+     chair's vote, tie without the chair among tied options → stricter outcome; one muted rule line + explanation when the chair broke
+     a tie or voted „враћено“ and was outvoted. „Заврши седницу“ needs quorum + all present voted → `buildBoardDecision` added to
+     `userDecisions` (title „Г2 ПГД — одлука одбора“, date = session date, status approved, conditions, sessionId) + review gets
+     outcome / completedAt / decisionId → minutes.
+- **Записник** (`MinutesDocument`): firm header, title, project / gate / date & place / chair, outcome banner, numbered sections
+  (присутни + кворум, дневни ред, документација + missing, KPI table, АИ налази + dispositions, услови № / носилац / рок, гласање +
+  comments, закључак), signature lines, provenance note. „Штампај / PDF“ = `window.print()`; print stylesheet in `index.css` (light
+  tokens forced, A4, app chrome hidden via `#root > div > :not(:has(#main))`, page parts use `print:hidden`). „Копирај сажетак“ →
+  clipboard (try/catch, „Копирање није успело“).
+- **Types / store (additive)**: `BoardVote`, `FindingDisposition`, `DocumentReviewMark`, `ReviewConditionSource`, `ReviewCondition`,
+  `MemberVote`, `GateReviewState` in `types.ts`; labels `FINDING_DISPOSITION_*`, `REVIEW_CONDITION_SOURCE_LABELS`. `gateReviews:
+  Record<string, GateReviewState>`; **persist version 1 → 2** with `migrate` that keeps every slice and drops malformed v1 review
+  placeholders (verified: feedback kept). Selectors `useGateReview`, `useSessionOutcome`, pure `sessionOutcomeOf`. Data helpers
+  `boardChair`, `proposalsForSession`, `carriedConditionsForSession`, `sessionOfCondition`.
+- **Integration**: `SessionOutcomeBadge` (effective outcome incl. „у току · корак n/6“) used in DecisionSheet, DocumentSheet and a
+  status row on the overview next-gate card; Одлуке labels the review decision „нова · седница одбора“ and hides its delete (reset
+  the review instead) via `isBoardReviewDecision` / `userDecisionLabel` in `decisionsLogic.ts`.
+- New generic: `components/ui/ChoiceGroup` (+ showcase, COMPONENTS.md).
+Verified: build, check:copy, check:data, check:model pass; shots 375 light / dark + 1280 light for `/odbor`, `/odbor/ses-sk-g2`,
+`/odbor/ses-sk-g1`, 375 light for `ses-b42-g4`, `ses-pn-g1`, `ses-b42-g3-rev`, unknown id; whole ses-sk-g2 flow walked headless at
+375 light, 375 dark and 1280 light (every step, minutes, print media, /odbor stats, overview, odluke) — no horizontal overflow, no
+console errors.
+Notes: KPI gate rule (5 % tolerance vs project target) makes 5 of 12 flagship KPIs fail — intentional, the board then approves with
+conditions. Votes are per present member; absent members' earlier votes are ignored. The decision record has no impact values.
+
 ## QA backlog (for step 13 — collected by the orchestrator)
 - Code-split routes (`React.lazy`) — main chunk > 500 kB.
 - Вртић: KPI says energy class A+ but Qh,nd 14 with assumed max 65 ⇒ A; align seed (class A, or Qh,nd ≤ 9) and drop the one-class anchor shift in carbonModel.
 - Percent spacing is inconsistent („12 %“ in data copy vs „12%“ from formatPct) — pick one (Serbian norm: „12 %“) and apply everywhere.
 - Mobile Варијанте: consider a "Резултати" jump link at the top of the calculator (results are below all controls on mobile).
 - Interactive QA of all scripted flows on a real phone width (AI extraction, calculator save/propose, gate review).
+- Gate review: Serbian date case in generated copy uses numeric dates to avoid „23. октобар“ in genitive contexts; a genitive month formatter in `lib/format` would read better.
 - Mobile Материјали tab is ~11k px tall: collapse passport layer groups by default on mobile (show totals per layer, expand on tap).

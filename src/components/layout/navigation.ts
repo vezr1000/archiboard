@@ -124,6 +124,7 @@ export const MODULES: Array<{ id: string; label: string; group: 'Портфол�
   { id: 'materijali-zamene', label: 'Предлози замене материјала (АИ)', group: 'Пројекат' },
   { id: 'odbor', label: 'Одбор — састанци', group: 'Фирма' },
   { id: 'odbor-revizija', label: 'Одбор — ревизија капије', group: 'Фирма' },
+  { id: 'odbor-ai-prerevizija', label: 'АИ пре-ревизија капије', group: 'Фирма' },
   { id: 'smernice', label: 'Смернице и прописи', group: 'Фирма' },
   { id: 'materijali', label: 'EPD библиотека', group: 'Фирма' },
   { id: 'tim', label: 'Тим фирме', group: 'Фирма' },

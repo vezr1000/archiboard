@@ -4,18 +4,13 @@ import { DivergingBars } from '@/components/charts';
 import { paths } from '@/components/layout/navigation';
 import { Avatar, Badge, Button, Callout, Sheet } from '@/components/ui';
 import { getPeople, getPerson, getSession } from '@/data';
-import {
-  DECISION_STATUS_LABELS,
-  DECISION_STATUS_TONE,
-  GATE_LABELS,
-  SESSION_OUTCOME_LABELS,
-  SESSION_OUTCOME_TONE,
-} from '@/domain/labels';
+import { DECISION_STATUS_LABELS, DECISION_STATUS_TONE, GATE_LABELS } from '@/domain/labels';
+import { SessionOutcomeBadge } from '@/features/board/SessionOutcomeBadge';
 import type { Decision } from '@/domain/types';
 import { cn } from '@/lib/cn';
 import { formatDate, formatPct, formatRelative } from '@/lib/format';
 import { useProjectOptions } from '@/store';
-import { decisionEmphasis, IMPACT_LABELS, impactValue, isOverdue, type ImpactKind } from './decisionsLogic';
+import { decisionEmphasis, IMPACT_LABELS, impactValue, isBoardReviewDecision, isOverdue, type ImpactKind, userDecisionLabel } from './decisionsLogic';
 
 const H = ({ children }: { children: string }) => <h3 className="eyebrow mb-2">{children}</h3>;
 
@@ -39,7 +34,7 @@ export function DecisionSheet({ decision, onClose, onDelete }: DecisionSheetProp
       subtitle={decision ? `Запис одлуке · ${formatDate(decision.date, 'long')}` : undefined}
       width="lg"
       footer={
-        decision?.isUserCreated ? (
+        decision?.isUserCreated && !isBoardReviewDecision(decision) ? (
           <Button
             variant="danger"
             icon={Trash2}
@@ -78,7 +73,7 @@ function SheetBody({ decision: d }: { decision: Decision }) {
         </Badge>
         {d.isUserCreated && (
           <Badge tone="info" variant="outline">
-            нова · предлог
+            {userDecisionLabel(d)}
           </Badge>
         )}
       </div>
@@ -193,9 +188,7 @@ function SheetBody({ decision: d }: { decision: Decision }) {
                 {d.status === 'proposed' && ' · предлог се разматра на овој седници'}
               </span>
             </span>
-            <Badge tone={SESSION_OUTCOME_TONE[session.outcome]} size="sm">
-              {SESSION_OUTCOME_LABELS[session.outcome]}
-            </Badge>
+            <SessionOutcomeBadge sessionId={session.id} />
             <ChevronRight className="size-4 shrink-0 text-muted" aria-hidden />
           </Link>
         ) : deciders.length > 0 ? (

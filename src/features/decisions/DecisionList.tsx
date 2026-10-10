@@ -3,7 +3,7 @@ import { getSession } from '@/data';
 import { DECISION_STATUS_LABELS, DECISION_STATUS_TONE, GATE_LABELS } from '@/domain/labels';
 import type { Decision } from '@/domain/types';
 import { formatDate, formatPct } from '@/lib/format';
-import { IMPACT_LABELS, impactTone, impactValue, openConditionCount, type ImpactKind } from './decisionsLogic';
+import { IMPACT_LABELS, impactTone, impactValue, openConditionCount, type ImpactKind, userDecisionLabel } from './decisionsLogic';
 
 const impactColumn = (kind: ImpactKind): DataColumn<Decision> => ({
   id: kind,
@@ -40,7 +40,7 @@ export function DecisionList({ decisions, selectedId, onOpen }: DecisionListProp
           <span className="min-w-0 break-words">{d.title}</span>
           {d.isUserCreated && (
             <Badge tone="info" variant="outline" size="sm">
-              нова · предлог
+              {userDecisionLabel(d)}
             </Badge>
           )}
         </span>

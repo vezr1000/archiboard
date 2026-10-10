@@ -493,6 +493,65 @@ export interface BoardSession {
 }
 
 /* ------------------------------------------------------------------------------------------------
+ * Gate review (step 10) — user progress through a board session, persisted per session id
+ * ---------------------------------------------------------------------------------------------- */
+
+/** A board member's vote = one of the three possible session outcomes. */
+export type BoardVote = Exclude<SessionOutcome, 'scheduled'>;
+
+/** What the board did with an AI pre-review finding. */
+export type FindingDisposition = 'condition' | 'accepted' | 'not-relevant';
+
+/** Reviewer's mark on a required document. */
+export type DocumentReviewMark = 'accepted' | 'missing';
+
+/** Where a condition in the review came from. */
+export type ReviewConditionSource = 'carried' | 'finding' | 'kpi' | 'manual';
+
+/** Condition drafted during a gate review (becomes a `Condition` of the board's decision). */
+export interface ReviewCondition extends Condition {
+  source: ReviewConditionSource;
+  /** Original condition id ('carried'), finding id ('finding') or proposed decision id ('kpi'). */
+  sourceId?: string;
+}
+
+export interface MemberVote {
+  vote: BoardVote;
+  comment?: string;
+}
+
+/** Progress and result of a gate review of one scheduled board session. */
+export interface GateReviewState {
+  sessionId: string;
+  /** Current step index 0..5 (Припрема … Одлука). */
+  step: number;
+  /** Highest step index reached so far. */
+  maxStep: number;
+  /** Board members marked present. */
+  presentIds: string[];
+  /** Checked agenda items (keys: `a<index>` for seed agenda, decision id for user proposals). */
+  agendaChecked: string[];
+  /** Reviewer marks per required document id. */
+  documentMarks: Record<string, DocumentReviewMark>;
+  /** KPI ids whose deviation the board has acknowledged. */
+  kpiAcknowledged: string[];
+  /** The scripted AI pre-review has been run (findings are shown without replay). */
+  aiRun: boolean;
+  findingDispositions: Record<string, FindingDisposition>;
+  conditions: ReviewCondition[];
+  /** Votes by person id. */
+  votes: Record<string, MemberVote>;
+  /** Set when the session is closed („Заврши седницу“). */
+  outcome?: BoardVote;
+  /** ISO timestamp of closing the session. */
+  completedAt?: string;
+  /** Id of the decision record created in the store's `userDecisions`. */
+  decisionId?: string;
+  /** ISO timestamp of the first saved change. */
+  startedAt: string;
+}
+
+/* ------------------------------------------------------------------------------------------------
  * Documents (artifact register)
  * ---------------------------------------------------------------------------------------------- */
 

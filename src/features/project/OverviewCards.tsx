@@ -32,6 +32,8 @@ import { cn } from '@/lib/cn';
 import { DEMO_TODAY } from '@/lib/dates';
 import { formatDate, formatNumber, formatPct, formatRelative } from '@/lib/format';
 import { kpiStatus } from '@/lib/kpi';
+import { SessionOutcomeBadge } from '@/features/board/SessionOutcomeBadge';
+import { useSessionOutcome } from '@/store';
 
 /** Small list-row link used inside overview cards. */
 const rowLink = 'flex min-h-12 items-start gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-surface-2';
@@ -151,6 +153,23 @@ export function CertificationCard({ project }: { project: Project }) {
 
 /* ------------------------------------------------------------------------------------------------ */
 
+/** Gate review status of the next session (step 10): in progress or closed in this demo. */
+function NextGateReviewStatus({ sessionId }: { sessionId: string }) {
+  const info = useSessionOutcome(sessionId);
+  if (info.status !== 'in-progress' && info.status !== 'completed') return null;
+  return (
+    <Link to={paths.session(sessionId)} className="mb-4 flex min-h-11 items-center gap-3 rounded-xl bg-surface-2/60 px-3 py-2.5 text-sm hover:bg-surface-2">
+      <span className="min-w-0 flex-1">
+        <SessionOutcomeBadge sessionId={sessionId} size="md" />
+        <span className="mt-1 block text-muted">
+          {info.status === 'completed' ? 'Седница је завршена — записник и одлука су сачувани.' : 'Ревизија капије је започета.'}
+        </span>
+      </span>
+      <ChevronRight className="size-4 shrink-0 text-muted" aria-hidden />
+    </Link>
+  );
+}
+
 /** Next gate: document readiness + open conditions (overdue flagged). */
 export function NextGateCard({ project }: { project: Project }) {
   const { gate, date } = project.nextGate;
@@ -170,6 +189,7 @@ export function NextGateCard({ project }: { project: Project }) {
       action={session ? <Button variant="secondary" size="sm" to={paths.session(session.id)}>Отвори седницу</Button> : undefined}
       className="h-full"
     >
+      {session && <NextGateReviewStatus sessionId={session.id} />}
       <div className="grid gap-6 md:grid-cols-2">
         <div className="min-w-0">
           <div className="mb-2 flex items-baseline justify-between gap-2">

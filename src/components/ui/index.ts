@@ -5,6 +5,8 @@ export type { AvatarPerson } from './Avatar';
 export { Badge, Pill } from './Badge';
 export { Button, buttonClasses } from './Button';
 export { Callout } from './Callout';
+export { ChoiceGroup } from './ChoiceGroup';
+export type { ChoiceOption } from './ChoiceGroup';
 export { Card } from './Card';
 export { DataList } from './DataList';
 export type { DataColumn } from './DataList';

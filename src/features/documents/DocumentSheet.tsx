@@ -14,12 +14,11 @@ import {
   FINDING_SEVERITY_LABELS,
   FINDING_SEVERITY_TONE,
   GATE_LABELS,
-  SESSION_OUTCOME_LABELS,
-  SESSION_OUTCOME_TONE,
 } from '@/domain/labels';
 import type { ProjectDocument } from '@/domain/types';
 import { cn } from '@/lib/cn';
 import { formatDate, formatRelative } from '@/lib/format';
+import { SessionOutcomeBadge } from '@/features/board/SessionOutcomeBadge';
 import { DocumentPreview } from './DocumentPreview';
 
 const H = ({ children }: { children: string }) => <h3 className="eyebrow mb-2">{children}</h3>;
@@ -169,9 +168,7 @@ function SheetBody({ doc }: { doc: ProjectDocument }) {
                           {GATE_LABELS[s.gate].full}
                           <span className="block text-xs text-muted">{formatDate(s.date, 'long')}</span>
                         </span>
-                        <Badge tone={SESSION_OUTCOME_TONE[s.outcome]} size="sm">
-                          {SESSION_OUTCOME_LABELS[s.outcome]}
-                        </Badge>
+                        <SessionOutcomeBadge sessionId={s.id} />
                         <ChevronRight className="size-4 shrink-0 text-muted" aria-hidden />
                       </Link>
                     </li>

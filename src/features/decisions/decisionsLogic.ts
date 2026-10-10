@@ -73,3 +73,9 @@ export function cumulativeCarbon(decisions: Decision[]): CumulativePoint[] {
     return { decision, cumulativePct: (factor - 1) * 100, projected };
   });
 }
+
+/** Decision recorded by a gate review closed in this demo (step 10) — removed only by resetting that review. */
+export const isBoardReviewDecision = (d: Decision): boolean => Boolean(d.isUserCreated && d.sessionId && d.status === 'approved');
+
+/** Badge text for user-created decisions. */
+export const userDecisionLabel = (d: Decision): string => (isBoardReviewDecision(d) ? 'нова · седница одбора' : 'нова · предлог');

@@ -4,7 +4,7 @@ import { DECISION_STATUS_LABELS, DECISION_STATUS_TONE } from '@/domain/labels';
 import type { Decision } from '@/domain/types';
 import { cn } from '@/lib/cn';
 import { formatDate } from '@/lib/format';
-import { decisionEmphasis, groupByMonth, openConditionCount } from './decisionsLogic';
+import { decisionEmphasis, groupByMonth, isBoardReviewDecision, openConditionCount, userDecisionLabel } from './decisionsLogic';
 import { ImpactChips } from './ImpactChips';
 
 export interface DecisionTimelineProps {
@@ -52,7 +52,7 @@ export function DecisionTimeline({ decisions, selectedId, onOpen, onDelete }: De
                       </Badge>
                       {user && (
                         <Badge tone="info" variant="outline" size="sm">
-                          нова · предлог
+                          {userDecisionLabel(d)}
                         </Badge>
                       )}
                     </div>
@@ -87,7 +87,7 @@ export function DecisionTimeline({ decisions, selectedId, onOpen, onDelete }: De
                             : `отворених услова: ${open} од ${d.conditions.length}`}
                       </span>
                       <span className="flex items-center gap-1">
-                        {user && (
+                        {user && !isBoardReviewDecision(d) && (
                           <Button variant="ghost" size="sm" icon={Trash2} onClick={() => onDelete(d.id)}>
                             Обриши
                           </Button>

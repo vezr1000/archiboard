@@ -287,3 +287,53 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Print (step 10: „Штампај / PDF“ of the board minutes) ----------
+ * Always light colours on paper; app chrome (skip link, sidebar, top bar, bottom nav) is hidden and the main column
+ * spans the page. Page-level parts that must not print use Tailwind's `print:hidden`. */
+@media print {
+  :root,
+  :root:not([data-theme='light']),
+  :root[data-theme='dark'] {
+    color-scheme: light;
+    --paper: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #f3f1ec;
+    --ink: #111411;
+    --muted: #55594f;
+    --line: #d9d5ca;
+    --line-strong: #bdb8aa;
+    --accent: #2f5d46;
+    --accent-ink: #ffffff;
+    --accent-soft: #e6eee8;
+    --clay: #9a5530;
+    --clay-soft: #f6ebe3;
+    --good: #2f6338;
+    --good-soft: #e8f1ea;
+    --warn: #7d5410;
+    --warn-soft: #f7eedb;
+    --bad: #9a3229;
+    --bad-soft: #f8e7e4;
+    --info: #335b78;
+    --info-soft: #e6eef4;
+  }
+  @page {
+    size: A4;
+    margin: 16mm 14mm;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+  }
+  #root > div > :not(:has(#main)) {
+    display: none !important;
+  }
+  #root > div,
+  #root > div > :has(#main),
+  #main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    min-height: 0 !important;
+  }
+}
