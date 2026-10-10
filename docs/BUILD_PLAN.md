@@ -290,6 +290,6 @@ answers, not just the filtered ones, as the brief asked.
 - ~~Вртић: KPI says energy class A+ but Qh,nd 14 with assumed max 65 ⇒ A; align seed (class A, or Qh,nd ≤ 9) and drop the one-class anchor shift in carbonModel.~~ (step 13)
 - ~~Percent spacing is inconsistent („12 %“ in data copy vs „12%“ from formatPct) — pick one (Serbian norm: „12 %“) and apply everywhere.~~ (step 13)
 - ~~Mobile Варијанте: consider a "Резултати" jump link at the top of the calculator (results are below all controls on mobile).~~ (step 13)
-- Interactive QA of all scripted flows on a real phone width (AI extraction, calculator save/propose, gate review).
+- ~~Interactive QA of all scripted flows on a real phone width (AI extraction, calculator save/propose, gate review).~~ Done by orchestrator 2026-10-10 via CDP walk at 375px: extraction (≈9 s to full result) → accept, calculator Г2 preset + propose, full Г2 review → votes → minutes → decision log, Q&A, feedback summary; no console errors.
 - ~~Gate review: Serbian date case in generated copy uses numeric dates to avoid „23. октобар“ in genitive contexts; a genitive month formatter in `lib/format` would read better.~~ (step 13)
 - ~~Mobile Материјали tab is ~11k px tall: collapse passport layer groups by default on mobile (show totals per layer, expand on tap).~~ (step 13)
