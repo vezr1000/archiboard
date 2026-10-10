@@ -77,7 +77,7 @@ function AmbitionLine({ project, def, kpi, level }: { project: Project; def: Kpi
     text = diff === 0 ? 'исти разред' : diff > 0 ? `${diff} ${diff === 1 ? 'разред' : 'разреда'} бољи` : `${-diff} ${diff === -1 ? 'разред' : 'разреда'} лошији`;
   } else {
     const rel = formatNumber(Math.abs(gap), Math.abs(gap) < 10 ? 1 : 0);
-    text = gap <= 0 ? `${rel} % боље од мерила` : `${rel} % лошије од мерила`;
+    text = gap <= 0 ? `${rel} % боље од мерила` : `${rel} % лошије од мерила`;
   }
   return (
     <p className="text-xs text-muted">

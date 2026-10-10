@@ -17,7 +17,7 @@ import {
 } from '@/domain/labels';
 import { cn } from '@/lib/cn';
 import { DEMO_TODAY } from '@/lib/dates';
-import { formatDate } from '@/lib/format';
+import { formatDate, formatDateGenitive } from '@/lib/format';
 import { minutesSummary, type MinutesData } from './reviewLogic';
 
 function Section({ n, title, children }: { n: number; title: string; children: ReactNode }) {
@@ -289,7 +289,7 @@ export function MinutesDocument({ minutes: m }: { minutes: MinutesData }) {
         </footer>
         <p className="text-[0.7rem] leading-snug text-muted">
           {m.generated
-            ? `Записник је генерисан у апликацији ${APP.name} из ревизије капије${m.completedAt ? ` (${formatDate(m.completedAt.slice(0, 10), 'numeric')})` : ''}. Демо — подаци су измишљени.`
+            ? `Записник је генерисан у апликацији ${APP.name} из ревизије капије${m.completedAt ? ` завршене ${formatDateGenitive(m.completedAt.slice(0, 10))}` : ''}. Демо — подаци су измишљени.`
             : `Записник из архиве одбора. Демо — подаци су измишљени.`}
         </p>
       </article>

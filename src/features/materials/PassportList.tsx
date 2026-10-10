@@ -163,7 +163,7 @@ export function PassportList({ rows, layer, materialId, onLayer, onMaterial, onO
       className="scroll-mt-20"
     >
       <div className="flex flex-col gap-3">
-        <SearchInput value={query} onChange={setQuery} placeholder="Претражи позиције и материјале…" />
+        <SearchInput value={query} onChange={setQuery} placeholder="Претражи позиције…" />
         <FilterChips
           ariaLabel="Слој зграде"
           options={layersPresent.map((l) => ({ value: l, label: BUILDING_LAYER_LABELS[l], count: rows.filter((r) => r.layer === l).length }))}
@@ -238,6 +238,19 @@ export function PassportList({ rows, layer, materialId, onLayer, onMaterial, onO
             </span>
           </span>
         )}
+        collapsibleGroupsOnMobile
+        expandAllGroups={active}
+        mobileGroupHeader={(key, group) => {
+          const kg = group.reduce((s, r) => s + r.gwpTotalKg, 0);
+          return (
+            <span className="flex flex-col gap-0.5">
+              <span className="text-sm text-ink">{BUILDING_LAYER_LABELS[key as BuildingLayer]}</span>
+              <span className="tabular font-normal text-muted">
+                {positionsCount(group.length)} · {tonnes(kg)} · {formatPct((kg / total) * 100, { decimals: 0 })}
+              </span>
+            </span>
+          );
+        }}
         mobileAside={(r) => <span className="tabular text-sm font-medium text-ink">{tonnes(r.gwpTotalKg)}</span>}
         emptyText="Нема позиција за изабране филтере."
       />

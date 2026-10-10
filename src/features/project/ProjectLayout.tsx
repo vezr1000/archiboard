@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { FolderSearch, MapPin } from 'lucide-react';
 import { Outlet, useParams } from 'react-router';
+import { RouteSuspense } from '@/components/layout/PageFallback';
 import { paths, PROJECT_TABS } from '@/components/layout/navigation';
 import { Avatar, Badge, Button, EmptyState, HealthBadge, PageHeader, PhasePill, RouteTabs } from '@/components/ui';
 import { getPerson, getProject } from '@/data';
@@ -65,7 +66,9 @@ export function ProjectLayout() {
         items={PROJECT_TABS.map((t) => ({ to: paths.project(project.id, t.slug), label: t.short }))}
         className="mb-6"
       />
-      <Outlet context={context} />
+      <RouteSuspense>
+        <Outlet context={context} />
+      </RouteSuspense>
     </>
   );
 }

@@ -245,7 +245,7 @@ const SWAP_RULES: SwapRule[] = [
     from: ['mat-alu-paneli'],
     to: 'mat-fibercement',
     note: 'Иста класа реакције на пожар (A2-s1,d0), облога јефтинија од алуминијума; већа маса плоча — проверити подконструкцију. Потребна сагласност инвеститора на изглед.',
-    alt: { to: 'mat-alu-paneli-rec', label: 'алуминијум са ≥ 75 % рециклата', note: 'облога скупља око 18 %' },
+    alt: { to: 'mat-alu-paneli-rec', label: 'алуминијум са ≥ 75 % рециклата', note: 'облога скупља око 18 %' },
   },
   {
     id: 'zavesa-epd',
@@ -256,7 +256,7 @@ const SWAP_RULES: SwapRule[] = [
   },
   {
     id: 'steel-reused',
-    title: 'Нови челик → поново употребљени профили (до 50 %)',
+    title: 'Нови челик → поново употребљени профили (до 50 %)',
     from: ['mat-celik-profili'],
     to: 'mat-celik-reused',
     share: 0.5,
@@ -265,7 +265,7 @@ const SWAP_RULES: SwapRule[] = [
   },
   {
     id: 'lc3',
-    title: 'CEM III/A → нискоклинкерски бетон (LC3), до 30 %',
+    title: 'CEM III/A → нискоклинкерски бетон (LC3), до 30 %',
     from: ['mat-beton-c3037-cem3'],
     to: 'mat-beton-lc3',
     share: 0.3,

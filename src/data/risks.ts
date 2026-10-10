@@ -78,7 +78,7 @@ export const risks: Risk[] = [
     probability: 2,
     impact: 4,
     ownerId: 'p-nikola-petrovic',
-    mitigation: 'Комплетан LCA A1–C4 и симулација комфора пре Г2; предвиђање 66 % → циљ 70 %.',
+    mitigation: 'Комплетан LCA A1–C4 и симулација комфора пре Г2; предвиђање 66 % → циљ 70 %.',
     status: 'mitigating',
   },
   {
@@ -281,7 +281,7 @@ export const risks: Risk[] = [
   {
     id: 'r-sp-01',
     projectId: 'stara-pivara',
-    title: 'Удео поновне употребе пада испод циља од 60 %',
+    title: 'Удео поновне употребе пада испод циља од 60 %',
     category: 'tehnicki',
     probability: 4,
     impact: 3,

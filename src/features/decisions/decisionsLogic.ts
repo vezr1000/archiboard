@@ -22,8 +22,8 @@ export function impactTone(kind: ImpactKind, value: number): Tone {
 
 /**
  * Decisions that deserve emphasis in the timeline:
- * - `rise`: the decision pushed embodied carbon up noticeably (≥ +5 %) — e.g. the facade change;
- * - `fix`: a proposal that cuts embodied carbon (≤ −3 %) and is still to be decided — e.g. the fibre-cement proposal.
+ * - `rise`: the decision pushed embodied carbon up noticeably (≥ +5 %) — e.g. the facade change;
+ * - `fix`: a proposal that cuts embodied carbon (≤ −3 %) and is still to be decided — e.g. the fibre-cement proposal.
  */
 export function decisionEmphasis(d: Decision): 'rise' | 'fix' | null {
   const c = d.impact.carbonDeltaPct;

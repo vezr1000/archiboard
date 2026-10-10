@@ -3,7 +3,7 @@ import type { Decision } from '@/domain/types';
 /**
  * Design Decision Records. Flagship storyline (Савски кеј):
  *   structure (CLT) → heating → parking cut → roof split at Г1 → CEM III/A → ★ facade change to aluminium
- *   (+9 % carbon) → rainwater → external shading → PROPOSED fibre-cement facade, to be decided at Г2.
+ *   (+9 % carbon) → rainwater → external shading → PROPOSED fibre-cement facade, to be decided at Г2.
  * Impact deltas are relative to the design state just before the decision.
  */
 export const decisions: Decision[] = [
@@ -96,14 +96,14 @@ export const decisions: Decision[] = [
     id: 'dec-sk-04',
     projectId: 'savski-kej',
     date: '2026-01-28',
-    title: 'Подела крова: екстензивни зелени кров 55 % + PV 120 kWp',
+    title: 'Подела крова: екстензивни зелени кров 55 % + PV 120 kWp',
     context:
       'PV на целом крову (160 kWp) и зелени кров на целом крову искључују се. ПДР и DGNB награђују зеленило, ' +
-      'а пројектни задатак тражи ≥ 30 % ОИЕ.',
+      'а пројектни задатак тражи ≥ 30 % ОИЕ.',
     optionsConsidered: [
       'PV на целом крову (160 kWp)',
       'Зелени кров на целом крову',
-      'Подела: 55 % зелени кров, 45 % PV (120 kWp)',
+      'Подела: 55 % зелени кров, 45 % PV (120 kWp)',
       'Biosolar: PV на подконструкцији изнад екстензивног крова',
     ],
     decision: 'Подела крова 55/45; biosolar се поново разматра у ПЗИ.',
@@ -258,11 +258,11 @@ export const decisions: Decision[] = [
     date: '2026-09-30',
     title: 'Предлог: фибер-цементне плоче уместо алуминијумских панела',
     context:
-      'После промене фасаде уграђени угљеник је 358 kgCO₂e/m² (+12 % изнад циља). Студија алтернатива ' +
+      'После промене фасаде уграђени угљеник је 358 kgCO₂e/m² (+12 % изнад циља). Студија алтернатива ' +
       'показује да је облога највећа појединачна резерва.',
     optionsConsidered: [
       'Задржати алуминијумске панеле',
-      'Алуминијумски панели са ≥ 75 % рециклата (−13 kgCO₂e/m², цена облоге +18 %)',
+      'Алуминијумски панели са ≥ 75 % рециклата (−13 kgCO₂e/m², цена облоге +18 %)',
       'Фибер-цементне плоче A2-s1,d0 (−18 kgCO₂e/m²)',
       'Керамичке плоче (−15 kgCO₂e/m², дужа испорука)',
     ],
@@ -302,7 +302,7 @@ export const decisions: Decision[] = [
     context: 'Основна обнова испуњава законски минимум, али не и EDGE Advanced ни услове зеленог кредита Града.',
     optionsConsidered: ['А — основна обнова, гасни котао', 'Б — дубока обнова, ТП + PV + рекуперација'],
     decision: 'Усваја се дубока обнова.',
-    rationale: 'Трошкови енергије падају за око 70 %; рекуперација решава лош квалитет ваздуха у учионицама.',
+    rationale: 'Трошкови енергије падају за око 70 %; рекуперација решава лош квалитет ваздуха у учионицама.',
     impact: { energyDeltaPct: -84, costDeltaPct: 38 },
     sessionId: 'ses-os-g1',
     conditions: [],
@@ -317,7 +317,7 @@ export const decisions: Decision[] = [
     context: 'Статичка провера крова сале показала је резерву носивости за PV на подконструкцији.',
     optionsConsidered: ['Без PV', 'PV 60 kWp', 'PV 140 kWp (цео кров сале)'],
     decision: 'PV од 140 kWp по моделу купца-произвођача.',
-    rationale: 'Подиже енергетски разред са B на A и удео ОИЕ изнад 35 %.',
+    rationale: 'Подиже енергетски разред са B на A и удео ОИЕ изнад 35 %.',
     impact: { energyDeltaPct: -18, carbonDeltaPct: 4, costDeltaPct: 3.5 },
     decidedByIds: ['p-katarina-mitic', 'p-stefan-pavlovic', 'p-nikola-petrovic'],
     conditions: [],
@@ -347,7 +347,7 @@ export const decisions: Decision[] = [
     context: 'Асфалт у поплавној зони се оштећује и спречава упијање.',
     optionsConsidered: ['Асфалт', 'Бетонске плоче', 'Шљунак у саћастој решетки'],
     decision: 'Шљунак у саћастој решетки на стазама у зони Q20; бетонске плоче изнад Q100.',
-    rationale: 'Водопропусност 91 % парка и нижи уграђени угљеник.',
+    rationale: 'Водопропусност 91 % парка и нижи уграђени угљеник.',
     impact: { carbonDeltaPct: -8 },
     decidedByIds: ['p-jovana-radovic'],
     conditions: [],
@@ -424,9 +424,9 @@ export const decisions: Decision[] = [
     projectId: 'stara-pivara',
     date: '2026-09-09',
     title: 'Замена кородираних решеткастих носача новим челиком',
-    context: 'Преглед конструкције (август 2026) показао је корозију ослонаца и доњих појасева на 30 % носача.',
+    context: 'Преглед конструкције (август 2026) показао је корозију ослонаца и доњих појасева на 30 % носача.',
     optionsConsidered: ['Санација свих носача на лицу места', 'Замена кородираних носача новим', 'Замена целе кровне конструкције'],
-    decision: 'Замена 30 % носача новим челиком истог облика; остали се санирају.',
+    decision: 'Замена 30 % носача новим челиком истог облика; остали се санирају.',
     rationale: 'Санација кородираних ослонаца је скупља од замене и не даје поуздану носивост за нове терете.',
     impact: { carbonDeltaPct: 16, costDeltaPct: 2.4 },
     decidedByIds: ['p-dusan-vukovic', 'p-ivana-lazic', 'p-vladimir-kostic'],

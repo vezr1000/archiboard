@@ -14,16 +14,16 @@ export interface WorkloadCardProps {
   onOpen: (p: Person) => void;
 }
 
-/** „Оптерећење“ — per person a stacked bar of allocations by project against the 100 % capacity marker. */
+/** „Оптерећење“ — per person a stacked bar of allocations by project against the 100 % capacity marker. */
 export function WorkloadCard({ people, onOpen }: WorkloadCardProps) {
   const sorted = [...people].sort((a, b) => totalPct(b) - totalPct(a) || a.name.localeCompare(b.name, 'sr'));
-  // One common scale so that the 100 % marker lines up across rows.
+  // One common scale so that the 100 % marker lines up across rows.
   const scale = Math.max(120, ...sorted.map(totalPct));
   const over = sorted.filter(isOverallocated).length;
   return (
     <Card
       title="Оптерећење"
-      subtitle="Ангажовање по пројектима · линија = 100 % капацитета"
+      subtitle="Ангажовање по пројектима · линија = 100 % капацитета"
       action={
         over > 0 ? (
           <Badge tone="bad" icon={TriangleAlert}>
@@ -36,7 +36,7 @@ export function WorkloadCard({ people, onOpen }: WorkloadCardProps) {
         className="mb-4"
         items={[
           ...projects.map((p) => ({ label: p.shortName, color: projectColor(p.id) })),
-          { label: '100 % капацитета', color: 'var(--ink)', shape: 'line' as const },
+          { label: '100 % капацитета', color: 'var(--ink)', shape: 'line' as const },
         ]}
       />
       {sorted.length === 0 ? (

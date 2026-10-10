@@ -9,7 +9,7 @@ import type { Material, ProjectMaterial } from '@/domain/types';
  * All suppliers and brand names are fictional. `distanceKm` = transport distance to Belgrade (0 = reused on site).
  *
  * Material passports are sized so that Σ(gwpA1A3 × quantity) / БРГП matches each project's current
- * embodied-carbon KPI (± 1 %), checked by `npm run check:data`.
+ * embodied-carbon KPI (± 1 %), checked by `npm run check:data`.
  */
 export const materials: Material[] = [
   /* ---------- Бетон ---------- */
@@ -74,7 +74,7 @@ export const materials: Material[] = [
   },
   {
     id: 'mat-beton-c2530-rec',
-    name: 'Бетон C25/30, CEM III/A, 30 % рециклираног агрегата',
+    name: 'Бетон C25/30, CEM III/A, 30 % рециклираног агрегата',
     category: 'beton',
     unit: 'm³',
     gwpA1A3: 195,
@@ -247,7 +247,7 @@ export const materials: Material[] = [
     recycledPct: 100,
     reusePotential: 'high',
     bioBased: false,
-    note: 'Из рушења анекса пиваре из 1960-их; око 70 % искористиво.',
+    note: 'Из рушења анекса пиваре из 1960-их; око 70 % искористиво.',
   },
   {
     id: 'mat-opeka-puna',
@@ -479,7 +479,7 @@ export const materials: Material[] = [
   },
   {
     id: 'mat-alu-paneli-rec',
-    name: 'Алуминијумски фасадни панели, ≥ 75 % рециклираног алуминијума (A1)',
+    name: 'Алуминијумски фасадни панели, ≥ 75 % рециклираног алуминијума (A1)',
     category: 'aluminijum',
     unit: 'm²',
     gwpA1A3: 42,
@@ -490,7 +490,7 @@ export const materials: Material[] = [
     reusePotential: 'medium',
     bioBased: false,
     supplier: 'АлуФасада д.о.о.',
-    note: 'Рок испоруке 14 недеља; цена око 18 % виша од стандардних панела.',
+    note: 'Рок испоруке 14 недеља; цена око 18 % виша од стандардних панела.',
   },
   {
     id: 'mat-alu-podkonstrukcija',
@@ -770,7 +770,7 @@ export const projectMaterials: ProjectMaterial[] = [
 
   /* ================================ Стара пивара (БРГП 9.800 m²) ================================ */
   { projectId: 'stara-pivara', materialId: 'mat-celik-reused', layer: 'konstrukcija', element: 'Решеткасти носачи хале — задржани и санирани', quantity: 310_000, demountable: true, reused: true },
-  { projectId: 'stara-pivara', materialId: 'mat-celik-profili', layer: 'konstrukcija', element: 'Нови носачи уместо кородираних (30 %) и мезанин', quantity: 180_000, demountable: true, note: 'Повећано после прегледа конструкције у августу 2026.' },
+  { projectId: 'stara-pivara', materialId: 'mat-celik-profili', layer: 'konstrukcija', element: 'Нови носачи уместо кородираних (30 %) и мезанин', quantity: 180_000, demountable: true, note: 'Повећано после прегледа конструкције у августу 2026.' },
   { projectId: 'stara-pivara', materialId: 'mat-opeka-reclaimed', layer: 'fasada', element: 'Опека из рушења анекса — зазиђивање отвора и нови зидови', quantity: 420, demountable: false, reused: true },
   { projectId: 'stara-pivara', materialId: 'mat-beton-c3037-cem3', layer: 'konstrukcija', element: 'Спрегнуте таванице и темељи надоградње', quantity: 1650, demountable: false },
   { projectId: 'stara-pivara', materialId: 'mat-armatura', layer: 'konstrukcija', element: 'Арматура', quantity: 150_000, demountable: false },

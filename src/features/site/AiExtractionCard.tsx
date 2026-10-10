@@ -24,7 +24,7 @@ const toRequirement = (project: Project, script: ExtractionScript, c: ExtractedC
   category: c.category,
   text: c.text,
   status: 'unchecked',
-  note: `Извучено АИ анализом (демо), поузданост ${formatNumber(c.confidence, 0)} % — потребна провера архитекте.`,
+  note: `Извучено АИ анализом (демо), поузданост ${formatNumber(c.confidence, 0)} % — потребна провера архитекте.`,
   aiExtracted: true,
 });
 
@@ -76,7 +76,7 @@ function ConditionCard({
         value={c.confidence}
         max={100}
         label="Поузданост"
-        valueLabel={`${formatNumber(c.confidence, 0)} %`}
+        valueLabel={`${formatNumber(c.confidence, 0)} %`}
       />
 
       <div className="mt-3 flex min-h-9 flex-wrap items-center justify-between gap-2">

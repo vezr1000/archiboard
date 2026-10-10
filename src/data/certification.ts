@@ -4,9 +4,9 @@ import type { CertificationCategory, CertificationCriterion } from '@/domain/typ
  * Certification credit trackers, one per project.
  *
  * Units per scheme (so the UI can compute a total = Σ weight × achieved / max):
- * - DGNB (Савски кеј): each category is a performance index 0–100 %; weights for new residential buildings
- *   (approximate: ENV/ECO/SOC 22,5 %, TEC 15 %, PRO 12,5 %, SITE 5 %). Thresholds Silver 50 / Gold 65 / Platinum 80.
- * - BREEAM (Блок 42): category score 0–100 %, BREEAM International NC 2016 weights; thresholds in %.
+ * - DGNB (Савски кеј): each category is a performance index 0–100 %; weights for new residential buildings
+ *   (approximate: ENV/ECO/SOC 22,5 %, TEC 15 %, PRO 12,5 %, SITE 5 %). Thresholds Silver 50 / Gold 65 / Platinum 80.
+ * - BREEAM (Блок 42): category score 0–100 %, BREEAM International NC 2016 weights; thresholds in %.
  * - LEED (Стара пивара): category max = available points (110 total); weight = share of 110; thresholds as % of 110.
  * - EDGE (школа): category value = predicted savings % vs. the EDGE base case; thresholds are energy savings %.
  * - Passivhaus (вртић): category max = number of criteria, achieved = criteria met in the preliminary PHPP.
@@ -159,10 +159,10 @@ export const certificationCriteria: CertificationCriterion[] = [
   { id: 'cr-os-m1', projectId: 'os-novo-naselje', categoryId: 'materials', label: 'Изолација и прозори са EPD', ownerId: 'p-milos-savic', status: 'on-track', evidenceDocumentId: 'doc-os-lca' },
 
   /* ================================ Парк на Нишави — интерни скор ================================ */
-  { id: 'cr-pn-1', projectId: 'park-nisava', categoryId: 'bio', label: 'Најмање 80 % аутохтоних врста', ownerId: 'p-jovana-radovic', status: 'on-track', evidenceDocumentId: 'doc-pn-biodiverzitet' },
+  { id: 'cr-pn-1', projectId: 'park-nisava', categoryId: 'bio', label: 'Најмање 80 % аутохтоних врста', ownerId: 'p-jovana-radovic', status: 'on-track', evidenceDocumentId: 'doc-pn-biodiverzitet' },
   { id: 'cr-pn-2', projectId: 'park-nisava', categoryId: 'bio', label: 'Заштита гнездилишта водомара', ownerId: 'p-jovana-radovic', status: 'achieved', evidenceDocumentId: 'doc-pn-biodiverzitet' },
-  { id: 'cr-pn-3', projectId: 'park-nisava', categoryId: 'voda', label: 'Ретенција ≥ 85 % годишњих падавина', ownerId: 'p-jovana-radovic', status: 'at-risk', evidenceDocumentId: 'doc-pn-hidraulika' },
-  { id: 'cr-pn-4', projectId: 'park-nisava', categoryId: 'klima', label: 'Засена крошњама ≥ 40 % за 15 година', ownerId: 'p-jovana-radovic', status: 'on-track' },
+  { id: 'cr-pn-3', projectId: 'park-nisava', categoryId: 'voda', label: 'Ретенција ≥ 85 % годишњих падавина', ownerId: 'p-jovana-radovic', status: 'at-risk', evidenceDocumentId: 'doc-pn-hidraulika' },
+  { id: 'cr-pn-4', projectId: 'park-nisava', categoryId: 'klima', label: 'Засена крошњама ≥ 40 % за 15 година', ownerId: 'p-jovana-radovic', status: 'on-track' },
   { id: 'cr-pn-5', projectId: 'park-nisava', categoryId: 'drustvo', label: 'Приступачне главне стазе', ownerId: 'p-milena-ristic', status: 'at-risk' },
 
   /* ================================ Блок 42 — BREEAM ================================ */
@@ -181,9 +181,9 @@ export const certificationCriteria: CertificationCriterion[] = [
   { id: 'cr-vb-load', projectId: 'vrtic-bubamara', categoryId: 'energija', label: 'Грејно оптерећење ≤ 10 W/m² (PHPP: 10,4)', ownerId: 'p-marko-djordjevic', status: 'at-risk', points: 10.4, maxPoints: 10, evidenceDocumentId: 'doc-vb-phpp' },
   { id: 'cr-vb-per', projectId: 'vrtic-bubamara', categoryId: 'energija', label: 'PER ≤ 60 kWh/m²a (Classic)', ownerId: 'p-sanja-filipovic', status: 'on-track', points: 56, maxPoints: 60 },
   { id: 'cr-vb-n50', projectId: 'vrtic-bubamara', categoryId: 'zaptivenost', label: 'Заптивеност n50 ≤ 0,6 h⁻¹ (blower door)', ownerId: 'p-marko-djordjevic', status: 'not-started', maxPoints: 0.6 },
-  { id: 'cr-vb-overheat', projectId: 'vrtic-bubamara', categoryId: 'komfor', label: 'Учесталост прегревања > 25 °C ≤ 10 %', ownerId: 'p-sanja-filipovic', status: 'on-track' },
+  { id: 'cr-vb-overheat', projectId: 'vrtic-bubamara', categoryId: 'komfor', label: 'Учесталост прегревања > 25 °C ≤ 10 %', ownerId: 'p-sanja-filipovic', status: 'on-track' },
   { id: 'cr-vb-windows', projectId: 'vrtic-bubamara', categoryId: 'komponente', label: 'Прозори Uw ≤ 0,80 W/m²K уграђени', ownerId: 'p-marko-djordjevic', status: 'on-track' },
-  { id: 'cr-vb-mvhr', projectId: 'vrtic-bubamara', categoryId: 'komponente', label: 'Рекуперација топлоте ≥ 75 %', ownerId: 'p-sanja-filipovic', status: 'on-track' },
+  { id: 'cr-vb-mvhr', projectId: 'vrtic-bubamara', categoryId: 'komponente', label: 'Рекуперација топлоте ≥ 75 %', ownerId: 'p-sanja-filipovic', status: 'on-track' },
 
   /* ================================ Стара пивара — LEED v4.1 ================================ */
   { id: 'cr-sp-ip', projectId: 'stara-pivara', categoryId: 'IP', label: 'IP Интегративни процес', ownerId: 'p-ivana-lazic', status: 'achieved', points: 1, maxPoints: 1 },

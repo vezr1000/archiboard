@@ -9,10 +9,11 @@
  *   formatCarbon(18400, 'total')   → „18,4 t CO₂e“
  *   formatEur(12_500_000)          → „12.500.000 €“
  *   formatEur(12_500_000, true)    → „12,5 мил. €“
- *   formatPct(12.34)               → „12,3%“
- *   formatPct(-12, { signed: true })→ „−12%“
+ *   formatPct(12.34)               → „12,3 %“
+ *   formatPct(-12, { signed: true })→ „−12 %“
  *   formatDate('2026-10-09')       → „9. октобар 2026.“
  *   formatDate('2026-10-09','short') → „9. окт“
+ *   formatDateGenitive('2026-10-23') → „23. октобра 2026.“ (running text)
  *   formatRelative('2026-10-12')   → „за 3 дана“ (relative to DEMO_TODAY)
  *
  * Numbers and units are joined with a non-breaking space so they never wrap apart.
@@ -43,6 +44,7 @@ function nf(options: Intl.NumberFormatOptions): Intl.NumberFormat {
 
 // Dates are formatted manually (identical to Intl sr-Cyrl-RS output, but deterministic on every engine).
 const MONTHS_LONG = ['јануар', 'фебруар', 'март', 'април', 'мај', 'јун', 'јул', 'август', 'септембар', 'октобар', 'новембар', 'децембар'];
+const MONTHS_GENITIVE = ['јануара', 'фебруара', 'марта', 'априла', 'маја', 'јуна', 'јула', 'августа', 'септембра', 'октобра', 'новембра', 'децембра'];
 const MONTHS_SHORT = ['јан', 'феб', 'мар', 'апр', 'мај', 'јун', 'јул', 'авг', 'сеп', 'окт', 'нов', 'дец'];
 const WEEKDAYS = ['недеља', 'понедељак', 'уторак', 'среда', 'четвртак', 'петак', 'субота'];
 
@@ -109,8 +111,8 @@ export function formatEur(n: number, compact = false): string {
 }
 
 /**
- * Percent. By default `value` is already in percent (12.3 → „12,3%“).
- * @param opts.ratio  value is a 0..1 ratio (0.123 → „12,3%“)
+ * Percent. By default `value` is already in percent (12.3 → „12,3 %“).
+ * @param opts.ratio  value is a 0..1 ratio (0.123 → „12,3 %“)
  * @param opts.signed prefix + / − (for deltas)
  * @param opts.decimals fixed decimals (default: up to 1)
  */
@@ -123,7 +125,7 @@ export function formatPct(value: number, opts: { ratio?: boolean; signed?: boole
       ? nf({ maximumFractionDigits: 1 }).format(Math.abs(v))
       : formatNumber(Math.abs(v), decimals);
   const sign = v < 0 ? MINUS : opts.signed && v > 0 ? '+' : '';
-  return `${sign}${body}%`;
+  return `${sign}${body}${NBSP}%`;
 }
 
 /* ---------- Dates ---------- */
@@ -160,6 +162,16 @@ export function formatDate(input: string | Date, style: DateStyle = 'long'): str
     default:
       return `${day}. ${MONTHS_LONG[m]} ${y}.`;
   }
+}
+
+/**
+ * Date for running text where the month stands in the genitive: „23. октобра 2026.“
+ * (e.g. „на седници одржаној 23. октобра 2026.“). Standalone labels keep using `formatDate`.
+ */
+export function formatDateGenitive(input: string | Date): string {
+  const d = typeof input === 'string' ? parseIsoDate(input) : input;
+  if (Number.isNaN(d.getTime())) return '—';
+  return `${d.getDate()}. ${MONTHS_GENITIVE[d.getMonth()]} ${d.getFullYear()}.`;
 }
 
 /**

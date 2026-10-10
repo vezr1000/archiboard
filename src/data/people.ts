@@ -3,7 +3,7 @@ import type { Person } from '@/domain/types';
 /**
  * Firm people (Студио Градина) — all fictional.
  * - Board members (`boardMember: true`): Јелена Марковић (chair), Никола Петровић, Драган Илић, Владимир Костић.
- * - Overallocated on purpose (> 100 %): Тамара Николић (115 %), Милош Савић (120 %).
+ * - Overallocated on purpose (> 100 %): Тамара Николић (115 %), Милош Савић (120 %).
  * - Allocations are kept consistent with `Project.teamIds` (checked by `npm run check:data`).
  * - Licences (ИКС): 200 урбанизам, 300 архитектура, 310 конструкције високоградње, 330 машинске инсталације
  *   (ГВК), 373 пејзажна архитектура, 381 енергетска ефикасност зграда, 400 извођење радова (високоградња).

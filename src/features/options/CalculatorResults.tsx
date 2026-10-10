@@ -215,7 +215,7 @@ export function CalculatorDetails({ result: r, reference: ref, targets, scheme }
           />
         </Tile>
         <Tile>
-          <Stat size="sm" label="Дневно светло" value={round(r.daylightPct)} unit="%" delta={nz(round(r.daylightPct) - round(ref.daylightPct))} deltaUnit=" п.п." direction="higher-better" hint="DF ≥ 2 %" />
+          <Stat size="sm" label="Дневно светло" value={round(r.daylightPct)} unit="%" delta={nz(round(r.daylightPct) - round(ref.daylightPct))} deltaUnit=" п.п." direction="higher-better" hint="DF ≥ 2 %" />
         </Tile>
         <Tile>
           <Stat

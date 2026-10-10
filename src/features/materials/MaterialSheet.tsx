@@ -8,7 +8,7 @@ import type { Material } from '@/domain/types';
 import { formatCarbon, formatNumber, formatPct, formatSigned } from '@/lib/format';
 import { alternativesFor, formatGwp, formatKm, formatQuantity, gwpUnit, LOCAL_KM, massKgPerUnit, positionsCount, projectsCount } from './materialsLogic';
 
-/** Dry wood ≈ 50 % carbon → 1,83 kgCO₂ stored per kg of bio-based material (orientation only). */
+/** Dry wood ≈ 50 % carbon → 1,83 kgCO₂ stored per kg of bio-based material (orientation only). */
 const BIOGENIC_KG_CO2_PER_KG = 1.83;
 
 export interface MaterialSheetProps {
@@ -62,7 +62,7 @@ function SheetBody({ material, projectId, onChange }: { material: Material; proj
           </Badge>
         )}
         {local && <Badge tone="accent">Локално (&lt; {LOCAL_KM} km)</Badge>}
-        {material.recycledPct > 0 && <Badge>{formatNumber(material.recycledPct, 0)} % рециклата</Badge>}
+        {material.recycledPct > 0 && <Badge>{formatNumber(material.recycledPct, 0)} % рециклата</Badge>}
       </div>
 
       <section>

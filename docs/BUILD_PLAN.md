@@ -17,7 +17,7 @@ Sequential, one agent at a time. The orchestrator verifies each step (build, cop
 | 10 | ★ Одбор: sessions + gate review flow | Opus | ✅ |
 | 11 | ★ Смернице + Питај АрхиБорд | Sonnet | ✅ |
 | 12 | Повратне информације page + export; GitHub Pages workflow; README | Haiku | ✅ |
-| 13 | Polish & QA pass (mobile, dark mode, copy review) | Sonnet + orchestrator | ☐ |
+| 13 | Polish & QA pass (mobile, dark mode, copy review) | Sonnet + orchestrator | ✅ |
 
 ## Log
 
@@ -274,11 +274,22 @@ state (25 answers, 3 sessions incl. без ознаке, notes with quotes and c
 Notes: the session chips filter only the summary (the widget still tags with the current label). The clear button wipes all
 answers, not just the filtered ones, as the brief asked.
 
+### Step 13 — Polish & QA ✅ (2026-10-10)
+- Code-split: all feature pages/tabs `React.lazy` (shell, ProjectLayout, portfolio eager); `RouteSuspense`/`PageFallback` (Skeleton) in `components/layout/PageFallback.tsx`, used around the AppShell and project-tab outlets. Entry chunk 284 kB (88 kB gzip), no >500 kB warning; relative `./assets/…` paths verified through `vite preview`.
+- Percent: `formatPct`, `Stat` delta default and all hand-built „N %“ strings in `src/` (incl. seed data copy) now use U+00A0 before `%`.
+- `formatDateGenitive` („23. октобра 2026.“) in `lib/format`; used in gate-review minutes/summary running text (`reviewLogic.ts`, `MinutesDocument.tsx`).
+- Вртић energy class seed → A (target and current = 2, KPI note). `classShift` in `carbonModel.ts` is KEPT: ОШ „Ново насеље“ А (retrofit, Qh 48 / qhMax 97 ⇒ B, seed says C) still needs it, so it was not vrtić-only.
+- Mobile Варијанте: „Резултати ↓“ jump link above the controls (<1024px, respects reduced motion). Mobile Материјали: passport layer groups collapsed by default (<768px) via new optional `DataList` props `collapsibleGroupsOnMobile` / `expandAllGroups` / `mobileGroupHeader`; any active filter expands all. Tab height 11k → 3.4k px.
+- PWA-lite: `public/manifest.webmanifest`, icons 192/512 + apple-touch-icon 180 (rendered from the logo mark), iOS meta tags; top bar already uses `pt-safe`. No service worker.
+- „Демо пут“ card on the portfolio (`DemoGuideCard`, `useDemoGuideStore`, localStorage `archiboard-demo-guide-dismissed`); re-open via „Водич кроз демо“ in the sidebar Демо section and the „Више“ sheet.
+- Small copy fixes: „енергетски разред“ in the first Ask suggestion; shorter passport search placeholder.
+- Sweep (375 light all routes + savski-kej tabs, 375 dark, 1280 light): no horizontal overflow, no console errors.
+
 ## QA backlog (for step 13 — collected by the orchestrator)
-- Code-split routes (`React.lazy`) — main chunk > 500 kB.
-- Вртић: KPI says energy class A+ but Qh,nd 14 with assumed max 65 ⇒ A; align seed (class A, or Qh,nd ≤ 9) and drop the one-class anchor shift in carbonModel.
-- Percent spacing is inconsistent („12 %“ in data copy vs „12%“ from formatPct) — pick one (Serbian norm: „12 %“) and apply everywhere.
-- Mobile Варијанте: consider a "Резултати" jump link at the top of the calculator (results are below all controls on mobile).
+- ~~Code-split routes (`React.lazy`) — main chunk > 500 kB.~~ (step 13)
+- ~~Вртић: KPI says energy class A+ but Qh,nd 14 with assumed max 65 ⇒ A; align seed (class A, or Qh,nd ≤ 9) and drop the one-class anchor shift in carbonModel.~~ (step 13)
+- ~~Percent spacing is inconsistent („12 %“ in data copy vs „12%“ from formatPct) — pick one (Serbian norm: „12 %“) and apply everywhere.~~ (step 13)
+- ~~Mobile Варијанте: consider a "Резултати" jump link at the top of the calculator (results are below all controls on mobile).~~ (step 13)
 - Interactive QA of all scripted flows on a real phone width (AI extraction, calculator save/propose, gate review).
-- Gate review: Serbian date case in generated copy uses numeric dates to avoid „23. октобар“ in genitive contexts; a genitive month formatter in `lib/format` would read better.
-- Mobile Материјали tab is ~11k px tall: collapse passport layer groups by default on mobile (show totals per layer, expand on tap).
+- ~~Gate review: Serbian date case in generated copy uses numeric dates to avoid „23. октобар“ in genitive contexts; a genitive month formatter in `lib/format` would read better.~~ (step 13)
+- ~~Mobile Материјали tab is ~11k px tall: collapse passport layer groups by default on mobile (show totals per layer, expand on tap).~~ (step 13)

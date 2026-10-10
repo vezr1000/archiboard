@@ -43,7 +43,7 @@ import type {
 } from '@/domain/types';
 import { evaluate, type ProjectModel } from '@/lib/carbonModel';
 import { addDays } from '@/lib/dates';
-import { formatDate, formatNumber, formatPct } from '@/lib/format';
+import { formatDate, formatDateGenitive, formatNumber, formatPct } from '@/lib/format';
 import { gapPct, kpiStatus } from '@/lib/kpi';
 
 /* ------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ export const STEP_COUNT = REVIEW_STEPS.length;
 /** Quorum = simple majority of the session's members (≥ 3 of 4, ≥ 2 of 3). */
 export const quorumFor = (members: number): number => Math.floor(members / 2) + 1;
 
-/** Gate tolerance: a KPI within 5 % of its project target is a warning, beyond that it fails. */
+/** Gate tolerance: a KPI within 5 % of its project target is a warning, beyond that it fails. */
 export const GATE_TOLERANCE_PCT = 5;
 
 /** The gate after `gate` (Г2 → Г3), used in condition deadlines. */
@@ -411,7 +411,7 @@ export function buildBoardDecision(
     context:
       `Ревизија капије ${gate.full}${project ? ` пројекта „${project.name}“` : ''}. ` +
       `Документација: прихваћено за ревизију ${accepted} од ${docs.length}. ` +
-      `KPI према циљевима пројекта (толеранција ${GATE_TOLERANCE_PCT} %): ${checks.length - fails.length - warns.length} испуњено, ` +
+      `KPI према циљевима пројекта (толеранција ${GATE_TOLERANCE_PCT} %): ${checks.length - fails.length - warns.length} испуњено, ` +
       `${warns.length} у толеранцији, ${fails.length} није испуњено` +
       (fails.length ? ` (${fails.map((c) => c.def.shortLabel.toLocaleLowerCase('sr')).join(', ')})` : '') +
       '. ' +
@@ -526,7 +526,7 @@ export function minutesFromReview(session: BoardSession, review: GateReviewState
   const fails = checks.filter((c) => c.status === 'fail').length;
   const conditions = review.conditions.filter((c) => c.text.trim());
   const text =
-    `Одбор је на седници одржаној ${formatDate(session.date, 'numeric')} размотрио капију ${GATE_LABELS[session.gate].full}` +
+    `Одбор је на седници одржаној ${formatDateGenitive(session.date)} размотрио капију ${GATE_LABELS[session.gate].full}` +
     `${project ? ` пројекта „${project.name}“` : ''}. Присутно чланова: ${review.presentIds.length} од ` +
     `${session.memberIds.length}, кворум је постојао. Документација је прихваћена за ревизију у ${accepted.length} од ` +
     `${docs.length} случајева` +
@@ -549,7 +549,7 @@ export function minutesFromReview(session: BoardSession, review: GateReviewState
       missing,
       caption: `Прихваћено за ревизију ${accepted.length} од ${docs.length} обавезних докумената.`,
     },
-    kpis: { caption: `Праг капије = циљ пројекта, толеранција ${GATE_TOLERANCE_PCT} %`, rows: checks.map((c) => kpiRow(c)) },
+    kpis: { caption: `Праг капије = циљ пројекта, толеранција ${GATE_TOLERANCE_PCT} %`, rows: checks.map((c) => kpiRow(c)) },
     findings: session.aiFindings.map((finding) => ({ finding, disposition: review.findingDispositions[finding.id] })),
     conditions: conditions.map((c) => ({
       ...c,
@@ -586,7 +586,7 @@ export function minutesSummary(m: MinutesData): string {
   if (m.conditions.length) {
     lines.push('Услови:');
     m.conditions.forEach((c, i) =>
-      lines.push(`${i + 1}. ${c.text} — ${getPerson(c.ownerId)?.name ?? '—'}, рок ${formatDate(c.dueDate, 'numeric')}`),
+      lines.push(`${i + 1}. ${c.text} — ${getPerson(c.ownerId)?.name ?? '—'}, рок до ${formatDateGenitive(c.dueDate)}`),
     );
   }
   if (m.findings.some((f) => f.disposition)) {

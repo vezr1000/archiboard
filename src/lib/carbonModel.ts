@@ -176,7 +176,7 @@ export const K = {
   gainUtilisation: 0.9,
   /** Useful solar radiation on glazing in the heating season, kWh/m² (mixed orientations, frame and obstruction). */
   winterSolar: 75,
-  /** Reused / recycled share: −carbon of the structure per % of mass (reused elements ≈ −90 %, recycled content less). */
+  /** Reused / recycled share: −carbon of the structure per % of mass (reused elements ≈ −90 %, recycled content less). */
   reuseEffect: 0.55,
   /** Reuse premium (dismantling, testing, certification) €/m² per %. */
   reuseCost: 0.6,
@@ -187,7 +187,7 @@ export const K = {
   endOfLifeStructure: 0.06,
   /** Overheating model: hours per unit of (facade ratio × glazing ratio) at reference shading and mass. */
   overheatingPerGlazedArea: 650,
-  /** Daylight: DF ≥ 2 % share ≈ k × g × LT / 0,70 (linear in the useful range, capped at 100 %). */
+  /** Daylight: DF ≥ 2 % share ≈ k × g × LT / 0,70 (linear in the useful range, capped at 100 %). */
   daylightK: 160,
   /** Mechanical ventilation with heat recovery: plant + ducts carbon, cost €/m², share of ventilation losses
    *  recovered, fan electricity kWh/m²a, duration months. */
@@ -203,8 +203,8 @@ export const MASS_FACTOR: Record<StructureCoef['mass'], number> = { light: 1.3, 
 
 /**
  * Certification sensitivities per scheme — points (scheme units) per unit change of a result:
- * carbon per −10 kgCO₂e/m², energy per −1 kWh/m²a (Qh,nd), renewables per +1 %, daylight per +1 %,
- * overheating per −10 h, reuse per +1 %, green roof per +10 %.
+ * carbon per −10 kgCO₂e/m², energy per −1 kWh/m²a (Qh,nd), renewables per +1 %, daylight per +1 %,
+ * overheating per −10 h, reuse per +1 %, green roof per +10 %.
  */
 export const CERT_SENSITIVITY: Record<CertificationScheme, { carbon: number; energy: number; renewables: number; daylight: number; overheating: number; reuse: number; greenRoof: number }> = {
   DGNB: { carbon: 0.45, energy: 0.3, renewables: 0.05, daylight: 0.12, overheating: 0.15, reuse: 0.1, greenRoof: 0.1 },
@@ -306,9 +306,9 @@ export interface ModelContext {
   scheme: CertificationScheme;
   taxonomy: {
     activity: '7.1' | '7.2';
-    /** 7.1: primary energy limit = NZEB reference − 10 %. */
+    /** 7.1: primary energy limit = NZEB reference − 10 %. */
     pedLimit: number;
-    /** 7.2: primary energy of the existing building (≥ 30 % reduction required). */
+    /** 7.2: primary energy of the existing building (≥ 30 % reduction required). */
     existingPed?: number;
     /** Whole-life GWP disclosure required (> 5.000 m²). */
     gwpRequired: boolean;
@@ -570,7 +570,7 @@ export type AnchorValues = DesignResults;
 
 export const ENERGY_CLASS_ORDER: EnergyClass[] = ['A+', 'A', 'B', 'C', 'D', 'E', 'F', 'G'];
 
-/** Energy class bands (Правилник): share of Qh,nd,max — A+ ≤ 15 %, A ≤ 25 %, B ≤ 50 %, C ≤ 100 %, D ≤ 150 %, E ≤ 200 %, F ≤ 250 %. */
+/** Energy class bands (Правилник): share of Qh,nd,max — A+ ≤ 15 %, A ≤ 25 %, B ≤ 50 %, C ≤ 100 %, D ≤ 150 %, E ≤ 200 %, F ≤ 250 %. */
 export const ENERGY_CLASS_BANDS: Array<{ cls: EnergyClass; maxShare: number }> = [
   { cls: 'A+', maxShare: 0.15 },
   { cls: 'A', maxShare: 0.25 },
@@ -758,7 +758,7 @@ export function evaluate(params: DesignParams, ctx: ModelContext, cal: Calibrati
   if (t.activity === '7.1') {
     criteria.push({
       id: 'ped',
-      label: 'Примарна енергија ≥ 10 % испод nZEB',
+      label: 'Примарна енергија ≥ 10 % испод nZEB',
       pass: Math.round(primaryEnergy) <= t.pedLimit,
       detail: `${Math.round(primaryEnergy)} / граница ${t.pedLimit} kWh/m²a`,
     });
@@ -767,9 +767,9 @@ export function evaluate(params: DesignParams, ctx: ModelContext, cal: Calibrati
     const reduction = existing > 0 ? (1 - primaryEnergy / existing) * 100 : 0;
     criteria.push({
       id: 'ped',
-      label: 'Смањење примарне енергије ≥ 30 %',
+      label: 'Смањење примарне енергије ≥ 30 %',
       pass: reduction >= 30,
-      detail: `−${Math.round(reduction)} % у односу на постојеће стање`,
+      detail: `−${Math.round(reduction)} % у односу на постојеће стање`,
     });
   }
   criteria.push({
@@ -931,7 +931,7 @@ export const COEFFICIENT_TABLE: Array<{ group: string; rows: CoefficientRow[] }>
       label: STRUCTURE_NAMES[k],
       value: STRUCTURE[k].carbon,
       unit: 'kgCO₂e/m²',
-      note: `бетон темеља ${Math.round(STRUCTURE[k].foundationShare * 100)} %, језгара ${Math.round(STRUCTURE[k].coreShare * 100)} %`,
+      note: `бетон темеља ${Math.round(STRUCTURE[k].foundationShare * 100)} %, језгара ${Math.round(STRUCTURE[k].coreShare * 100)} %`,
     })),
   },
   {
@@ -970,7 +970,7 @@ export const COEFFICIENT_TABLE: Array<{ group: string; rows: CoefficientRow[] }>
       { label: 'Сезонски COP топлотне пумпе', value: HEAT_PUMP_SCOP, unit: '' },
       { label: 'Фактор примарне енергије, струја', value: FP_ELECTRICITY, unit: '' },
       { label: 'Фактор примарне енергије, даљинско грејање', value: HEATING.daljinsko.primaryPerKwh, unit: '' },
-      { label: 'Поновна употреба: умањење угљеника конструкције', value: K.reuseEffect, unit: '% по 1 % удела' },
+      { label: 'Поновна употреба: умањење угљеника конструкције', value: K.reuseEffect, unit: '% по 1 % удела' },
     ],
   },
 ];

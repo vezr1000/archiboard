@@ -1,5 +1,6 @@
-import { ChevronRight } from 'lucide-react';
-import { Link } from 'react-router';
+import { ChevronRight, Route as RouteIcon } from 'lucide-react';
+import { Link, useNavigate } from 'react-router';
+import { useDemoGuideStore } from '@/store/useDemoGuideStore';
 import { Sheet } from '@/components/ui/Sheet';
 import { NAV_MORE } from './navigation';
 import { ResetDemoButton } from './ResetDemoButton';
@@ -7,6 +8,8 @@ import { ThemeToggle } from './ThemeToggle';
 
 /** Mobile „Више“ sheet: secondary pages, theme, demo reset. */
 export function MoreSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const navigate = useNavigate();
+  const reopenGuide = useDemoGuideStore((s) => s.reopen);
   return (
     <Sheet open={open} onClose={onClose} title="Више">
       <nav aria-label="Остале странице">
@@ -30,6 +33,21 @@ export function MoreSheet({ open, onClose }: { open: boolean; onClose: () => voi
       </div>
       <div className="mt-5 border-t border-line pt-4">
         <div className="mb-1 text-sm font-medium text-ink">Демо</div>
+        <button
+          type="button"
+          onClick={() => {
+            reopenGuide();
+            onClose();
+            navigate('/');
+          }}
+          className="-mx-1 mb-3 flex h-12 w-[calc(100%+0.5rem)] items-center gap-3 rounded-xl px-2 text-left text-ink hover:bg-surface-2"
+        >
+          <span className="inline-flex size-9 items-center justify-center rounded-xl bg-surface-2 text-accent">
+            <RouteIcon className="size-[1.1rem]" aria-hidden />
+          </span>
+          <span className="min-w-0 flex-1 truncate">Водич кроз демо</span>
+          <ChevronRight className="size-4 text-muted" aria-hidden />
+        </button>
         <p className="mb-3 text-xs text-muted">Враћа апликацију у почетно стање пре новог представљања.</p>
         <ResetDemoButton fullWidth onDone={onClose} />
       </div>

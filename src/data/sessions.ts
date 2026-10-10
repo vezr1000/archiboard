@@ -41,7 +41,7 @@ export const boardSessions: BoardSession[] = [
       'LCA ИДР — 312 kgCO₂e/m² (циљ 320)',
       'Подела крова између PV и зеленог крова',
       'Студија ветра — терасе на ЈИ угловима',
-      'DGNB претходна процена — 70 %',
+      'DGNB претходна процена — 70 %',
     ],
     requiredDocumentIds: ['doc-sk-idr', 'doc-sk-lu', 'doc-sk-dgnb-pre', 'doc-sk-cfd', 'doc-sk-sag-zavod'],
     outcome: 'approved-with-conditions',
@@ -85,7 +85,7 @@ export const boardSessions: BoardSession[] = [
     minutes:
       'Одбор је одобрио прелазак у ПГД уз пет услова. ИДР са 312 kgCO₂e/m² испуњава циљ, али LCA обухвата ' +
       'само A1–A3, па је затражено проширење на цео животни циклус пре Г2. Усвојена је подела крова: ' +
-      'екстензивни зелени кров на 55 % и PV од 120 kWp на преосталом делу (одлука dec-sk-04). Владимир ' +
+      'екстензивни зелени кров на 55 % и PV од 120 kWp на преосталом делу (одлука dec-sk-04). Владимир ' +
       'Костић је упозорио да ће висина од преко 22 m отворити питање фасадне облоге од дрвета у елаборату ' +
       'заштите од пожара — Ана Јовановић ће то проверити са пројектантом заштите од пожара.',
     aiFindings: [
@@ -112,7 +112,7 @@ export const boardSessions: BoardSession[] = [
         id: 'f-sk-g1-03',
         severity: 'info',
         title: 'Индекс заузетости 0,49 (граница 0,50)',
-        detail: 'Маргина 2 % — препорука да се габарит приземља закључа за ПГД.',
+        detail: 'Маргина 2 % — препорука да се габарит приземља закључа за ПГД.',
         reference: 'ЛУ стр. 3, тач. 2.1',
         documentId: 'doc-sk-lu',
       },
@@ -154,11 +154,11 @@ export const boardSessions: BoardSession[] = [
       {
         id: 'f-sk-g2-01',
         severity: 'critical',
-        title: 'Уграђени угљеник 12 % изнад циља',
+        title: 'Уграђени угљеник 12 % изнад циља',
         detail:
-          'LCA v2.0: 358 kgCO₂e/m² према циљу 320 (+11,9 %). Главни узрок је замена облоге од ариша ' +
+          'LCA v2.0: 358 kgCO₂e/m² према циљу 320 (+11,9 %). Главни узрок је замена облоге од ариша ' +
           'алуминијумским панелима у јуну (+29 kgCO₂e/m²). Фибер-цементне плоче (предлог одлуке) враћају ' +
-          'вредност на ~340, а у комбинацији са CEM III/A у АБ језгрима на ~333 kgCO₂e/m² (+4 %).',
+          'вредност на ~340, а у комбинацији са CEM III/A у АБ језгрима на ~333 kgCO₂e/m² (+4 %).',
         reference: 'LCA извештај v2.0, табела 4 — hotspot анализа',
         documentId: 'doc-sk-lca',
       },
@@ -176,7 +176,7 @@ export const boardSessions: BoardSession[] = [
       {
         id: 'f-sk-g2-03',
         severity: 'warning',
-        title: 'Индекс заузетости 0,49 — граница ПДР 0,50, маргина 2 %',
+        title: 'Индекс заузетости 0,49 — граница ПДР 0,50, маргина 2 %',
         detail:
           'Свака измена габарита у ПЗИ може прекорачити границу. Надстрешница над улазом у пасаж (25 m²) из ' +
           'коментара инвеститора искористила би половину преостале резерве.',
@@ -219,10 +219,10 @@ export const boardSessions: BoardSession[] = [
       {
         id: 'f-sk-g2-07',
         severity: 'info',
-        title: 'DGNB предвиђање 66 % — Gold уз малу резерву',
+        title: 'DGNB предвиђање 66 % — Gold уз малу резерву',
         detail:
-          'Праг за Gold је 65 %. Угрожени су ENV1.1 (LCA) и SOC1.1 (топлотни комфор); њиховим решавањем ' +
-          'оцена се враћа на око 70 %, колико тражи пројектни задатак.',
+          'Праг за Gold је 65 %. Угрожени су ENV1.1 (LCA) и SOC1.1 (топлотни комфор); њиховим решавањем ' +
+          'оцена се враћа на око 70 %, колико тражи пројектни задатак.',
         reference: 'DGNB претходна процена v2.1',
         documentId: 'doc-sk-dgnb-pre',
         regulationId: 'reg-dgnb',
@@ -230,7 +230,7 @@ export const boardSessions: BoardSession[] = [
       {
         id: 'f-sk-g2-08',
         severity: 'info',
-        title: 'Удео ОИЕ 28 % — испод циља од 30 %',
+        title: 'Удео ОИЕ 28 % — испод циља од 30 %',
         detail:
           'После поделе крова инсталисано је 120 kWp. Biosolar решење (PV на подконструкцији изнад ' +
           'екстензивног зеленог крова) додало би око 40 kWp без смањења фактора биотопа.',
@@ -284,7 +284,7 @@ export const boardSessions: BoardSession[] = [
       },
     ],
     minutes:
-      'ПГД одобрен. Енергетски циљеви испуњени са резервом (EDGE 52 %). Отворено питање приступачности ' +
+      'ПГД одобрен. Енергетски циљеви испуњени са резервом (EDGE 52 %). Отворено питање приступачности ' +
       'горњих етажа — постојеће окно лифта је преуско.',
     aiFindings: [],
     location: '11:00 · канцеларија Нови Сад',
@@ -359,8 +359,8 @@ export const boardSessions: BoardSession[] = [
       {
         id: 'f-pn-g1-02',
         severity: 'info',
-        title: 'Нагиб прелаза са насипа 7 %',
-        detail: 'На дужини од 40 m прелаз прелази 5 % — потребна рампа са одмориштима или алтернативна траса.',
+        title: 'Нагиб прелаза са насипа 7 %',
+        detail: 'На дужини од 40 m прелаз прелази 5 % — потребна рампа са одмориштима или алтернативна траса.',
         reference: 'Правилник о приступачности',
         regulationId: 'reg-pravilnik-pristupacnost',
       },
@@ -375,7 +375,7 @@ export const boardSessions: BoardSession[] = [
     gate: 'G3',
     date: '2026-02-18',
     memberIds: ['p-jelena-markovic', 'p-nikola-petrovic', 'p-vladimir-kostic'],
-    agenda: ['ПЗИ и избор извођача', 'BREEAM Design Stage — 72,3 %', 'Протокол за замене материјала'],
+    agenda: ['ПЗИ и избор извођача', 'BREEAM Design Stage — 72,3 %', 'Протокол за замене материјала'],
     requiredDocumentIds: ['doc-b42-gd', 'doc-b42-pzi-arh', 'doc-b42-breeam'],
     outcome: 'approved-with-conditions',
     conditions: [
@@ -438,12 +438,12 @@ export const boardSessions: BoardSession[] = [
     minutes:
       'Одбор констатује да је извођач у таваницама 1.–6. спрата уградио бетон са CEM II и наручио зид-завесу ' +
       'другог добављача без EPD, а инвеститору предложио смањење PV на 95 kWp. BREEAM процена је пала на ' +
-      '66,7 % (испод Excellent). Пројекат се враћа на дораду са планом опоравка до 31. октобра.',
+      '66,7 % (испод Excellent). Пројекат се враћа на дораду са планом опоравка до 31. октобра.',
     aiFindings: [
       {
         id: 'f-b42-rev-01',
         severity: 'critical',
-        title: 'BREEAM 66,7 % — испод прага Excellent (70 %)',
+        title: 'BREEAM 66,7 % — испод прага Excellent (70 %)',
         detail: 'Губитак кредита у Mat 01 (LCA), Mat 03 (одговорна набавка) и Ene 04 (нискоугљеничне технологије).',
         reference: 'Анализа замена материјала v1.2',
         documentId: 'doc-b42-zamene',
@@ -451,7 +451,7 @@ export const boardSessions: BoardSession[] = [
       {
         id: 'f-b42-rev-02',
         severity: 'warning',
-        title: 'Уграђени угљеник +11 % у односу на циљ',
+        title: 'Уграђени угљеник +11 % у односу на циљ',
         detail: '421 kgCO₂e/m² према циљу 380 — CEM II у таваницама (+21), зид-завеса без EPD (+23 са фактором сигурности).',
         reference: 'LCA извештај v3.0',
         documentId: 'doc-b42-lca',
@@ -513,7 +513,7 @@ export const boardSessions: BoardSession[] = [
     gate: 'G0',
     date: '2025-12-10',
     memberIds: ['p-jelena-markovic', 'p-nikola-petrovic', 'p-dragan-ilic', 'p-vladimir-kostic'],
-    agenda: ['Програм пренамене', 'LEED Gold и циљ поновне употребе ≥ 60 %', 'Снимак постојећег стања'],
+    agenda: ['Програм пренамене', 'LEED Gold и циљ поновне употребе ≥ 60 %', 'Снимак постојећег стања'],
     requiredDocumentIds: ['doc-sp-snimak'],
     outcome: 'approved',
     conditions: [],
@@ -536,8 +536,8 @@ export const boardSessions: BoardSession[] = [
       {
         id: 'f-sp-g1-01',
         severity: 'warning',
-        title: 'Удео поново употребљених материјала 48 % (циљ 60 %)',
-        detail: 'Пад после замене кородираних носача. LEED кредит за поновну употребу зграде је на граници (52 %).',
+        title: 'Удео поново употребљених материјала 48 % (циљ 60 %)',
+        detail: 'Пад после замене кородираних носача. LEED кредит за поновну употребу зграде је на граници (52 %).',
         reference: 'Преглед материјала пре рушења v1.1',
         documentId: 'doc-sp-audit',
       },

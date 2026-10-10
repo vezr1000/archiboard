@@ -16,7 +16,7 @@ export const certScoreUnit = (scheme: CertificationScheme): string => (scheme ==
 /** „66%“ or „58 бод.“. */
 export function formatCertScore(value: number, scheme: CertificationScheme): string {
   const v = formatNumber(value, Number.isInteger(value) ? 0 : 1);
-  return scheme === 'LEED' ? `${v} бод.` : `${v}%`;
+  return scheme === 'LEED' ? `${v} бод.` : `${v} %`;
 }
 
 /** Tracker thresholds (stored as % of the scale max) converted to score units, for `RingScore`. */

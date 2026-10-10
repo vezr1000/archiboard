@@ -98,8 +98,8 @@ export function BarChart({ data, max, format = (v) => formatNumber(v), unit, dir
           className="mt-3"
           items={[
             { label: 'У оквиру циља', color: toneVar('good') },
-            { label: 'До 10% одступања', color: toneVar('warn') },
-            { label: 'Изнад 10%', color: toneVar('bad') },
+            { label: 'До 10 % одступања', color: toneVar('warn') },
+            { label: 'Изнад 10 %', color: toneVar('bad') },
             { label: 'Циљ', color: 'var(--ink)', shape: 'line' },
           ]}
         />

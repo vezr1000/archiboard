@@ -88,7 +88,7 @@ export function KpiStep({ session, project, review, update, checks }: StepProps 
     <div className="flex flex-col gap-5">
       <Card
         title="Пресуда по показатељима"
-        subtitle={`Праг капије = циљ пројекта · упозорење до ${GATE_TOLERANCE_PCT} % одступања`}
+        subtitle={`Праг капије = циљ пројекта · упозорење до ${GATE_TOLERANCE_PCT} % одступања`}
       >
         <p className={cn('font-display text-xl leading-snug', TONE_CLASSES[verdictTone].text)}>{verdict}.</p>
         <StackedBar

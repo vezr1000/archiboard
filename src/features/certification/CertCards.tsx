@@ -186,7 +186,7 @@ function EdgeSavings({ model }: { model: CertModel }) {
               label={c.label}
               valueLabel={
                 <span className={ok ? 'text-good' : 'text-warn'}>
-                  {formatNumber(c.achieved, 0)} % <span className="font-normal text-muted">/ захтев {formatNumber(c.targeted, 0)} %</span>
+                  {formatNumber(c.achieved, 0)} % <span className="font-normal text-muted">/ захтев {formatNumber(c.targeted, 0)} %</span>
                 </span>
               }
               value={c.achieved}
@@ -264,7 +264,7 @@ export function CategoryCard({ model }: { model: CertModel }) {
                   ]}
                 />
                 <div className="mt-1 text-[0.7rem] text-muted">
-                  тежина {formatNumber(r.weight, 1)} %
+                  тежина {formatNumber(r.weight, 1)} %
                   {r.atRisk > 0 && <> · угрожено {formatNumber(r.atRisk, Number.isInteger(r.atRisk) ? 0 : 1)} {unit}</>}
                 </div>
               </li>

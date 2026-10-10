@@ -160,7 +160,7 @@ export const stakeholders: Stakeholder[] = [
     interest: 4,
     attitude: 'supportive',
     obligations: [
-      'Доказ: примарна енергија 10 % испод nZEB референце',
+      'Доказ: примарна енергија 10 % испод nZEB референце',
       'Обелодањивање GWP у животном циклусу (зграда > 5.000 m²)',
       'Енергетски пасош најмање разреда B',
     ],
@@ -325,7 +325,7 @@ export const stakeholders: Stakeholder[] = [
     projectId: 'blok-42',
     name: 'Главни закупац',
     organization: 'Регионално седиште међународне банке',
-    role: 'Закупац 60 % површине',
+    role: 'Закупац 60 % површине',
     influence: 4,
     interest: 3,
     attitude: 'supportive',
@@ -369,7 +369,7 @@ export const stakeholders: Stakeholder[] = [
     interest: 4,
     attitude: 'supportive',
     obligations: [],
-    log: [{ date: '2026-10-02', kind: 'javna-rasprava', summary: 'Анкета: 78 % подржава дрвени вртић.' }],
+    log: [{ date: '2026-10-02', kind: 'javna-rasprava', summary: 'Анкета: 78 % подржава дрвени вртић.' }],
   },
 
   /* ================================ Стара пивара ================================ */

@@ -42,7 +42,7 @@ export function Stat({
   unit,
   decimals,
   delta,
-  deltaUnit = '%',
+  deltaUnit = ' %',
   deltaLabel,
   direction = 'higher-better',
   deltaToneOverride,

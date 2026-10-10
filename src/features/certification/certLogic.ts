@@ -39,7 +39,7 @@ export interface CertModel {
 const EDGE_SHORT: Record<string, string> = { energy: 'енергије', water: 'воде', materials: 'материјала' };
 
 function edgeSentence(level: string, cats: CertificationCategoryScore[]): { tone: Tone; text: string } {
-  const parts = cats.map((c) => `${EDGE_SHORT[c.id] ?? c.label.toLowerCase()} ${formatNumber(c.achieved, 0)} % (захтев ${formatNumber(c.targeted, 0)} %)`);
+  const parts = cats.map((c) => `${EDGE_SHORT[c.id] ?? c.label.toLowerCase()} ${formatNumber(c.achieved, 0)} % (захтев ${formatNumber(c.targeted, 0)} %)`);
   const unmet = cats.filter((c) => c.achieved < c.targeted).map((c) => EDGE_SHORT[c.id] ?? c.label);
   if (unmet.length === 0) {
     return { tone: 'good', text: `EDGE ${level} је достижан: уштеде ${parts.join(', ')} премашују захтеве.` };

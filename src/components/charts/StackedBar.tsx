@@ -21,7 +21,7 @@ export interface StackedBarProps {
   total?: number;
   /** Marker at this value (e.g. target). */
   marker?: number;
-  /** Tone for the part of the bar beyond `marker` (e.g. allocation above 100 %). Only used with `marker`. */
+  /** Tone for the part of the bar beyond `marker` (e.g. allocation above 100 %). Only used with `marker`. */
   overMarkerTone?: Tone;
   height?: 'sm' | 'md' | 'lg';
   showLegend?: boolean;

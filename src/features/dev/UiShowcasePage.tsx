@@ -112,7 +112,7 @@ const DOC_STATUS: Record<'draft' | 'review' | 'approved', { label: string; tone:
 
 const AI_ANSWER =
   'Према Правилнику о енергетској ефикасности зграда, нова стамбена зграда мора да оствари најмање енергетски разред C.\n\n' +
-  'За усклађеност са EU таксономијом потребна је примарна енергија најмање 10% испод NZEB захтева, што за Савски кеј значи циљ од око 50 kWh/m²a.';
+  'За усклађеност са EU таксономијом потребна је примарна енергија најмање 10 % испод NZEB захтева, што за Савски кеј значи циљ од око 50 kWh/m²a.';
 
 /* ---------- helpers ---------- */
 
@@ -253,7 +253,7 @@ export function UiShowcasePage() {
 
       <Block title="Картице и показатељи">
         <div className={grid3}>
-          <Card title="Уграђени угљеник" subtitle="A1–A3, ПГД" action={<Badge tone="warn">+12%</Badge>}>
+          <Card title="Уграђени угљеник" subtitle="A1–A3, ПГД" action={<Badge tone="warn">+12 %</Badge>}>
             <Stat
               label="Тренутно"
               value={358}
@@ -301,7 +301,7 @@ export function UiShowcasePage() {
           </Card>
         </div>
         <div className="mt-4 flex flex-col gap-3">
-          <Callout tone="warn" title="Уграђени угљеник 12% изнад циља">Након промене фасаде са дрвене облоге на алуминијумске панеле.</Callout>
+          <Callout tone="warn" title="Уграђени угљеник 12 % изнад циља">Након промене фасаде са дрвене облоге на алуминијумске панеле.</Callout>
           <Callout tone="info" title="Савет" action={<Button size="sm" variant="secondary">Отвори</Button>}>
             Г2 захтева LCA извештај који покрива фазе A1–C4.
           </Callout>
@@ -426,7 +426,7 @@ export function UiShowcasePage() {
           selectedKey={sel}
           mobileAside={(d) => <Badge tone={DOC_STATUS[d.status].tone}>{DOC_STATUS[d.status].label}</Badge>}
           columns={[
-            { id: 'title', header: 'Назив', cell: (d) => d.title, width: '40%' },
+            { id: 'title', header: 'Назив', cell: (d) => d.title, width: '40 %' },
             { id: 'type', header: 'Врста', cell: (d) => d.type },
             { id: 'version', header: 'Верзија', cell: (d) => d.version },
             {

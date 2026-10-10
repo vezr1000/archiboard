@@ -348,10 +348,10 @@ export interface DesignParams {
   /** Rooftop/facade PV peak power in kWp. */
   pvKwp: number;
   heating: HeatingSystem;
-  /** Share of reused / recycled materials by mass, 0..100 %. */
+  /** Share of reused / recycled materials by mass, 0..100 %. */
   reusedPct: number;
   concreteMix: ConcreteMix;
-  /** Green roof share of roof area, 0..100 %. */
+  /** Green roof share of roof area, 0..100 %. */
   greenRoofPct?: number;
   /** Ventilated-facade cladding (step 6). Default 'aluminijum' for `ventilisana`; ignored for other facades. */
   cladding?: Cladding;
@@ -380,7 +380,7 @@ export interface DesignResults {
   costDeltaPct: number;
   /** Certification points (scheme %) predicted. */
   certPoints: number;
-  /** % of floor area with DF ≥ 2 %. */
+  /** % of floor area with DF ≥ 2 %. */
   daylightPct: number;
   durationMonths: number;
   /** Optional extras saved from the what-if calculator (step 6). Whole-life carbon A1–C4 excl. B6, kgCO₂e/m². */
@@ -638,7 +638,7 @@ export interface Material {
   originCity: string;
   /** Transport distance to Belgrade, km. */
   distanceKm: number;
-  /** Recycled content 0..100 %. */
+  /** Recycled content 0..100 %. */
   recycledPct: number;
   reusePotential: ReusePotential;
   bioBased: boolean;

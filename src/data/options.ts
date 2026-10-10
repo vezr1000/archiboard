@@ -3,7 +3,7 @@ import type { DesignOption } from '@/domain/types';
 /**
  * Design options (Варијанте). Results are on the CURRENT design basis: for Савски кеј every option already
  * includes the non-combustible facade cladding required above 22 m, so the selected option Б equals the
- * project's current KPIs (358 kgCO₂e/m², Qh,nd 27 kWh/m²a, class B, DGNB 66 %).
+ * project's current KPIs (358 kgCO₂e/m², Qh,nd 27 kWh/m²a, class B, DGNB 66 %).
  * `certPoints` uses the project's scheme unit (DGNB %, EDGE energy savings %, LEED points).
  * `operationalEnergy` = Qh,nd (kWh/m²a).
  * Optional params (`cladding`, `windows`, `coreConcreteMix`, `shading`) were added in step 6 for the what-if model

@@ -120,7 +120,7 @@ export function CalculatorControls({ params: p, refParams, onChange, pvMax, topF
         />
         <Toggle
           label={label('mvhr', 'Вентилација са рекуперацијом')}
-          description="Смањује губитке вентилацијом за 60 %"
+          description="Смањује губитке вентилацијом за 60 %"
           checked={p.mvhr}
           onChange={(mvhr) => onChange({ mvhr })}
         />
@@ -140,7 +140,7 @@ export function CalculatorControls({ params: p, refParams, onChange, pvMax, topF
           />
         </SegmentedField>
         <p className="-mt-1 text-xs text-muted">
-          {CONCRETE_MIX_LABELS['cem-iii']} и нискоклинкерски цемент (LC3) смањују угљеник бетона за 23–30 % у односу на CEM II.
+          {CONCRETE_MIX_LABELS['cem-iii']} и нискоклинкерски цемент (LC3) смањују угљеник бетона за 23–30 % у односу на CEM II.
         </p>
         <Slider
           label={label('reusedPct', 'Поново употребљени материјали')}

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ChevronUp, RotateCcw, Save, Send, Sparkles } from 'lucide-react';
+import { ArrowDown, ChevronUp, RotateCcw, Save, Send, Sparkles } from 'lucide-react';
 import type { DivergingDatum } from '@/components/charts';
 import { FeedbackWidget } from '@/components/feedback/FeedbackWidget';
 import { paths } from '@/components/layout/navigation';
@@ -297,6 +297,13 @@ export function WhatIfCalculator({ project, model, options, calc, setCalc }: Wha
 
       <div className="grid gap-4 lg:grid-cols-12 lg:gap-6">
         <div ref={controlsRef} className="min-w-0 lg:col-span-5">
+          <button
+            type="button"
+            onClick={scrollToResults}
+            className="mb-3 inline-flex h-10 items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 text-sm font-medium text-accent hover:border-line-strong lg:hidden"
+          >
+            Резултати <ArrowDown className="size-4" aria-hidden />
+          </button>
           <CalculatorControls
             params={calc.params}
             refParams={refParams}

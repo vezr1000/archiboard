@@ -158,15 +158,15 @@ function Utilisation({ v }: { v: UrbanParamView }) {
         target={p.limit}
         tone={v.tone}
         size="sm"
-        ariaLabel={`${p.label}: искоришћење ${formatNumber(v.utilisationPct, 0)} %`}
+        ariaLabel={`${p.label}: искоришћење ${formatNumber(v.utilisationPct, 0)} %`}
         className="min-w-0 flex-1"
       />
-      <span className="tabular w-11 shrink-0 text-right text-xs text-muted">{formatNumber(v.utilisationPct, 0)} %</span>
+      <span className="tabular w-11 shrink-0 text-right text-xs text-muted">{formatNumber(v.utilisationPct, 0)} %</span>
     </div>
   );
 }
 
-/** Urban parameters: limit vs design with comparator, utilisation bar and status (margin < 5 % = „на граници“). */
+/** Urban parameters: limit vs design with comparator, utilisation bar and status (margin < 5 % = „на граници“). */
 export function UrbanParamsCard({ site }: { site: SiteInfo }) {
   const views = site.urbanParams.map(evaluateUrbanParam);
   const count = (s: UrbanParamView['status']) => views.filter((v) => v.status === s).length;
@@ -209,7 +209,7 @@ export function UrbanParamsCard({ site }: { site: SiteInfo }) {
           </Badge>
         )}
       />
-      <p className="mt-3 text-xs text-muted">„На граници“ = маргина до ограничења мања од 5 %. Маркер на траци означава ограничење.</p>
+      <p className="mt-3 text-xs text-muted">„На граници“ = маргина до ограничења мања од 5 %. Маркер на траци означава ограничење.</p>
     </Card>
   );
 }

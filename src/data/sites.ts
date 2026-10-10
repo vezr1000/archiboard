@@ -12,17 +12,17 @@ const DIRS: CompassDir[] = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S
 const rose = (freq: number[], maxSpeed: number[]): WindRoseEntry[] =>
   DIRS.map((dir, i) => ({ dir, freq: freq[i], maxSpeed: maxSpeed[i] }));
 
-/* Београд — кошава (ИЈИ/ЈИ) dominant in the cold season, W–NW in summer. Calms ≈ 20 %. */
+/* Београд — кошава (ИЈИ/ЈИ) dominant in the cold season, W–NW in summer. Calms ≈ 20 %. */
 const ROSE_BEOGRAD = rose(
   [4, 2.5, 2.5, 3, 5.5, 10.5, 11, 4, 3, 2, 2.5, 3.5, 7.5, 6.5, 8, 4],
   [16, 13, 13, 15, 20, 27, 30, 18, 14, 12, 13, 15, 21, 19, 22, 16],
 );
-/* Нови Сад — NW dominant, кошава weaker than in Belgrade. Calms ≈ 22 %. */
+/* Нови Сад — NW dominant, кошава weaker than in Belgrade. Calms ≈ 22 %. */
 const ROSE_NOVI_SAD = rose(
   [6, 3, 3, 3, 4, 6.5, 8.5, 4, 4, 2.5, 3, 3.5, 6, 6.5, 9, 5.5],
   [17, 13, 12, 13, 16, 22, 24, 15, 14, 12, 13, 15, 19, 20, 23, 18],
 );
-/* Ниш — NW along the Morava valley and E from the Nišava gorge. Calms ≈ 23 %. */
+/* Ниш — NW along the Morava valley and E from the Nišava gorge. Calms ≈ 23 %. */
 const ROSE_NIS = rose(
   [6, 3, 3, 4.5, 8, 5, 3.5, 3, 4, 3, 2.5, 3, 5.5, 6.5, 9.5, 6],
   [16, 12, 12, 16, 21, 17, 14, 13, 14, 12, 11, 13, 17, 19, 22, 17],
@@ -36,7 +36,7 @@ const AIR_NOVI_SAD =
   'са пољопривредних површина.';
 const AIR_NIS =
   'Ниш је међу градовима са највишим зимским концентрацијама PM2,5 у Србији (индивидуална ложишта, ' +
-  'котлинска инверзија). Унутрашњи ваздух захтева филтрацију најмање ePM1 50 %.';
+  'котлинска инверзија). Унутрашњи ваздух захтева филтрацију најмање ePM1 50 %.';
 
 export const sites: SiteInfo[] = [
   /* ================================ Савски кеј — блок Ц ================================ */

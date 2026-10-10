@@ -38,7 +38,7 @@ export function WindRose({ data, highlight = [], size = 260, title, className }:
   return (
     <figure className={cn('min-w-0', className)}>
       <svg viewBox={`0 0 ${box} ${box}`} className="mx-auto block w-full" style={{ maxWidth: size }} role="img" aria-labelledby={titleId}>
-        <title id={titleId}>{`${title}: ${data.map((d) => `${COMPASS_LABELS[d.dir]} ${formatNumber(d.freq, 0)}%`).join(', ')}`}</title>
+        <title id={titleId}>{`${title}: ${data.map((d) => `${COMPASS_LABELS[d.dir]} ${formatNumber(d.freq, 0)} %`).join(', ')}`}</title>
         {rings.map((k) => (
           <circle key={k} cx={cx} cy={cy} r={R * k} fill="none" stroke="var(--line)" strokeWidth="1" />
         ))}
@@ -60,7 +60,7 @@ export function WindRose({ data, highlight = [], size = 260, title, className }:
               stroke={hl ? 'var(--clay)' : 'var(--accent)'}
               strokeWidth="1"
             >
-              <title>{`${COMPASS_LABELS[d.dir]}: ${formatNumber(d.freq, 1)}%, макс. ${formatNumber(d.maxSpeed, 0)} m/s`}</title>
+              <title>{`${COMPASS_LABELS[d.dir]}: ${formatNumber(d.freq, 1)} %, макс. ${formatNumber(d.maxSpeed, 0)} m/s`}</title>
             </path>
           );
         })}
@@ -76,7 +76,7 @@ export function WindRose({ data, highlight = [], size = 260, title, className }:
           const p = polar(cx, cy, R * k, 202.5); // ring labels in the (usually calm) SSW sector
           return (
             <text key={k} x={p.x - 2} y={p.y + 2} fontSize="8.5" fill="var(--muted)" textAnchor="end" dominantBaseline="hanging">
-              {formatNumber(ringMax * k, 0)}%
+              {formatNumber(ringMax * k, 0)} %
             </text>
           );
         })}

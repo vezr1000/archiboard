@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { useState, type ReactNode } from 'react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { EmptyState } from './EmptyState';
 
@@ -32,6 +32,12 @@ export interface DataListProps<T> {
   groupBy?: (row: T) => string;
   /** Header content of a group (default: the group key). */
   groupHeader?: (key: string, rows: T[]) => ReactNode;
+  /** Mobile cards only: group headers become tap-to-expand toggles and groups start collapsed. */
+  collapsibleGroupsOnMobile?: boolean;
+  /** With `collapsibleGroupsOnMobile`: force every group open (e.g. while filters are active). */
+  expandAllGroups?: boolean;
+  /** Header content of a group in the mobile list (default: `groupHeader`). */
+  mobileGroupHeader?: (key: string, rows: T[]) => ReactNode;
   /** Accessible table caption (visually hidden). */
   caption?: string;
   className?: string;
@@ -60,7 +66,11 @@ export function DataList<T>({
   groupHeader,
   caption,
   className,
+  collapsibleGroupsOnMobile,
+  expandAllGroups,
+  mobileGroupHeader,
 }: DataListProps<T>) {
+  const [openGroups, setOpenGroups] = useState<ReadonlySet<string>>(() => new Set());
   if (rows.length === 0) return <EmptyState compact title={emptyText} className={className} />;
   const primary = columns.find((c) => c.id === primaryColumn) ?? columns[0];
   const rest = columns.filter((c) => c !== primary && !c.hideOnMobile);
@@ -72,6 +82,16 @@ export function DataList<T>({
     else groups.push({ key, rows: [row] });
   }
   const headerOf = (g: { key: string; rows: T[] }) => (groupHeader ? groupHeader(g.key, g.rows) : g.key);
+  const mobileHeaderOf = (g: { key: string; rows: T[] }) =>
+    mobileGroupHeader ? mobileGroupHeader(g.key, g.rows) : headerOf(g);
+  const collapsible = Boolean(groupBy && collapsibleGroupsOnMobile);
+  const isOpen = (key: string) => !collapsible || Boolean(expandAllGroups) || openGroups.has(key);
+  const toggleGroup = (key: string) =>
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      if (!next.delete(key)) next.add(key);
+      return next;
+    });
   const alignCls = (a?: 'left' | 'right' | 'center') => (a === 'right' ? 'text-right' : a === 'center' ? 'text-center' : 'text-left');
 
   return (
@@ -145,11 +165,23 @@ export function DataList<T>({
       <ul className="flex flex-col gap-2 md:hidden" aria-label={caption}>
         {groups.map((g) => [
           groupBy && (
-            <li key={`g-${g.key}`} className="mt-2 px-1 text-xs font-semibold text-ink first:mt-0">
-              {headerOf(g)}
+            <li key={`g-${g.key}`} className={cn('mt-2 text-xs font-semibold text-ink first:mt-0', !collapsible && 'px-1')}>
+              {collapsible ? (
+                <button
+                  type="button"
+                  aria-expanded={isOpen(g.key)}
+                  onClick={() => toggleGroup(g.key)}
+                  className="flex min-h-11 w-full items-center justify-between gap-2 rounded-xl border border-line bg-surface-2/60 px-3 text-left"
+                >
+                  <span className="min-w-0 flex-1">{mobileHeaderOf(g)}</span>
+                  <ChevronDown className={cn('size-4 shrink-0 text-muted transition-transform', isOpen(g.key) && 'rotate-180')} aria-hidden />
+                </button>
+              ) : (
+                headerOf(g)
+              )}
             </li>
           ),
-          ...g.rows.map((row) => {
+          ...(isOpen(g.key) ? g.rows : []).map((row) => {
           const key = rowKey(row);
           const body = (
             <>

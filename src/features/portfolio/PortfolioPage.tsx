@@ -11,6 +11,7 @@ import { DEMO_TODAY, daysFromToday } from '@/lib/dates';
 import { formatArea, formatDate, formatNumber, formatPct, formatRelative } from '@/lib/format';
 import { ProjectCard } from '@/features/projects/ProjectCard';
 import { AttentionList } from './AttentionList';
+import { DemoGuideCard } from './DemoGuideCard';
 import { buildingProjects, portfolioStats } from './portfolioStats';
 
 const ATTENTION_PREVIEW = 4;
@@ -38,6 +39,8 @@ export function PortfolioPage() {
         title={`Добро јутро, ${user?.name.split(' ')[0] ?? 'Јелена'}`}
         subtitle={`${FIRM.name} · ${stats.activeCount} активних пројеката. Ево шта одбор данас треба да зна.`}
       />
+
+      <DemoGuideCard />
 
       {/* KPI strip */}
       <section aria-label="Показатељи портфолија" className="grid grid-cols-2 gap-3 md:grid-cols-5">

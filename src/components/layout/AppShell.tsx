@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router';
 import { BottomNav } from './BottomNav';
+import { RouteSuspense } from './PageFallback';
 import { ScrollToTop } from './ScrollToTop';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
@@ -26,7 +27,9 @@ export function AppShell() {
       <TopBar />
       <div className="lg:pl-[15.5rem]">
         <main id="main" tabIndex={-1} className="mx-auto w-full max-w-[1200px] px-4 pt-5 pb-[calc(6rem+env(safe-area-inset-bottom))] outline-none md:px-6 md:pt-8 lg:px-10 lg:pt-10 lg:pb-16">
-          <Outlet />
+          <RouteSuspense>
+            <Outlet />
+          </RouteSuspense>
         </main>
       </div>
       <BottomNav />

@@ -8,7 +8,7 @@ import type { KpiDefinition, ProjectKpi } from '@/domain/types';
  *   GWP = fossil A1–A3 per EN 15804+A2 (GWP-fossil). Biogenic carbon in timber is NOT credited (no −1/+1).
  * - `operational-energy` is the annual heating need Qh,nd — the basis of the Serbian energy-passport class.
  *   Class limits for a new multi-family residential building (Qh,nd,max = 60 kWh/m²a = class C):
- *   B ≤ 50 %, A ≤ 25 %, A+ ≤ 15 % of the maximum.
+ *   B ≤ 50 %, A ≤ 25 %, A+ ≤ 15 % of the maximum.
  * - For lower-better KPIs `regulatoryMin` holds the regulatory MAXIMUM (the limit that must not be exceeded).
  * - Serbia has not yet published numeric nZEB values; the firm uses an interim reference for the
  *   EU Taxonomy primary-energy check (see `primary-energy`).
@@ -51,7 +51,7 @@ export const kpiDefinitions: KpiDefinition[] = [
     description:
       'Годишња потребна енергија за грејање по m² корисне површине, прорачун по Правилнику о енергетској ' +
       'ефикасности зграда. За нову стамбену зграду са више станова максимум је 60 kWh/m²a (разред C); разред B ' +
-      'захтева ≤ 50 %, A ≤ 25 %, A+ ≤ 15 % те вредности. Passivhaus: ≤ 15 kWh/m²a.',
+      'захтева ≤ 50 %, A ≤ 25 %, A+ ≤ 15 % те вредности. Passivhaus: ≤ 15 kWh/m²a.',
   },
   {
     id: 'primary-energy',
@@ -63,7 +63,7 @@ export const kpiDefinitions: KpiDefinition[] = [
     benchmarks: { euTaxonomy: 90, firmTarget: 80, bestPractice: 60 },
     description:
       'Годишња примарна енергија (грејање, хлађење, вентилација, топла вода, помоћна енергија). EU таксономија ' +
-      'тражи вредност најмање 10 % испод nZEB захтева. Док Србија не објави нумеричке nZEB вредности, фирма ' +
+      'тражи вредност најмање 10 % испод nZEB захтева. Док Србија не објави нумеричке nZEB вредности, фирма ' +
       'користи интерну референцу од 100 kWh/m²a, па је праг таксономије 90 kWh/m²a.',
   },
   {
@@ -141,14 +141,14 @@ export const kpiDefinitions: KpiDefinition[] = [
   },
   {
     id: 'daylight',
-    label: 'Дневно светло (DF ≥ 2 %)',
+    label: 'Дневно светло (DF ≥ 2 %)',
     shortLabel: 'Дневно светло',
     unit: '%',
     direction: 'higher-better',
     decimals: 0,
     benchmarks: { firmTarget: 75, bestPractice: 90 },
     description:
-      'Удео корисне површине боравишних просторија са фактором дневног светла ≥ 2 %, према симулацији ' +
+      'Удео корисне површине боравишних просторија са фактором дневног светла ≥ 2 %, према симулацији ' +
       '(методологија у складу са EN 17037).',
   },
   {
@@ -184,7 +184,7 @@ export const projectKpis: ProjectKpi[] = [
     ],
     note:
       'Пре промене фасаде 329 kgCO₂e/m²; замена дрвене облоге алуминијумским панелима (јун 2026) додала је ' +
-      '+29 kgCO₂e/m². Тренутно 12 % изнад циља.',
+      '+29 kgCO₂e/m². Тренутно 12 % изнад циља.',
   },
   {
     projectId: 'savski-kej',
@@ -208,7 +208,7 @@ export const projectKpis: ProjectKpi[] = [
       { phase: 'idr', value: 26 },
       { phase: 'pgd', value: 27 },
     ],
-    note: 'Елаборат ЕЕ v1.2 — разред B (45 % од максимално дозвољене вредности).',
+    note: 'Елаборат ЕЕ v1.2 — разред B (45 % од максимално дозвољене вредности).',
   },
   {
     projectId: 'savski-kej',
@@ -277,7 +277,7 @@ export const projectKpis: ProjectKpi[] = [
       { phase: 'idr', value: 42 },
       { phase: 'pgd', value: 41 },
     ],
-    note: 'Од тога 15,8 % на природном тлу (минимум по ЛУ 15 %).',
+    note: 'Од тога 15,8 % на природном тлу (минимум по ЛУ 15 %).',
   },
   {
     projectId: 'savski-kej',
@@ -619,9 +619,10 @@ export const projectKpis: ProjectKpi[] = [
   {
     projectId: 'vrtic-bubamara',
     kpiId: 'energy-class',
-    target: 1,
-    current: 1,
-    history: [{ phase: 'zadatak', value: 1 }],
+    target: 2,
+    current: 2,
+    history: [{ phase: 'zadatak', value: 2 }],
+    note: 'Qh,nd 14 kWh/m²a износи ≈ 22 % од дозвољеног максимума ⇒ разред A (разред A+ захтева ≤ 9,75 kWh/m²a).',
   },
   {
     projectId: 'vrtic-bubamara',
@@ -663,7 +664,7 @@ export const projectKpis: ProjectKpi[] = [
       { phase: 'idr', value: 192 },
     ],
     note:
-      'Преглед конструкције (август 2026) показао корозију на 30 % решеткастих носача — замена новим челиком ' +
+      'Преглед конструкције (август 2026) показао корозију на 30 % решеткастих носача — замена новим челиком ' +
       'и већи удео нове надоградње подигли су вредност за +27 kgCO₂e/m².',
   },
   {

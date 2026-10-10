@@ -69,8 +69,8 @@ export const documents: ProjectDocument[] = [
     updated: '2026-01-20',
     requiredForGates: ['G1'],
     history: [
-      { version: 'v1.0', date: '2025-06-26', note: 'Процена по варијантама — Б достиже 71 %.' },
-      { version: 'v2.0', date: '2025-12-15', note: 'Ажурирано за ИДР v3.0 — 70 %.' },
+      { version: 'v1.0', date: '2025-06-26', note: 'Процена по варијантама — Б достиже 71 %.' },
+      { version: 'v2.0', date: '2025-12-15', note: 'Ажурирано за ИДР v3.0 — 70 %.' },
       { version: 'v2.1', date: '2026-01-20', note: 'Коментари одбора пре Г1.' },
     ],
   },
@@ -326,7 +326,7 @@ export const documents: ProjectDocument[] = [
     ownerId: 'p-marko-djordjevic',
     updated: '2026-08-20',
     requiredForGates: [],
-    history: [{ version: 'v1.0', date: '2026-08-20', note: '78 % боравишне површине са DF ≥ 2 %.' }],
+    history: [{ version: 'v1.0', date: '2026-08-20', note: '78 % боравишне површине са DF ≥ 2 %.' }],
   },
   {
     id: 'doc-sk-akustika',
@@ -424,7 +424,7 @@ export const documents: ProjectDocument[] = [
     ownerId: 'p-nikola-petrovic',
     updated: '2025-09-04',
     requiredForGates: ['G3'],
-    history: [{ version: 'v1.0', date: '2025-09-04', note: 'Енергија 52 %, вода 31 %, материјали 38 % — EDGE Advanced.' }],
+    history: [{ version: 'v1.0', date: '2025-09-04', note: 'Енергија 52 %, вода 31 %, материјали 38 % — EDGE Advanced.' }],
   },
   {
     id: 'doc-os-pzi-arh',
@@ -554,7 +554,7 @@ export const documents: ProjectDocument[] = [
     ownerId: 'p-nikola-petrovic',
     updated: '2025-10-01',
     requiredForGates: ['G3'],
-    history: [{ version: 'v2.0', date: '2025-10-01', note: 'Предвиђено 72,3 % — Excellent.' }],
+    history: [{ version: 'v2.0', date: '2025-10-01', note: 'Предвиђено 72,3 % — Excellent.' }],
   },
   {
     id: 'doc-b42-zamene',
@@ -671,7 +671,7 @@ export const documents: ProjectDocument[] = [
     ownerId: 'p-dusan-vukovic',
     updated: '2026-08-28',
     requiredForGates: ['G1'],
-    history: [{ version: 'v1.0', date: '2026-08-28', note: 'Корозија на 30 % носача (ослонци и доњи појасеви) — замена.' }],
+    history: [{ version: 'v1.0', date: '2026-08-28', note: 'Корозија на 30 % носача (ослонци и доњи појасеви) — замена.' }],
   },
   {
     id: 'doc-sp-audit',
@@ -685,8 +685,8 @@ export const documents: ProjectDocument[] = [
     updated: '2026-09-17',
     requiredForGates: ['G1'],
     history: [
-      { version: 'v1.0', date: '2026-05-12', note: 'Удео поново употребљивих материјала 62 %.' },
-      { version: 'v1.1', date: '2026-09-17', note: 'После прегледа конструкције — 48 %.' },
+      { version: 'v1.0', date: '2026-05-12', note: 'Удео поново употребљивих материјала 62 %.' },
+      { version: 'v1.1', date: '2026-09-17', note: 'После прегледа конструкције — 48 %.' },
     ],
   },
   {

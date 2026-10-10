@@ -6,7 +6,7 @@ import type { CheckStatus, KpiDirection, Tone } from '@/domain/types';
 /**
  * Status of a value against a target.
  * - pass: meets the target
- * - warn: misses by ≤ `tolerancePct` (default 10 %)
+ * - warn: misses by ≤ `tolerancePct` (default 10 %)
  * - fail: misses by more
  */
 export function kpiStatus(direction: KpiDirection, current: number, target: number, tolerancePct = 10): CheckStatus {

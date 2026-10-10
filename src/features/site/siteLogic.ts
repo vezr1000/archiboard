@@ -142,7 +142,7 @@ const decimalsOf = (n: number): number => {
   return i < 0 ? 0 : s.length - i - 1;
 };
 
-/** Evaluate a parameter: ≤ 5 % margin to the limit = „на граници“. */
+/** Evaluate a parameter: ≤ 5 % margin to the limit = „на граници“. */
 export function evaluateUrbanParam(p: UrbanParam): UrbanParamView {
   const isMax = p.comparator === 'max';
   const marginPct = p.limit === 0 ? 0 : (isMax ? (p.limit - p.design) / p.limit : (p.design - p.limit) / p.limit) * 100;
