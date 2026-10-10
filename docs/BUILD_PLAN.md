@@ -16,7 +16,7 @@ Sequential, one agent at a time. The orchestrator verifies each step (build, cop
 | 9 | Заинтересоване стране + Тим (project + global) | Sonnet | ✅ |
 | 10 | ★ Одбор: sessions + gate review flow | Opus | ✅ |
 | 11 | ★ Смернице + Питај АрхиБорд | Sonnet | ✅ |
-| 12 | Повратне информације page + export; GitHub Pages workflow; README | Haiku | ☐ |
+| 12 | Повратне информације page + export; GitHub Pages workflow; README | Haiku | ✅ |
 | 13 | Polish & QA pass (mobile, dark mode, copy review) | Sonnet + orchestrator | ☐ |
 
 ## Log
@@ -256,6 +256,23 @@ Built `/smernice` and `/smernice/:id` (`src/features/guidelines/`); seed unchang
 - Generic: `StreamingText` got an `instant` prop and „•“ bullet paragraphs (COMPONENTS.md updated). Answer numbers are consistent with data: CEM II/B-M 255 → CEM III/A 205 kgCO₂e/m³, 2.230 m³ in cores + transfer slab ≈ −112 t (≈ 6 kgCO₂e/m²); ариш → алуминијум +29; Qh,nd 27 / разред B; Г2 12 documents, 2 missing, KPI tolerance 5 %.
 Verified: build, check:copy, check:data, check:model pass; shots 375 light/dark + 1280 light for `/smernice`, `smf-drvo`, `smf-lca`, `reg-eu-taksonomija`, `?q=kosava`; Q&A exercised headlessly (suggested chip, second chip, free text „kosava i terase“, fallback) at 375 light/dark and 1280 light — no horizontal overflow, no console errors.
 Notes: no firm „gate standard“ entry exists in the library, so the Г2 answer cites СГ-03 (LCA), СГ-07 (прегревање), the technical-documentation rulebook and the session. Regulatory statements in answers are general and mirror the step-2 library summaries (not independently verified): class C minimum and 60 kWh/m²a for new multi-family residential, A+/A/B shares 15/25/50 %, 22 m high-rise threshold with A1/A2 cladding, taxonomy 7.1 requirements. EPBD 2024 is cited only as a source chip.
+
+### Step 12 — Повратне информације + README ✅ (2026-10-10)
+Replaced the placeholder at `/povratne-informacije` (`src/features/feedback/`); the page has no FeedbackWidget of its own.
+- **Logic** (`feedbackLogic.ts`, pure): session options and filter (the chips store EXCLUDED sessions, so new sessions show
+  up active by default), `rankModules` (score = (Да − Не) / укупно, sort by score then total; unanswered modules split off),
+  `buildCsv` (BOM, `moduleId,modul,grupa,ocena,beleska,sesija,vreme`, RFC 4180 escaping), `buildJson`, `buildSummaryText`,
+  `downloadFile` (Blob + object URL + temporary anchor), `exportFilename` (`arhiboard-povratne-informacije-YYYY-MM-DD`).
+- **Page**: session card (input committed on blur/Enter because the store trims on every save, and a per-keystroke trim
+  would eat spaces; FilterChips per session with counts), 4 stats, ranking DataList (table ≥768px, cards on phones) with
+  StackedBar per module and a collapsed „Без одговора (N)“, notes list (relative date vs the real today, not DEMO_TODAY),
+  export (CSV, JSON, „Копирај сажетак“ with try/catch and „Копирано“), danger „Обриши све одговоре“ behind a Modal, EmptyState
+  when there is no feedback.
+- **README.md** added at the repo root (English). The Pages workflow is unchanged.
+Verified: build, check:copy, check:data, check:model pass; shots 375 light and 1280 dark for the empty state and for a seeded
+state (25 answers, 3 sessions incl. без ознаке, notes with quotes and commas). No horizontal overflow.
+Notes: the session chips filter only the summary (the widget still tags with the current label). The clear button wipes all
+answers, not just the filtered ones, as the brief asked.
 
 ## QA backlog (for step 13 — collected by the orchestrator)
 - Code-split routes (`React.lazy`) — main chunk > 500 kB.
