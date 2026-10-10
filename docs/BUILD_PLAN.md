@@ -15,7 +15,7 @@ Sequential, one agent at a time. The orchestrator verifies each step (build, cop
 | 8 | Документација + Одлуке + Ризици | Sonnet | ✅ |
 | 9 | Заинтересоване стране + Тим (project + global) | Sonnet | ✅ |
 | 10 | ★ Одбор: sessions + gate review flow | Opus | ✅ |
-| 11 | ★ Смернице + Питај АрхиБорд | Sonnet | ☐ |
+| 11 | ★ Смернице + Питај АрхиБорд | Sonnet | ✅ |
 | 12 | Повратне информације page + export; GitHub Pages workflow; README | Haiku | ☐ |
 | 13 | Polish & QA pass (mobile, dark mode, copy review) | Sonnet + orchestrator | ☐ |
 
@@ -245,6 +245,17 @@ Verified: build, check:copy, check:data, check:model pass; shots 375 light / dar
 console errors.
 Notes: KPI gate rule (5 % tolerance vs project target) makes 5 of 12 flagship KPIs fail — intentional, the board then approves with
 conditions. Votes are per present member; absent members' earlier votes are ignored. The decision record has no impact values.
+
+### Step 11 — ★ Смернице и прописи + Питај АрхиБорд ✅ (2026-10-10)
+Built `/smernice` and `/smernice/:id` (`src/features/guidelines/`); seed unchanged (32 entries, 7 firm guidelines).
+- **Library** (`GuidelinesPage`): header, ★ Q&A card, search (`foldText`: lower-case, diacritics stripped, Cyrillic transliterated to ASCII, so „kosava“ finds „кошава“; every term must occur in title / code / summary / key points / tags), multi-select chips by kind and jurisdiction (with counts), „Важи за“ project Select, „Очисти филтере“, empty state. Filters live in the URL: `?q=`, `?vrsta=`, `?nadleznost=`, `?projekat=` (`?q=` is the deep link; tag chips on detail pages use it). Order: firm guidelines first, then laws, rulebooks, standards, EU, schemes. `RegulationCard`: kind + year/jurisdiction, code, title, 2-line summary, applies-to chips („Сви пројекти“ or 3 names + N), count of linked requirements; firm guidelines have a clay-soft card and solid „Стандард фирме“ badge instead of the kind badge.
+- **Linked requirements** = seed requirements with `regulationId` (new helpers in `data/index.ts`: `projectsForRegulation`, `requirementsForRegulation`, `findingsForRegulation`). Firm guidelines have none (no requirement cites them), so cards show no count for them.
+- **Detail** (`RegulationDetailPage`): meta badges, summary (+ „Сажетак за демо — за примену консултовати важећи текст прописа.“ for non-firm; a note for firm), numbered key points, „Где се примењује“ (project cards with phase pill, citing requirements with status + source ref, link to `lokacija`; projects that only appear via requirements are included), „Налази АИ пре-ревизије“ (findings with this `regulationId` → `/odbor/:sessionId`), related entries by shared tags, tag chips → `?q=`. Unknown id → EmptyState. Feedback `smernice-detalj`.
+- **★ Питај АрхиБорд** (`AskCard`, `AskParts`, `askScripts.ts`, `useAskThread.ts`): 6 scripted Q&As (енергетска класа, EU таксономија >5.000 m², дрвена фасада >22 m, бетон, кошава, Г2 капија), 100–120 words each, intro + bullets + closing sentence tied to the flagship; ThinkingDots 1 s → StreamingText (44 words/s) → „Извори“ chips (library entries → `/smernice/:id`, firm standards in clay; project / decision / session / EPD-library links). Free text → `matchQuestion` (weighted keyword stems, Cyrillic or Latin, threshold 2) → else fallback text + the unasked question chips. Thread is page state (`useAskThread`), input disabled while an answer is written, finished answers render instantly on remount, „Нова питања“ resets. ≥768px: chat inside the card (thread scrolls inside max 30 rem); phones: compact teaser (3 chips + „Отвори разговор“) and the chat in a bottom `Sheet` with the input in the sheet footer; floating „Питај“ button appears when the card is scrolled out of view (IntersectionObserver). Compact feedback `smernice-pitaj` inside the card/sheet; page feedback `smernice` unchanged. Both new module ids registered in `MODULES`; `paths.regulation(id)`.
+- **D**: AiStep finding links now go to `/smernice/:id` (`paths.regulation(reg.id)`).
+- Generic: `StreamingText` got an `instant` prop and „•“ bullet paragraphs (COMPONENTS.md updated). Answer numbers are consistent with data: CEM II/B-M 255 → CEM III/A 205 kgCO₂e/m³, 2.230 m³ in cores + transfer slab ≈ −112 t (≈ 6 kgCO₂e/m²); ариш → алуминијум +29; Qh,nd 27 / разред B; Г2 12 documents, 2 missing, KPI tolerance 5 %.
+Verified: build, check:copy, check:data, check:model pass; shots 375 light/dark + 1280 light for `/smernice`, `smf-drvo`, `smf-lca`, `reg-eu-taksonomija`, `?q=kosava`; Q&A exercised headlessly (suggested chip, second chip, free text „kosava i terase“, fallback) at 375 light/dark and 1280 light — no horizontal overflow, no console errors.
+Notes: no firm „gate standard“ entry exists in the library, so the Г2 answer cites СГ-03 (LCA), СГ-07 (прегревање), the technical-documentation rulebook and the session. Regulatory statements in answers are general and mirror the step-2 library summaries (not independently verified): class C minimum and 60 kWh/m²a for new multi-family residential, A+/A/B shares 15/25/50 %, 22 m high-rise threshold with A1/A2 cladding, taxonomy 7.1 requirements. EPBD 2024 is cited only as a source chip.
 
 ## QA backlog (for step 13 — collected by the orchestrator)
 - Code-split routes (`React.lazy`) — main chunk > 500 kB.

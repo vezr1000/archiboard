@@ -91,7 +91,7 @@ Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`
 |---|---|
 | `AiBadge` | `<AiBadge />` → „АИ асистент · демо“ (mandatory on every AI feature) · `size="sm"` |
 | `ThinkingDots` | `<ThinkingDots label="Анализирам локацијске услове…" />` |
-| `StreamingText` | `<StreamingText text={answer} active={run.state === 'streaming' \|\| run.state === 'done'} onDone={run.finish} speed={28} />` (`\n\n` = paragraphs; reduced motion → instant) |
+| `StreamingText` | `<StreamingText text={answer} active={run.state === 'streaming' \|\| run.state === 'done'} onDone={run.finish} speed={28} />` (`\n\n` = paragraphs, a paragraph starting with „•“ renders as a bullet with hanging indent; `instant` or reduced motion → shows everything at once) |
 | `useScriptedRun` | `const run = useScriptedRun({ thinkingMs: 1400, streamingMs? })` → `{ state: 'idle'\|'thinking'\|'streaming'\|'done', start, finish, reset, isRunning }` |
 | `useReducedMotion` | `const reduced = useReducedMotion()` |
 

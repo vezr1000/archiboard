@@ -12,6 +12,7 @@ import { UiShowcasePage } from '@/features/dev/UiShowcasePage';
 import { DocumentsTab } from '@/features/documents/DocumentsTab';
 import { FeedbackSummaryPage } from '@/features/feedback/FeedbackSummaryPage';
 import { GuidelinesPage } from '@/features/guidelines/GuidelinesPage';
+import { RegulationDetailPage } from '@/features/guidelines/RegulationDetailPage';
 import { KpiTab } from '@/features/kpi/KpiTab';
 import { MaterialsLibraryPage } from '@/features/materials/MaterialsLibraryPage';
 import { ProjectMaterialsTab } from '@/features/materials/ProjectMaterialsTab';
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="odbor" element={<BoardPage />} />
           <Route path="odbor/:sessionId" element={<GateReviewPage />} />
           <Route path="smernice" element={<GuidelinesPage />} />
+          <Route path="smernice/:id" element={<RegulationDetailPage />} />
           <Route path="materijali" element={<MaterialsLibraryPage />} />
           <Route path="tim" element={<TeamPage />} />
           <Route path="povratne-informacije" element={<FeedbackSummaryPage />} />

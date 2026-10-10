@@ -69,7 +69,7 @@ function FindingCard({
           )}
           {reg && (
             <Link
-              to={paths.guidelines()}
+              to={paths.regulation(reg.id)}
               className="inline-flex min-h-9 min-w-0 items-center gap-1 text-sm font-medium text-accent hover:underline"
             >
               <Scale className="size-4 shrink-0" aria-hidden />

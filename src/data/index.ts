@@ -138,6 +138,21 @@ export const regulationsForProject = (projectId: string): Regulation[] => {
   );
 };
 
+/** Projects a library entry applies to (explicit project id or matching typology), in portfolio order. */
+export const projectsForRegulation = (regulationId: string): Project[] => {
+  const r = getRegulation(regulationId);
+  if (!r) return [];
+  return projects.filter((p) => r.appliesTo.projectIds?.includes(p.id) || r.appliesTo.typologies?.includes(p.typology));
+};
+/** Seed requirements that cite a library entry (`regulationId`), in data order. */
+export const requirementsForRegulation = (regulationId: string): Requirement[] =>
+  requirements.filter((r) => r.regulationId === regulationId);
+/** AI pre-review findings (all board sessions) that cite a library entry, with their session. */
+export const findingsForRegulation = (regulationId: string): Array<{ session: BoardSession; finding: AiFinding }> =>
+  boardSessions.flatMap((session) =>
+    session.aiFindings.filter((f) => f.regulationId === regulationId).map((finding) => ({ session, finding })),
+  );
+
 /* ---------- Options, decisions, sessions ---------- */
 
 export const optionsForProject = (projectId: string): DesignOption[] => forProject(designOptions, projectId);
