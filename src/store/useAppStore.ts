@@ -9,7 +9,7 @@
  */
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import type { Decision, DesignOption, FeedbackEntry, FeedbackRating, Requirement } from '@/domain/types';
+import type { Decision, DesignOption, EngagementLogEntry, FeedbackEntry, FeedbackRating, Requirement } from '@/domain/types';
 
 /**
  * Gate review progress per board session id.
@@ -26,6 +26,8 @@ export interface AppState {
   gateReviews: GateReviewRecord;
   /** Requirements accepted from the AI extraction demo. */
   acceptedRequirements: Requirement[];
+  /** Engagement-log notes added by the user, per stakeholder id (shown after the seed log). */
+  stakeholderNotes: Record<string, EngagementLogEntry[]>;
   /** Demo audience feedback (one entry per moduleId + sessionLabel). */
   feedback: FeedbackEntry[];
   /** Presenter's current session label, attached to new feedback, e.g. „Студио Х“. */
@@ -39,6 +41,8 @@ export interface AppState {
   setGateReview: (sessionId: string, state: unknown) => void;
   clearGateReview: (sessionId: string) => void;
   acceptRequirements: (items: Requirement[]) => void;
+  /** Append a note to a stakeholder's engagement log. */
+  addStakeholderNote: (stakeholderId: string, entry: EngagementLogEntry) => void;
   /** Upsert feedback for (moduleId, current session label). */
   setFeedback: (moduleId: string, rating: FeedbackRating, note?: string) => void;
   /** Update only the note of an existing answer. */
@@ -46,7 +50,7 @@ export interface AppState {
   clearFeedback: () => void;
   setFeedbackSessionLabel: (label: string) => void;
   /**
-   * Reset the demo between audiences: clears saved options, decisions, gate reviews and accepted requirements.
+   * Reset the demo between audiences: clears saved options, decisions, gate reviews, accepted requirements and stakeholder notes.
    * Feedback and the session label are KEPT (use `clearFeedback` to wipe them — step 12 page).
    */
   resetDemo: () => void;
@@ -57,6 +61,7 @@ const initialData = {
   userDecisions: [] as Decision[],
   gateReviews: {} as GateReviewRecord,
   acceptedRequirements: [] as Requirement[],
+  stakeholderNotes: {} as Record<string, EngagementLogEntry[]>,
   feedback: [] as FeedbackEntry[],
   feedbackSessionLabel: '',
 };
@@ -115,6 +120,14 @@ export const useAppStore = create<AppState>()(
           return { acceptedRequirements: [...s.acceptedRequirements, ...items.filter((r) => !known.has(r.id))] };
         }),
 
+      addStakeholderNote: (stakeholderId, entry) =>
+        set((s) => ({
+          stakeholderNotes: {
+            ...s.stakeholderNotes,
+            [stakeholderId]: [...(s.stakeholderNotes[stakeholderId] ?? []), { ...entry, isUserCreated: true }],
+          },
+        })),
+
       setFeedback: (moduleId, rating, note) =>
         set((s) => {
           const label = s.feedbackSessionLabel || undefined;
@@ -148,6 +161,7 @@ export const useAppStore = create<AppState>()(
           userDecisions: [],
           gateReviews: {},
           acceptedRequirements: [],
+          stakeholderNotes: {},
         }),
     }),
     {
@@ -159,6 +173,7 @@ export const useAppStore = create<AppState>()(
         userDecisions: s.userDecisions,
         gateReviews: s.gateReviews,
         acceptedRequirements: s.acceptedRequirements,
+        stakeholderNotes: s.stakeholderNotes,
         feedback: s.feedback,
         feedbackSessionLabel: s.feedbackSessionLabel,
       }),

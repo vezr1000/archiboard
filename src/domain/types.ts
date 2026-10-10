@@ -617,6 +617,8 @@ export interface EngagementLogEntry {
   date: IsoDate;
   kind: EngagementKind;
   summary: string;
+  /** Entry added by the user in the demo (stored in the app store, not in seed data). */
+  isUserCreated?: boolean;
 }
 
 export interface Stakeholder {

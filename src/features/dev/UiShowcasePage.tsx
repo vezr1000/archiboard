@@ -42,6 +42,7 @@ import {
   PhasePill,
   ProgressBar,
   RangeBar,
+  DotScale,
   SearchInput,
   SectionHeader,
   Segmented,
@@ -278,6 +279,11 @@ export function UiShowcasePage() {
               <div>
                 <p className="mb-1.5 text-sm text-muted">Положај у групи (RangeBar)</p>
                 <RangeBar value={205} min={180} max={310} ariaLabel="GWP у оквиру категорије" />
+              </div>
+              <div className="flex items-center gap-4 text-sm text-muted">
+                <span>Утицај (DotScale)</span>
+                <DotScale label="Утицај" value={4} />
+                <DotScale label="Ниво" value={2} max={3} />
               </div>
             </div>
           </Card>

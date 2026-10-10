@@ -7,8 +7,8 @@
  *   const fb = useModuleFeedback('varijante');            // current session's answer or undefined
  */
 import { useMemo } from 'react';
-import { decisionsForProject, optionsForProject, requirementsForProject } from '@/data';
-import type { Decision, DesignOption, FeedbackEntry, Requirement } from '@/domain/types';
+import { decisionsForProject, optionsForProject, requirementsForProject, stakeholdersForProject } from '@/data';
+import type { Decision, DesignOption, FeedbackEntry, Requirement, Stakeholder } from '@/domain/types';
 import { useAppStore } from './useAppStore';
 
 export function useProjectOptions(projectId: string): DesignOption[] {
@@ -45,5 +45,22 @@ export function useModuleFeedback(moduleId: string): FeedbackEntry | undefined {
   return useMemo(
     () => feedback.find((f) => f.moduleId === moduleId && f.sessionLabel === (label || undefined)),
     [feedback, label, moduleId],
+  );
+}
+
+/**
+ * Project stakeholders with the user's notes merged into `log` (newest first; on the same day user notes come first).
+ * Seed objects are never mutated.
+ */
+export function useProjectStakeholders(projectId: string): Stakeholder[] {
+  const notes = useAppStore((s) => s.stakeholderNotes);
+  return useMemo(
+    () =>
+      stakeholdersForProject(projectId).map((st) => {
+        const mine = notes[st.id] ?? [];
+        const log = [...[...mine].reverse(), ...[...st.log].reverse()].sort((a, b) => b.date.localeCompare(a.date));
+        return { ...st, log };
+      }),
+    [projectId, notes],
   );
 }

@@ -27,6 +27,8 @@ export interface QuadrantGridProps {
    * 'inline': text next to each dot (only for a few, well-spread items).
    */
   labelMode?: 'numbered' | 'inline';
+  /** Numbered mode only: render the legend list under the chart (default true). Set false when the caller lists the items itself. */
+  showList?: boolean;
   title: string;
   className?: string;
 }
@@ -45,7 +47,7 @@ export const STAKEHOLDER_QUADRANTS = {
  * <QuadrantGrid title="Утицај и интерес" xLabel="Интерес" yLabel="Утицај" quadrants={STAKEHOLDER_QUADRANTS}
  *   items={stakeholders.map((s) => ({ id: s.id, label: s.name, x: s.interest, y: s.influence, tone: ATTITUDE_TONE[s.attitude] }))} />
  */
-export function QuadrantGrid({ items, xLabel, yLabel, quadrants, selectedId, onItemClick, labelMode = 'numbered', title, className }: QuadrantGridProps) {
+export function QuadrantGrid({ items, xLabel, yLabel, quadrants, selectedId, onItemClick, labelMode = 'numbered', showList = true, title, className }: QuadrantGridProps) {
   const titleId = useId();
   const W = 340;
   const H = 280;
@@ -135,7 +137,7 @@ export function QuadrantGrid({ items, xLabel, yLabel, quadrants, selectedId, onI
           {yLabel} →
         </text>
       </svg>
-      {labelMode === 'numbered' && (
+      {labelMode === 'numbered' && showList && (
         <ol className="mt-3 grid grid-cols-1 gap-x-4 gap-y-1 text-sm sm:grid-cols-2">
           {items.map((it, i) => {
             const content = (

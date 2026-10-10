@@ -21,6 +21,8 @@ export interface StackedBarProps {
   total?: number;
   /** Marker at this value (e.g. target). */
   marker?: number;
+  /** Tone for the part of the bar beyond `marker` (e.g. allocation above 100 %). Only used with `marker`. */
+  overMarkerTone?: Tone;
   height?: 'sm' | 'md' | 'lg';
   showLegend?: boolean;
   /** Append value to legend labels. */
@@ -38,7 +40,7 @@ const H = { sm: 8, md: 14, lg: 22 } as const;
  * <StackedBar title="ENV поени" total={100} marker={70}
  *   segments={[{ id: 'a', label: 'Остварено', value: 42, tone: 'good' }, { id: 't', label: 'Циљано', value: 20, tone: 'accent' }, { id: 'r', label: 'Угрожено', value: 8, tone: 'warn' }]} />
  */
-export function StackedBar({ segments, total, marker, height = 'md', showLegend = true, legendValues, format = (v) => formatNumber(v), title, className }: StackedBarProps) {
+export function StackedBar({ segments, total, marker, overMarkerTone, height = 'md', showLegend = true, legendValues, format = (v) => formatNumber(v), title, className }: StackedBarProps) {
   const titleId = useId();
   const mounted = useMounted();
   const sum = segments.reduce((s, x) => s + Math.max(0, x.value), 0);
@@ -73,6 +75,9 @@ export function StackedBar({ segments, total, marker, height = 'md', showLegend 
               />
             );
           })}
+          {marker !== undefined && overMarkerTone && sum > marker && (
+            <rect x={(marker / scale) * 100} y="0" width={((sum - marker) / scale) * 100} height={h} fill={toneVar(overMarkerTone)} opacity="0.55" />
+          )}
         </g>
         {marker !== undefined && (
           <line x1={(marker / scale) * 100} x2={(marker / scale) * 100} y1={-3} y2={h + 3} stroke="var(--ink)" strokeWidth="2" vectorEffect="non-scaling-stroke" />

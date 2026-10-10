@@ -8,6 +8,7 @@ export { Callout } from './Callout';
 export { Card } from './Card';
 export { DataList } from './DataList';
 export type { DataColumn } from './DataList';
+export { DotScale } from './DotScale';
 export { EmptyState } from './EmptyState';
 export { EnergyClassBadge } from './EnergyClassBadge';
 export { FilterChips } from './FilterChips';

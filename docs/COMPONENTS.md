@@ -12,7 +12,7 @@ grep `node_modules/lucide-react/dist/lucide-react.d.ts`.
 
 | What | Where | Usage |
 |---|---|---|
-| Colour tokens | `src/styles/index.css` | `bg-paper` (page) `bg-surface` (cards) `bg-surface-2` (fills) `text-ink` `text-muted` `border-line` `border-line-strong` `bg-accent` `text-accent` `bg-accent-soft` `text-accent-ink` (text on solid accent) `clay` `good` `warn` `bad` `info` (+ `-soft` for each), `chart-1…5`, `bg-overlay` |
+| Colour tokens | `src/styles/index.css` | `bg-paper` (page) `bg-surface` (cards) `bg-surface-2` (fills) `text-ink` `text-muted` `border-line` `border-line-strong` `bg-accent` `text-accent` `bg-accent-soft` `text-accent-ink` (text on solid accent) `clay` `good` `warn` `bad` `info` (+ `-soft` for each), `chart-1…6`, `bg-overlay` |
 | Fonts | — | `font-display` / `font-serif` (Source Serif 4, headings — h1–h4 get it automatically), default sans = Inter |
 | Utilities | — | `tabular` (tabular numerals), `eyebrow` (small caps label), `scrollbar-none`, `pt-safe` / `pb-safe` (iOS insets) |
 | `Tone` | `@/domain/types` | `'neutral' \| 'accent' \| 'good' \| 'warn' \| 'bad' \| 'info' \| 'clay'` — prop on Badge, Stat, ProgressBar, charts … |
@@ -57,6 +57,7 @@ Dark mode: tokens switch automatically (system, or forced by `<html data-theme>`
 | `EnergyClassBadge` | `<EnergyClassBadge value="B" size="sm\|md\|lg" animate />` — passport class letter on its tone colour; `animate` pops on change |
 | `AnimatedNumber` | `<AnimatedNumber value={358} decimals={0} format? duration? />` — count-up tween (instant with reduced motion) |
 | `useMediaQuery` | `const isPhone = useMediaQuery('(max-width: 767px)')` — subscribes to a CSS media query (used to cut long mobile lists with „Прикажи још“) |
+| `DotScale` | `<DotScale label="Утицај" value={4} max={5} />` — tiny filled/empty dots (influence 1–5, competence level 0–3), accessible „Утицај 4 од 5“ |
 | `Skeleton` | `<Skeleton className="h-24 w-full" />` · `<Skeleton lines={3} />` |
 
 ## Charts — `import { … } from '@/components/charts'`
@@ -69,11 +70,11 @@ All are SVG, responsive (fill their container width), theme-aware, with an acces
 | `RingScore` | `<RingScore title="DGNB" value={66} max={100} target={70} sublabel="циљ Gold" thresholds={[{ value: 50, label: 'Silver' }, …]} size={160} tone="accent" label? showThresholdLabels? />` — animated 270° gauge |
 | `Sparkline` | `<Sparkline title="Тренд" values={[305, 330, 358]} target={320} tone="warn" width={96} height={28} area? />` |
 | `RadarChart` | `<RadarChart title="…" max={100} axes={[{ id, label }]} series={[{ id, label, values: number[], color?, dashed? }]} levels? showLegend? />` (1–3 series; dashed = target outline) |
-| `StackedBar` | `<StackedBar title="…" total={100} marker={70} segments={[{ id, label, value, tone? \| color? }]} height="sm\|md\|lg" legendValues? showLegend? />` |
+| `StackedBar` | `<StackedBar title="…" total={100} marker={70} overMarkerTone="bad" segments={[{ id, label, value, tone? \| color? }]} height="sm\|md\|lg" legendValues? showLegend? />` |
 | `PhaseTimeline` | `<PhaseTimeline current="pgd" progress={0.7} gates={{ G2: { date: '2026-10-22', state? } }} />` (vertical on phones, horizontal ≥640px) · `variant="compact"` for cards |
 | `HeatMap5x5` | `<HeatMap5x5 title="Матрица ризика" items={risks.map(r => ({ id: r.id, probability: r.probability, impact: r.impact, label: r.title }))} selected={cell} onCellClick={(c) => …} />` |
 | `WindRose` | `<WindRose title="Ружа ветрова" data={site.climate.windRose} highlight={['ESE', 'SE']} size={260} />` |
-| `QuadrantGrid` | `<QuadrantGrid title="…" xLabel="Интерес" yLabel="Утицај" quadrants={STAKEHOLDER_QUADRANTS} items={[{ id, label, x: 1–5, y: 1–5, tone? }]} selectedId? onItemClick? labelMode="numbered\|inline" />` (numbered = dots + legend list, default) |
+| `QuadrantGrid` | `<QuadrantGrid title="…" xLabel="Интерес" yLabel="Утицај" quadrants={STAKEHOLDER_QUADRANTS} items={[{ id, label, x: 1–5, y: 1–5, tone? }]} selectedId? onItemClick? labelMode="numbered\|inline" showList={false} />` (numbered = dots + legend list, default; `showList={false}` hides the list when the caller lists the items itself) |
 | `LineBand` | `<LineBand title="…" unit="kgCO₂e/m²" target={320} band={{ from: 250, to: 320, label? }} reference={{ value: 350, label: 'Мерило: Циљ фирме' }} points={[{ label: 'ИДР', value: 305 }, { label: 'ПЗИ', value: 334, projected: true }]} height={180} />` |
 | `BenchmarkScale` | `<BenchmarkScale title="Угљеник" direction="lower-better" current={358} target={320} currentTone="bad" highlightId="firm" format={fmt} marks={[{ id: 'firm', label: 'Циљ фирме', value: 350 }, { id: 'best', label: 'Најбоља пракса', value: 250 }]} />` — compact benchmark ladder (пропис / EU таксономија / циљ фирме / најбоља пракса), better side always on the right, current value as marker, labels laid out in lanes |
 | `DivergingBars` | `<DivergingBars title="…" unit="kgCO₂e/m²" data={[{ id, label, value, sublabel? }]} total={{ label: 'Укупно', value }} positiveTone="bad" negativeTone="good" />` — contributions around zero (labels above bars, phone-safe) |
@@ -111,8 +112,8 @@ Helpers in `src/components/charts/utils.ts`: `polar`, `sectorPath`, `niceDomain`
 | Seed + lookups | `import { projects, getProject, getPerson, getPeople, teamForProject, kpisForProject, siteForProject, requirementsForProject, optionsForProject, decisionsForProject, sessionsForProject, getSession, documentsForProject, materialsForProject, stakeholdersForProject, risksForProject, certificationForProject, criteriaForProject, activityForProject, regulationsForProject, FIRM, APP } from '@/data'` |
 | Labels | `import { PHASE_LABELS, GATE_LABELS, HEALTH_LABELS, HEALTH_TONE, … } from '@/domain/labels'` — every enum has `*_LABELS` (+ `*_TONE` for statuses) |
 | Store | `useAppStore((s) => s.userOptions)`, `s.addUserOption(o)`, `s.addUserDecision(d)`, `s.setGateReview(id, state)`, `s.acceptRequirements([...])`, `s.setFeedback(moduleId, rating, note?)`, `s.resetDemo()` |
-| Store extras | `s.removeUserDecision(id)` (delete a user-created decision/proposal) |
-| Merged hooks | `useProjectOptions(id)`, `useProjectDecisions(id)`, `useProjectRequirements(id)`, `useModuleFeedback(moduleId)` from `@/store` (seed + user items) |
+| Store extras | `s.removeUserDecision(id)` (delete a user-created decision/proposal) · `s.addStakeholderNote(stakeholderId, { date, kind, summary })` (user notes in `s.stakeholderNotes`) |
+| Merged hooks | `useProjectOptions(id)`, `useProjectDecisions(id)`, `useProjectRequirements(id)`, `useProjectStakeholders(id)` (seed + user notes merged into `log`, newest first), `useModuleFeedback(moduleId)` from `@/store` (seed + user items) |
 | Theme | `useThemeStore((s) => s.theme)`, `setTheme('system'\|'light'\|'dark')`, `useResolvedTheme()` |
 | Format | `formatNumber(n, dec?)`, `formatSigned`, `formatCompact`, `formatUnit(n, unit, dec?)`, `formatArea(m2, 'm2'\|'ha'\|'auto')`, `formatCarbon(v, 'per-m2'\|'total'\|'tonnes')`, `formatEur(n, compact?)`, `formatPct(v, { ratio?, signed?, decimals? })`, `formatDate(iso, 'long'\|'short'\|'day-month'\|'numeric'\|'month'\|'weekday')`, `formatRelative(iso)` |
 | Dates | `@/lib/dates`: `DEMO_TODAY` (fixed demo „today“ = 2026-10-09), `daysFromToday`, `addDays`, `isWithinNextDays`, `parseIsoDate` |

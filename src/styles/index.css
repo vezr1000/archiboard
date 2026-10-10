@@ -56,6 +56,7 @@
   --chart-3: #3a6585;
   --chart-4: #8e8a3c;
   --chart-5: #7a5c86;
+  --chart-6: #4f8079;
 
   --shadow-color: 30 36 32;
   --overlay: rgb(20 24 21 / 0.42);
@@ -92,6 +93,7 @@
   --chart-3: #84b3d4;
   --chart-4: #c9c27a;
   --chart-5: #b79ac4;
+  --chart-6: #8cc2ba;
 
   --shadow-color: 0 0 0;
   --overlay: rgb(0 0 0 / 0.6);
@@ -128,6 +130,7 @@
     --chart-3: #84b3d4;
     --chart-4: #c9c27a;
     --chart-5: #b79ac4;
+    --chart-6: #8cc2ba;
 
     --shadow-color: 0 0 0;
     --overlay: rgb(0 0 0 / 0.6);
@@ -161,6 +164,7 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
   --color-overlay: var(--overlay);
 
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
